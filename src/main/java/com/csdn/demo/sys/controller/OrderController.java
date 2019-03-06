@@ -54,18 +54,18 @@ public class OrderController {
         return result;
     }
 
-    /**
-     * 企业查询已发布订单
-     * @param order
-     * @return
-     */
-    @RequestMapping(value = "/selectList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Map<String,Object> update(@RequestBody Order order) {
-        orderService.update(order);
-        Map<String,Object> result = new HashMap<String, Object>();
-        result.put(SystemStaticConst.RESULT,SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG,"更新成功");
-        return result;
-    }
+//    /**
+//     * 企业查询已发布订单
+//     * @param order
+//     * @return
+//     */
+//    @RequestMapping(value = "/selectList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public Map<String,Object> update(@RequestBody Order order) {
+//        orderService.update(order);
+//        Map<String,Object> result = new HashMap<String, Object>();
+//        result.put(SystemStaticConst.RESULT,SystemStaticConst.SUCCESS);
+//        result.put(SystemStaticConst.MSG,"更新成功");
+//        return result;
+//    }
 }
