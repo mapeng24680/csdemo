@@ -112,7 +112,7 @@ public class UserController extends GenericController<User, QueryUser> {
     public Map<String, Object> selectByLogin(String login) {
         Map<String, Object> result = new HashMap<String, Object>();
         User user = userService.findByLogin(login);
-        if(user==null){
+        if(user!=null){
             result.put(SystemStaticConst.RESULT, SystemStaticConst.FAIL);
             result.put(SystemStaticConst.MSG, "账号已存在");
         }else{
