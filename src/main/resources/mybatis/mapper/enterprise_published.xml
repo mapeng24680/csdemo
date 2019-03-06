@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csdn.demo.sys.dao.EnterprisePublishedDao">
+    <insert id="insert" parameterType="com.csdn.demo.sys.entity.EnterprisePublished">
+        insert into enterprise_published (user_id,need_msg,create_time,update_time,money)
+        values (#{userId},#{needMsg},now(),now(),#{money})
+    </insert>
+    <update id="update" parameterType="com.csdn.demo.sys.entity.EnterprisePublished">
+        update enterprise_published set update_time=now()
+        <if test="needMsg!=null and needMsg!=''">
+            and need_msg=#{needMsg}
+        </if>
+        <if test="money!=null and money!=''">
+            and money=#{money}
+        </if>
+        <if test="status!=null and status!=''">
+            and status=#{status}
+        </if>
+        where id=#{id}
+    </update>
+    <select id="selectList" resultType="com.csdn.demo.sys.entity.EnterprisePublished">
+      select a.user_name as userName,a.address,b.need_msg as needMsg,b.money,b.status,b.create_time as createTime from  user a,enterprise_published b where a.id=b.user_id and b.user_id=#{userId} and a.state=1
+    </select>
+</mapper>

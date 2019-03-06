@@ -233,7 +233,7 @@
 
 	<!--查询-->
 	<select id="query" parameterType="com.csdn.demo.sys.entity.QueryUser" resultMap="UserMap">
-		SELECT id,login,password,user_name,address,job,group_id,birth_date,city,district,province,street_address,state,type,last_login_date FROM user
+		SELECT id,login,password,account_money as accountMoneyuser_name,address,job,group_id,birth_date,city,district,province,street_address,state,type,last_login_date FROM user
 		WHERE 1=1
 		<if test="login!=null and login!='' ">
 			AND login=#{login}

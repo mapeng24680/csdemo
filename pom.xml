@@ -124,10 +124,6 @@
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache</artifactId>
-		</dependency>
 
 		<!-- 添加对spring-data-rest的支持 -->
 		<dependency>
@@ -183,7 +179,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<version>1.3.5.RELEASE</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

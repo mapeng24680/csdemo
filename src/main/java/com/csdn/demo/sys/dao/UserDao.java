@@ -48,5 +48,6 @@ public interface UserDao extends GenericDao<User, QueryUser> {
      */
     int updateLogin(User user);
 
+    void registered(User user);
 	
 }

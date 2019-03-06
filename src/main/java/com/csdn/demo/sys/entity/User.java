@@ -29,6 +29,7 @@ public class User implements UserDetails {
 	private String job;
 	private long groupId;
 	private Date birthDate;
+	private String accountMoney;
 	private String city;
 	private String district;
 	private String province;
@@ -42,6 +43,14 @@ public class User implements UserDetails {
 	private String roleArray;
 	// 所在分组的集合
 	private OrgGroup orgGroup;
+
+	public String getAccountMoney() {
+		return accountMoney;
+	}
+
+	public void setAccountMoney(String accountMoney) {
+		this.accountMoney = accountMoney;
+	}
 
 	public OrgGroup getOrgGroup() {
 		return orgGroup;
@@ -88,7 +97,7 @@ public class User implements UserDetails {
 		}
 		return auths;
 	}
-
+	@Override
 	public String getPassword() {
 		return password;
 	}
