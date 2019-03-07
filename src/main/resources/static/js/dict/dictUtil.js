@@ -36,11 +36,11 @@ function getCodeDictText(type,value){
 }
 
 function changeStatusByName(type){
-    if(type == 0){
+    if(type == 1){
         return "待接单";
-    }else if(type == 1){
-        return "已接单";
     }else if(type == 2){
+        return "已接单";
+    }else if(type == 3){
         return "已完成";
     }
 }
