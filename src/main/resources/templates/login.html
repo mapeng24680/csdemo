@@ -4,6 +4,11 @@
 <meta content="text/html;charset=UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>登录页面</title>
+	<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script th:src="@{/js/main.js}"></script>
+	<script th:src="@{/js/distpicker.data.js}"></script>
+	<script th:src="@{/js/distpicker.js}"></script>
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 <style type="text/css">
 	body {
@@ -48,11 +53,105 @@
 					<label for="password">密码</label>
 					<input type="password" class="form-control" name="password" id="password" placeholder="密码" />
 				</div>
-				<input type="submit" id="login" value="Login" class="btn btn-primary" />
+				<input type="submit" id="login" value="登录" class="btn btn-primary" />
+				<a class="btn btn-primary" data-toggle="modal" data-target="#myModal">开始演示模态框</a>
 			</form>
       </div>
 
     </div>
-		
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">用户注册</h4>
+			</div>
+			<form id="userForm"  role="form" method="post" action="user/save">
+			<div class="modal-body" align="center">
+				<div class="input-group">
+					<h6 style="float: left">用户名：</h6><input type="text" onkeyup="upperCase(this.value)" id="login1" class="form-control" placeholder="账号" aria-describedby="basic-addon1">
+				</div>
+				<p id="flag" style="font-family:times;color:red;display: none; padding-right: 23%">用户名已被注册！</p>
+				<div class="input-group">
+					<h6 style="float: left">密  码：</h6><input type="text" id="password1" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
+				</div>
+				<div class="input-group">
+					<h6 style="float: left">姓  名：</h6><input type="text" id="userName1" class="form-control" placeholder="姓名" aria-describedby="basic-addon1">
+				</div>
+				<div class="input-group">
+					<h6 style="float: left">工  作：</h6><input type="text" id="job" class="form-control" placeholder="工作" aria-describedby="basic-addon1">
+				</div>
+				<div class="input-group">
+					<h6 style="float: left">辖  区：</h6>
+					<form class="form-inline">
+						<div data-toggle="distpicker">
+							<div class="form-group" style="width: 236px;height: 34px;margin-bottom: 5px">
+								<label class="sr-only" for="province1">Province</label>
+								<select class="form-control" id="province1"></select>
+							</div><br>
+							<div class="form-group" style="width: 236px;height: 34px;margin-bottom: 5px">
+								<label class="sr-only" for="city1">City</label>
+								<select class="form-control" id="city1"></select>
+							</div><br>
+							<div class="form-group" style="width: 236px;height: 34px;margin-bottom: 5px">
+								<label class="sr-only" for="district1">District</label>
+								<select class="form-control" id="district1"></select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="input-group">
+					<h6 style="float: left">地  址：</h6><input type="text" id="streetAddress" class="form-control" placeholder="街道地址" aria-describedby="basic-addon1">
+				</div>
+			</div>
+			</form>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button id="save" class="btn btn-primary">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+	<script>
+        $("#save",window.top.document).click(function() {
+            // 此段是为防止需要点击两次按钮来实现验证的方法，若不添加此处的放行，那么我们将要点击两次确定按钮才可以提交验证
+            var groupId = 10;var roleId = 2;
+            $.ajax({
+                type: "post",
+                url: "user/save",
+                data: {"tag":1, "login":$("#login1").val(), "password":$("#password1").val(), "userName":$("#userName1").val(),
+					"job":$("#job").val(), "province":$("#province1").val(), "city":$("#city1").val(),
+					"district":$("#district1").val(), "streetAddress":$("#streetAddress").val(), "groupId":groupId, "roleArray":roleId},
+                dataType: "json",
+                success: function(data){
+                    alert("注册成功！")
+                    location.reload();
+                }
+            });
+        });
+        function upperCase(text){
+            $.ajax({
+                type: "get",
+                url: "user/selectByLogin",
+                data: {"login":text},
+                dataType: "json",
+                success: function(data){
+                    if (data.result){
+                        document.getElementById("save").disabled = false;
+                        document.getElementById("flag").style.display="none";
+					}else{
+                        document.getElementById("flag").style.display="block";
+                        document.getElementById("save").disabled = true;
+					}
+                },
+                error: function(data){
+                    document.getElementById("flag").style.display="block";
+                    document.getElementById("save").disabled = true;
+                }
+            });
+		}
+	</script>
 </body>
 </html>
