@@ -167,11 +167,14 @@ public class UserController extends GenericController<User, QueryUser> {
      * 根据账号获取用户信息
      * @return
      */
-    @RequestMapping(value = "/getUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/getUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> getUser(String loginName) {
+    public Map<String, Object> getUser() {
+        Integer uId = UserInfo.getUser().getId();
+        User user = new User();
+        user.setId(uId);
         Map<String, Object> result = new HashMap<String, Object>();
-        User user = userService.findByLogin(loginName);
+        User user1= userService.get(user);
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put("data", user);
         return result;

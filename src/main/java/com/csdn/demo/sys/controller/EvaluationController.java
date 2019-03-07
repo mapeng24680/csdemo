@@ -59,7 +59,7 @@ public class EvaluationController {
         evaluationDao.update(id);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG, "保存成功");
+        result.put(SystemStaticConst.MSG, "更新成功");
         return result;
     }
 
@@ -73,16 +73,21 @@ public class EvaluationController {
     @ResponseBody
     public Map<String, Object> selectList() {
         Integer uId = UserInfo.getUser().getId();
-        Integer id = UserInfo.getUser().getId();
         QueryUserAssociateRole queryUserAssociateRole = new QueryUserAssociateRole();
-        queryUserAssociateRole.setUserId(id);
-
-        List<UserAssociateRole> rolelist = userAssociateRoleService.query(queryUserAssociateRole);
+        queryUserAssociateRole.setUserId(uId);
         Map<String, Object> result = new HashMap<String, Object>();
-        evaluationDao.update(id);
-//        Map<String, Object> result = new HashMap<String, Object>();
+        List<UserAssociateRole> rolelist = userAssociateRoleService.query(queryUserAssociateRole);
+        if (rolelist != null && rolelist.size() > 0) {
+            long roleId = rolelist.get(0).getRoleId();
+            if(5==roleId){
+                result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+                result.put("data", evaluationDao.selectSender(uId));
+            }else if(3==roleId){
+                result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+                result.put("data", evaluationDao.selectUser(uId));
+            }
+        }
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG, "保存成功");
         return result;
     }
 }

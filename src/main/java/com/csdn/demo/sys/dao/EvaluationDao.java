@@ -30,11 +30,11 @@ public interface EvaluationDao {
      * 企业获取评价信息
      * @return
      */
-    List<Evaluation> selectSender();
+    List<Evaluation> selectSender(@Param("senderId")Integer senderId);
 
     /**
      * 用户获取企业评价信息
      * @return
      */
-    List<Evaluation> selectUser();
+    List<Evaluation> selectUser(@Param("userId")Integer userId);
 }
