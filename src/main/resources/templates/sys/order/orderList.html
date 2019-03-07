@@ -48,23 +48,23 @@
     }
 
     // 账号禁用和启用
-    function userControl(state,id){
-        var confirmTitle = "";
-        if(state==0){
-            confirmTitle = "是否禁用账户？";
-        }else{
-            confirmTitle = "是否启用账户？";
-        }
-        window.Ewin.confirm({title: '提示', message: confirmTitle, width: 500}).on(function (e) {
+    function userControl(id){
+        window.Ewin.confirm({title: '提示', message: "确定接此单吗？", width: 500}).on(function (e) {
             if (e) {
-                $.post("/user/userControl",{state:state,id:id},function(data){
-                    if(data.result){
-                        window.Ewin.alert({message:'操作成功!'});
-                        doQuery();
-                    }else{
-                        window.Ewin.alert({message:'操作失败!'});
+                $.ajax({
+                    type: "post",
+                    url: "/order/update",
+                    data: {"status":2,"id":id},
+                    dataType: "json",
+                    success: function(data){
+                        if(data.result){
+                            window.Ewin.alert({message:'操作成功!'});
+                            doQuery();
+                        }else{
+                            window.Ewin.alert({message:'操作失败!'});
+                        }
                     }
-                })
+                });
             }
         });
     }
@@ -86,7 +86,7 @@
                     text: '添加',
                     iconCls: 'glyphicon glyphicon-plus',
                     handler: function () {
-                        window.Ewin.dialog({title:"添加",url:"user/addPage",gridId:"gridId",width:600,height:745})
+                        window.Ewin.dialog({title:"添加",url:"order/addPage",gridId:"gridId",width:600,height:745})
                     }
                 },
                 {
@@ -215,9 +215,9 @@
                                 }
                             }})
                         if(value==1){
-                            return '<a href="#" onclick="userControl(0,'+row.id+')" >接单</a>';
+                            return '<a href="#" onclick="userControl('+row.id+')" >接单</a>';
                         }else{
-                            return '<a href="#" style="opacity: 0.2" disabled="disabled" >已接单</a>';
+                            return '<a href="/lookPaper">查看合同</a>';
                         }
                     }
                 }]
