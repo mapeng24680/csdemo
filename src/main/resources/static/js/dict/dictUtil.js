@@ -35,6 +35,16 @@ function getCodeDictText(type,value){
     return dictCodeMap.get(type+"_"+value).split("|")[1];
 }
 
+function changeStatusByName(type){
+    if(type == 0){
+        return "待接单";
+    }else if(type == 1){
+        return "已接单";
+    }else if(type == 2){
+        return "已完成";
+    }
+}
+
 //根据type和code来获取数据字典的value值
 function getDictValue(type,code){
     var value = dictValueMap.get(type+"_"+code);

@@ -17,9 +17,9 @@ $(function () {
                           })
                       }
                       if(isCheck){
-                          $("#"+opts.id).append("<label  class='checkbox-inline'><input type='checkbox' name='"+opts.name+"' value='"+info[opts.val]+"' checked='checked' /> "+info[opts.showVal]+"</label>");
+                          $("#"+opts.id).append("<label  class='checkbox-inline'><input type='radio' name='"+opts.name+"' value='"+info[opts.val]+"' checked='checked' /> "+info[opts.showVal]+"</label>");
                       }else{
-                          $("#"+opts.id).append("<label  class='checkbox-inline'><input type='checkbox' name='"+opts.name+"' value='"+info[opts.val]+"' /> "+info[opts.showVal]+"</label>");
+                          $("#"+opts.id).append("<label  class='checkbox-inline'><input type='radio' name='"+opts.name+"' value='"+info[opts.val]+"' /> "+info[opts.showVal]+"</label>");
                       }
 
                   })
@@ -41,9 +41,9 @@ $(function () {
                         })
                     }
                     if(isCheck){
-                        $("#"+opts.id).append("<label  class='checkbox-inline'><input disabled='disabled' type='checkbox' name='"+opts.name+"' value='"+info[opts.val]+"' checked='checked' /> "+info[opts.showVal]+"</label>");
+                        $("#"+opts.id).append("<label  class='checkbox-inline'><input disabled='radio' type='checkbox' name='"+opts.name+"' value='"+info[opts.val]+"' checked='checked' /> "+info[opts.showVal]+"</label>");
                     }else{
-                        $("#"+opts.id).append("<label  class='checkbox-inline'><input disabled='disabled' type='checkbox' name='"+opts.name+"' value='"+info[opts.val]+"' /> "+info[opts.showVal]+"</label>");
+                        $("#"+opts.id).append("<label  class='checkbox-inline'><input disabled='radio' type='checkbox' name='"+opts.name+"' value='"+info[opts.val]+"' /> "+info[opts.showVal]+"</label>");
                     }
 
                 })

@@ -6,18 +6,24 @@
     <div class="panel panel-default" style="margin-top: 10px;">
         <div class="panel-heading">查询条件</div>
         <div class="panel-body">
-            <form class="form-inline" role="form" style="float: left; width: 100%;margin-left: 20px;" method="post" id="queryUser">
+            <form class="form-inline" role="form" style="float: left; width: 100%;margin-left: 20px;" method="post" id="queryOrder">
                 <div class="form-group">
-                    <label for="userName">名字:</label>
-                    <input type="text" class="form-control" name="userName" id="userName"  placeholder="请输入名字" />
+                    <label for="senderName">发单用户:</label>
+                    <input type="text" class="form-control" name="senderName" id="senderName"  placeholder="发单用户" />
                 </div>
                 <div class="form-group">
-                    <label for="login">账号:</label>
-                    <input type="text" class="form-control" name="login" id="login"  placeholder="请输入账号" />
+                    <label for="name">接单用户:</label>
+                    <input type="text" class="form-control" name="name" id="name"  placeholder="接单用户" />
                 </div>
                 <div class="form-group">
-                    <label for="job">职位:</label>
-                    <input type="text" class="form-control" name="job" id="job"  placeholder="请输入职位" />
+                    <label for="status">状态:</label>
+                    <input type="hidden" class="form-control" name="status" id="status"/>
+                    <select class="form-control" name="status1" id="status1">
+                        <option value="">--请选择--</option>
+                        <option value="0">待接单</option>
+                        <option value="1">已接单</option>
+                        <option value="2">已完成</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
@@ -29,12 +35,15 @@
     </table>
 </div>
 <script th:inline="javascript">
+
     $(function() {
+        $('#status').val($('#status1 option:selected').val());
         initTable();
         $('#user-table').bootstrapTable('hideColumn', 'id');
     });
 
     function doQuery(){
+        $('#status').val($('#status1 option:selected').val());
         $('#user-table').bootstrapTable('refresh');    //刷新表格
     }
 
@@ -62,11 +71,11 @@
 
     function initTable(){
         $('#user-table').bootstrapTable({
-            url:"/user/list",
+            url:"/order/select",
             height: $(window.parent.document).find("#wrapper").height() - 252,
             width:$(window).width(),
             showColumns:true,
-            formId :"queryUser",
+            formId :"queryOrder",
             pagination : true,
             sortName : 'id',
             sortOrder : 'desc',
@@ -96,21 +105,34 @@
                     text: '删除',
                     iconCls: 'glyphicon glyphicon-remove',
                     handler: function () {
-                        var rows = $('#user-table').bootstrapTable('getSelections');
-                        if(rows.length==0){
-                            window.Ewin.alert({message:'请选择一条需要删除的数据!'});
-                            return false;
-                        }
-                        window.Ewin.confirm({title:'提示',message:'是否要删除您当前所勾选的用户？',width:500}).on(function (e) {
-                            if (e) {
-                                $.post("user/removeBath",{json:JSON.stringify(rows)},function(e){
-                                    if(e.result){
-                                        window.Ewin.alert({message:e.msg});
-                                        doQuery();
+                        $.ajax({
+                            type: "get",
+                            url: "user/selectByLogin",
+                            data: {"login":text},
+                            dataType: "json",
+                            success: function(data){
+                                if (data.result){
+                                    var rows = $('#user-table').bootstrapTable('getSelections');
+                                    if(rows.length==0){
+                                        window.Ewin.alert({message:'请选择一条需要删除的数据!'});
+                                        return false;
                                     }
-                                });
+                                    window.Ewin.confirm({title:'提示',message:'是否要删除您当前所勾选的用户？',width:500}).on(function (e) {
+                                        if (e) {
+                                            $.post("order/removeBath",{json:JSON.stringify(rows)},function(e){
+                                                if(e.result){
+                                                    window.Ewin.alert({message:e.msg});
+                                                    doQuery();
+                                                }
+                                            });
+                                        }
+                                    });
+                                }else{
+                                    alert("订单只能由发布者删除！")
+                                }
                             }
                         });
+
                     }
                 }
             ],
@@ -126,67 +148,77 @@
                     }
                 },
                 {
-                    field : 'id',
-                    title : '用户流水',
+                    field : 'orderNum',
+                    title : '订单编号',
+                    align : 'center',
+                    valign : 'middle',
+                    sortable : true
+                },
+                {
+                    field : 'senderName',
+                    title : '发单用户',
                     align : 'center',
                     valign : 'middle',
                     hide : false,
                     sortable : true
                 },
                 {
-                    field : 'userName',
-                    title : '用户姓名',
+                    field : 'cuserName',
+                    title : '接单用户',
                     align : 'center',
                     valign : 'middle',
                     sortable : true
                 },
                 {
-                    field : 'login',
-                    title : '账号',
+                    field : 'commission',
+                    title : '佣金',
                     align : 'center',
                     valign : 'middle',
                     sortable : true
                 },
                 {
-                    field : 'job',
-                    title : '职位名称',
+                    field : 'orderMsg',
+                    title : '订单信息',
                     align : 'center',
                     valign : 'middle',
                     sortable : true
                 },
+
                 {
-                    field : 'address',
-                    title : '用户地址',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'orgGroup.name',
-                    title : '组织架构',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'state',
-                    title : '账号状态',
+                    field : 'status',
+                    title : '订单状态',
                     align : 'center',
                     valign : 'middle',
                     sortable : true,
                     formatter: function (value, row, index) {
-                        return getCodeDictText("USER_STATE",value);
+                        return changeStatusByName(value);
                     }
-                },{
-                    field : 'operations',
+
+                },
+                {
+                    field: 'createTime',
+                    title: '发单时间',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                },
+                {
+                    field: 'updateTime',
+                    title: '接单时间',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                },
+                    {
+                    field : 'status',
                     title : '操作',
                     align : 'center',
                     valign : 'middle',
                     formatter: function (value, row, index) {
-                        if(row.state=='1'){
-                            return '<a href="#" onclick="userControl(0,'+row.id+')" >禁用</a>';
+                        if(value=='0'){
+                            return '<a href="#" onclick="userControl(0,'+row.id+')" >接单</a>';
                         }else{
-                            return '<a href="#" onclick="userControl(1,'+row.id+')" >启用</a>';
+                            return '<a href="#" style="opacity: 0.2" disabled="disabled" >已接单</a>';
                         }
 
                     }
