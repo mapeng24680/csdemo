@@ -27,14 +27,14 @@ public interface OrderDao {
      *
      * @return
      */
-    List<Order> selectList(@Param("senderId") Integer senderId);
+    List<Order> selectList(@Param("senderId") Integer senderId,@Param("name") String name,@Param("status") Integer status,@Param("senderName") String senderName);
 
     /**
      * 用户查询自己的订单
      *
      * @return
      */
-    List<Order> selectUserOrder(@Param("userId") Integer userId);
+    List<Order> selectUserOrder(@Param("userId") Integer userId,@Param("name") String name,@Param("status") Integer status,@Param("senderName") String senderName);
 
     /**
      * 查询所有可接单的订单

@@ -31,13 +31,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> selectList(Integer senderId) {
-        return orderDao.selectList(senderId);
+    public List<Order> selectList(Integer senderId, String name, Integer status,String senderName) {
+        return orderDao.selectList(senderId, name, status,senderName);
     }
 
     @Override
-    public List<Order> selectUserOrder(Integer userId) {
-        return orderDao.selectList(userId);
+    public List<Order> selectUserOrder(Integer userId, String name, Integer status,String senderName) {
+        return orderDao.selectList(userId, name, status,senderName);
     }
 
     @Override

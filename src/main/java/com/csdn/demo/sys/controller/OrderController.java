@@ -4,6 +4,7 @@ package com.csdn.demo.sys.controller;/**
 
 import com.csdn.demo.common.base.constant.SystemStaticConst;
 import com.csdn.demo.common.util.user.UserInfo;
+import com.csdn.demo.sys.dto.UserDTO;
 import com.csdn.demo.sys.entity.Order;
 import com.csdn.demo.sys.entity.QueryUserAssociateRole;
 import com.csdn.demo.sys.entity.UserAssociateRole;
@@ -73,9 +74,9 @@ public class OrderController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/select", method = RequestMethod.GET)
+    @RequestMapping(value = "/select", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> selectList() {
+    public Map<String, Object> selectList(@RequestBody UserDTO userDTO) {
         Integer id = UserInfo.getUser().getId();
         QueryUserAssociateRole queryUserAssociateRole = new QueryUserAssociateRole();
         queryUserAssociateRole.setUserId(id);
@@ -86,10 +87,10 @@ public class OrderController {
             long roleId = rolelist.get(0).getRoleId();
             if (3 == roleId) {
                 result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", orderService.selectUserOrder(id));
+                result.put("data", orderService.selectUserOrder(id,userDTO.getName(),userDTO.getStatus(),userDTO.getSenderName()));
             } else if (5 == roleId) {
                 result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", orderService.selectList(id));
+                result.put("data", orderService.selectList(id,userDTO.getName(),userDTO.getStatus(),userDTO.getSenderName()));
             }
         }
         return result;

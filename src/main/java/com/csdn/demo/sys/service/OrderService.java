@@ -26,14 +26,14 @@ public interface OrderService {
      *
      * @return
      */
-    List<Order> selectList(Integer senderId);
+    List<Order> selectList(Integer senderId,String name,Integer status,String senderName);
 
     /**
      * 用户查询自己的订单
      *
      * @return
      */
-    List<Order> selectUserOrder(Integer userId);
+    List<Order> selectUserOrder(Integer userId,String name,Integer status,String senderName);
 
     /**
      * 查询所有可接单的订单
