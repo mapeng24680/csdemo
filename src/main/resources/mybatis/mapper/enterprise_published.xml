@@ -8,13 +8,13 @@
     <update id="update" parameterType="com.csdn.demo.sys.entity.EnterprisePublished">
         update enterprise_published set update_time=now()
         <if test="needMsg!=null and needMsg!=''">
-            and need_msg=#{needMsg}
+             ,need_msg=#{needMsg}
         </if>
         <if test="money!=null and money!=''">
-            and money=#{money}
+            ,money=#{money}
         </if>
         <if test="status!=null and status!=''">
-            and status=#{status}
+            ,status=#{status}
         </if>
         where id=#{id}
     </update>

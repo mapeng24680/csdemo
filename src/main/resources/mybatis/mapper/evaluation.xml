@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.csdn.demo.sys.dao.EnterprisePublishedDao">
+<mapper namespace="com.csdn.demo.sys.dao.EvaluationDao">
     <insert id="insert" parameterType="com.csdn.demo.sys.entity.Evaluation">
         insert into evaluation (evaluation_user,evaluation_sender,order_id,sender_id,user_id,create_time,update_time)
         values (#{evaluationUser},#{evaluationSender},#{orderId},#{senderId},#{userId},now(),now())
     </insert>
-    <update id="update" parameterType="com.csdn.demo.sys.entity.Evaluation">
+    <update id="update">
         update evaluation set update_time=now()
-        <if test="status!=null and status!=''">
-            and status=#{status}
-        </if>
+            , status=1
         where id=#{id}
     </update>
     <select id="selectSender" resultType="com.csdn.demo.sys.entity.Evaluation">

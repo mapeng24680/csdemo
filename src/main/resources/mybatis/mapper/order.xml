@@ -8,13 +8,13 @@
     <update id="update" parameterType="com.csdn.demo.sys.entity.EnterprisePublished">
         update order set update_time=now()
         <if test="userId!=null and userId!=''">
-            and user_id=#{userId}
+            ,user_id=#{userId}
         </if>
 		<if test="commission!=null and commission!=''">
-			and commission=#{commission}
+			,commission=#{commission}
 		</if>
         <if test="status!=null and status!=''">
-            and status=#{status}
+           ,status=#{status}
         </if>
         where id=#{id}
     </update>
