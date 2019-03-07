@@ -76,7 +76,7 @@ public class OrderController {
      */
     @RequestMapping(value = "/select", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> selectList(@RequestBody UserDTO userDTO) {
+    public Map<String, Object> selectList(UserDTO userDTO) {
         Integer id = UserInfo.getUser().getId();
         QueryUserAssociateRole queryUserAssociateRole = new QueryUserAssociateRole();
         queryUserAssociateRole.setUserId(id);
@@ -86,11 +86,11 @@ public class OrderController {
         if (rolelist != null && rolelist.size() > 0) {
             long roleId = rolelist.get(0).getRoleId();
             if (3 == roleId) {
-                result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", orderService.selectUserOrder(id, userDTO.getName(), userDTO.getStatus(), userDTO.getSenderName()));
+                result.put(SystemStaticConst.RESULT, orderService.selectUserOrder(id,userDTO.getName(),userDTO.getStatus(),userDTO.getSenderName()));
+                result.put("totalCount",orderService.selectUserOrder(id,userDTO.getName(),userDTO.getStatus(),userDTO.getSenderName()).size());
             } else if (5 == roleId) {
-                result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", orderService.selectList(id, userDTO.getName(), userDTO.getStatus(), userDTO.getSenderName()));
+                result.put(SystemStaticConst.RESULT, orderService.selectList(id,userDTO.getName(),userDTO.getStatus(),userDTO.getSenderName()));
+                result.put("totalCount",orderService.selectList(id,userDTO.getName(),userDTO.getStatus(),userDTO.getSenderName()).size());
             }
         }
         return result;
