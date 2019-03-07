@@ -145,7 +145,7 @@ public class OrderController {
         Map<String, Object> result = new HashMap<String, Object>();
         if (rolelist != null && rolelist.size() > 0) {
             result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-            result.put("data", rolelist.get(0));
+            result.put("data", rolelist.get(0).getRoleId());
         } else {
             result.put(SystemStaticConst.RESULT, SystemStaticConst.FAIL);
         }
