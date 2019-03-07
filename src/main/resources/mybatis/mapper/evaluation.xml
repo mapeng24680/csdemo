@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csdn.demo.sys.dao.EnterprisePublishedDao">
+    <insert id="insert" parameterType="com.csdn.demo.sys.entity.Evaluation">
+        insert into evaluation (evaluation_user,evaluation_sender,order_id,sender_id,user_id,create_time,update_time)
+        values (#{evaluationUser},#{evaluationSender},#{orderId},#{senderId},#{userId},now(),now())
+    </insert>
+    <update id="update" parameterType="com.csdn.demo.sys.entity.Evaluation">
+        update evaluation set update_time=now()
+        <if test="status!=null and status!=''">
+            and status=#{status}
+        </if>
+        where id=#{id}
+    </update>
+    <select id="selectSender" resultType="com.csdn.demo.sys.entity.Evaluation">
+        select
+           t1.evaluation_user as evaluationUser,t1.evaluation_sender as evaluationSender
+           ,t1.order_id as orderId,t1.sender_id as senderId,t1.user_id as userId,t1.status,t1.create_time as createTime,
+           t2.user_name as senderUserName,
+           t3.user_name as cUserName,
+          t4.order_num as orderNum,t4.order_msg as orderMsg
+      FROM
+         evaluation t1
+        INNER JOIN user t2 ON t1.sender_id = t2.id
+        INNER JOIN user t3 ON t1.user_id = t3.id
+        INNER JOIN `order` t4 ON t1.order_id=t4.id
+        WHERE  t1.sender_id=#{senderId} and t1.status=0
+          </select>
+    <select id="selectUser" resultType="com.csdn.demo.sys.entity.Evaluation">
+        select
+        t1.evaluation_user as evaluationUser,t1.evaluation_sender as evaluationSender
+        ,t1.order_id as orderId,t1.sender_id as senderId,t1.user_id as userId,t1.status,t1.create_time as createTime,
+        t2.user_name as senderUserName,
+        t3.user_name as cUserName,
+        t4.order_num as orderNum,t4.order_msg as orderMsg
+        FROM
+        evaluation t1
+        INNER JOIN user t2 ON t1.sender_id = t2.id
+        INNER JOIN user t3 ON t1.user_id = t3.id
+        INNER JOIN `order` t4 ON t1.order_id=t4.id
+        WHERE  t1.user_id=#{senderId} and t1.status=0
+    </select>
+</mapper>
