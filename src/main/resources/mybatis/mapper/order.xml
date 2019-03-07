@@ -111,4 +111,7 @@
 		WHERE
 			a.status= 0
 	</select>
+    <delete id="delete">
+       delete from order where id=#{id}
+    </delete>
 </mapper>

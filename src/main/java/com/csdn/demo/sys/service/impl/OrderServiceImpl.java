@@ -44,4 +44,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> selectPublishOrder() {
         return orderDao.selectPublishOrder();
     }
+
+    @Override
+    public void delete(Integer id) {
+        orderDao.delete(id);
+    }
 }

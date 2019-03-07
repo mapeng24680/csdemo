@@ -87,10 +87,10 @@ public class OrderController {
             long roleId = rolelist.get(0).getRoleId();
             if (3 == roleId) {
                 result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", orderService.selectUserOrder(id,userDTO.getName(),userDTO.getStatus(),userDTO.getSenderName()));
+                result.put("data", orderService.selectUserOrder(id, userDTO.getName(), userDTO.getStatus(), userDTO.getSenderName()));
             } else if (5 == roleId) {
                 result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", orderService.selectList(id,userDTO.getName(),userDTO.getStatus(),userDTO.getSenderName()));
+                result.put("data", orderService.selectList(id, userDTO.getName(), userDTO.getStatus(), userDTO.getSenderName()));
             }
         }
         return result;
@@ -125,6 +125,46 @@ public class OrderController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put("data", list);
+        return result;
+    }
+
+    /**
+     * 查询当前用户角色
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/roleId", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> roleId() {
+        Integer id = UserInfo.getUser().getId();
+        QueryUserAssociateRole queryUserAssociateRole = new QueryUserAssociateRole();
+        queryUserAssociateRole.setUserId(id);
+
+        List<UserAssociateRole> rolelist = userAssociateRoleService.query(queryUserAssociateRole);
+        Map<String, Object> result = new HashMap<String, Object>();
+        if (rolelist != null && rolelist.size() > 0) {
+            result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+            result.put("data", rolelist.get(0));
+        } else {
+            result.put(SystemStaticConst.RESULT, SystemStaticConst.FAIL);
+        }
+        return result;
+    }
+
+    /**
+     * 删除企业订单
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> delete(@RequestBody Integer id) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        orderService.delete(id);
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.FAIL);
         return result;
     }
 }

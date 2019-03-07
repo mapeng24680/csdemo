@@ -41,4 +41,10 @@ public interface OrderService {
      * @return
      */
     List<Order> selectPublishOrder();
+
+    /**
+     * 删除企业发布订单
+     * @param id
+     */
+    void delete(Integer id);
 }
