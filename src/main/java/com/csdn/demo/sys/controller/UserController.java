@@ -170,6 +170,7 @@ public class UserController extends GenericController<User, QueryUser> {
     @RequestMapping(value = "/getUser", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getUser() {
+
         Integer uId = UserInfo.getUser().getId();
         User user = new User();
         user.setId(uId);
