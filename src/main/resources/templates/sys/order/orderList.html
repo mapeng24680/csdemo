@@ -202,24 +202,23 @@
                     align : 'center',
                     valign : 'middle',
                     formatter: function (value, row, index) {
+                        var tag ;
                         $.ajax({
                             type: "POST",
                             url: "order/roleId",
                             dataType: "json",
                             success: function(data){
-                                if(data.result==5){
-                                    return '<a href="#" style="opacity: 0.2" disabled="disabled" >changeStatusByName(value)</a>';
+                                if(data.data==5){
+                                    return '<a href="#" style="opacity: 0.2" disabled="disabled" >-</a>';
                                 }else{
-                                    if(value=='0'){
-                                        return '<a href="#" onclick="userControl(0,'+row.id+')" >接单</a>';
-                                    }else{
-                                        return '<a href="#" style="opacity: 0.2" disabled="disabled" >已接单</a>';
-                                    }
+                                    tag = value;
                                 }
-
                             }})
-
-
+                        if(value==1){
+                            return '<a href="#" onclick="userControl(0,'+row.id+')" >接单</a>';
+                        }else{
+                            return '<a href="#" style="opacity: 0.2" disabled="disabled" >已接单</a>';
+                        }
                     }
                 }]
         });
