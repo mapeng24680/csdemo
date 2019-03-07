@@ -3,18 +3,17 @@ package com.csdn.demo.sys.controller;/**
  */
 
 import com.csdn.demo.common.base.constant.SystemStaticConst;
+import com.csdn.demo.common.util.user.CommonUserUtil;
 import com.csdn.demo.common.util.user.UserInfo;
 import com.csdn.demo.sys.dto.UserDTO;
 import com.csdn.demo.sys.entity.Order;
 import com.csdn.demo.sys.entity.QueryUserAssociateRole;
-import com.csdn.demo.sys.entity.Tree;
 import com.csdn.demo.sys.entity.UserAssociateRole;
 import com.csdn.demo.sys.service.OrderService;
 import com.csdn.demo.sys.service.UserAssociateRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,16 +39,14 @@ public class OrderController {
     /**
      * 发布订单
      *
+     * @param order
      * @return
      */
-    @RequestMapping(value="/addPage")
-    public String addPage() throws Exception{
-        return "sys/order/add";
-    }
     @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, Object> insert(Order order) {
+    public Map<String, Object> insert(@RequestBody Order order) {
         order.setSenderId(UserInfo.getUser().getId());
+        order.setOrderNum(CommonUserUtil.randomCode().toString());
         orderService.insert(order);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
@@ -65,8 +62,16 @@ public class OrderController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, Object> update(Order order) {
-        orderService.update(order);
+    public Map<String, Object> update(@RequestBody Order order) {
+        if(order.getStatus()==2){
+            Integer userId = UserInfo.getUser().getId();
+            order.setUserId(userId);
+            orderService.update(order);
+        }
+        if(order.getStatus()==3){
+            orderService.dealStatusAndAccount(order);
+        }
+
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put(SystemStaticConst.MSG, "更新成功");

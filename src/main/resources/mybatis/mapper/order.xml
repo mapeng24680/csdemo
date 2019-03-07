@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.csdn.demo.sys.dao.OrderDao">
     <insert id="insert" parameterType="com.csdn.demo.sys.entity.Order">
-        insert into order (sender_id,user_id,order_num,order_msg,commission,update_time,create_time)
-        values (#{senderId},#{userId},#{orderNum},#{commission},now(),now())
+        insert into `order` (sender_id,user_id,order_num,order_msg,commission,update_time,create_time)
+        values (#{senderId},#{userId},#{orderNum},#{orderMsg},#{commission},now(),now())
     </insert>
     <update id="update" parameterType="com.csdn.demo.sys.entity.EnterprisePublished">
-        update order set update_time=now()
+        update `order` set update_time=now()
         <if test="userId!=null and userId!=''">
             ,user_id=#{userId}
         </if>
