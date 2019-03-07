@@ -161,4 +161,19 @@ public class UserController extends GenericController<User, QueryUser> {
         result.put("list", userRoleList);
         return result;
     }
+
+
+    /**
+     * 根据账号获取用户信息
+     * @return
+     */
+    @RequestMapping(value = "/getUser", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getUser(String loginName) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        User user = userService.findByLogin(loginName);
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+        result.put("data", user);
+        return result;
+    }
 }

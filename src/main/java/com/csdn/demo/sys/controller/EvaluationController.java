@@ -64,7 +64,7 @@ public class EvaluationController {
     }
 
     /**
-     * 删除评价
+     * 查询评价
      *
      * @param
      * @return
