@@ -3,6 +3,7 @@ package com.csdn.demo.sys.controller;
 
 import com.csdn.demo.common.base.constant.SystemStaticConst;
 import com.csdn.demo.common.base.controller.GenericController;
+import com.csdn.demo.common.base.entity.Page;
 import com.csdn.demo.common.base.service.GenericService;
 import com.csdn.demo.common.util.json.JsonHelper;
 import com.csdn.demo.common.util.user.UserInfo;
@@ -22,10 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /*
 * 类描述：用户维护controller
@@ -170,14 +168,16 @@ public class UserController extends GenericController<User, QueryUser> {
     @RequestMapping(value = "/getUser", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getUser() {
-
+        List list = new ArrayList<>();
         Integer uId = UserInfo.getUser().getId();
+        Map<String,Object> result = new HashMap<String, Object>();
         User user = new User();
         user.setId(uId);
-        Map<String, Object> result = new HashMap<String, Object>();
         User user1= userService.get(user);
+        list.add(user1);
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put("data", user1);
+        result.put("totalCount",1);
+        result.put("result",list);
         return result;
     }
 }

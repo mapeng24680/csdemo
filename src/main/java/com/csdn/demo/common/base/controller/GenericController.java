@@ -67,6 +67,12 @@ public abstract class GenericController<T, Q extends QueryBase> {
 		model.addAttribute("entity",entity);
 		return getPageBaseRoot()+UPDATEPAGE;
 	}
+	@RequestMapping(value = "/updatePage1",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+	public String updatePage1(T entity,Model model) throws Exception{
+		entity = getService().get(entity);
+		model.addAttribute("entity",entity);
+		return getPageBaseRoot()+"/scoureDetailupdate";
+	}
 
 	/** 跳转到添加对象页面
 	 * @throws Exception */
