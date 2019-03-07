@@ -48,7 +48,6 @@ public class OrderController {
         order.setSenderId(UserInfo.getUser().getId());
         order.setOrderNum(CommonUserUtil.randomCode().toString());
         orderService.insert(order);
-
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put(SystemStaticConst.MSG, "保存成功");
