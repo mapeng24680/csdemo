@@ -3,6 +3,7 @@ package com.csdn.demo.sys.controller;/**
  */
 
 import com.csdn.demo.common.base.constant.SystemStaticConst;
+import com.csdn.demo.common.util.user.CommonUserUtil;
 import com.csdn.demo.common.util.user.UserInfo;
 import com.csdn.demo.sys.dto.UserDTO;
 import com.csdn.demo.sys.entity.Order;
@@ -45,7 +46,9 @@ public class OrderController {
     @ResponseBody
     public Map<String, Object> insert(@RequestBody Order order) {
         order.setSenderId(UserInfo.getUser().getId());
+        order.setOrderNum(CommonUserUtil.randomCode().toString());
         orderService.insert(order);
+
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put(SystemStaticConst.MSG, "保存成功");
@@ -61,10 +64,15 @@ public class OrderController {
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> update(@RequestBody Order order) {
-        orderService.update(order);
         if(order.getStatus()==2){
-
+            Integer userId = UserInfo.getUser().getId();
+            order.setUserId(userId);
+            orderService.update(order);
         }
+        if(order.getStatus()==3){
+            orderService.dealStatusAndAccount(order);
+        }
+
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put(SystemStaticConst.MSG, "更新成功");

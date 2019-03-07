@@ -47,4 +47,9 @@ public interface OrderService {
      * @param id
      */
     void delete(Integer id);
+
+    /**
+     * 修改订单状态和流水处理
+     */
+    void dealStatusAndAccount(Order order);
 }

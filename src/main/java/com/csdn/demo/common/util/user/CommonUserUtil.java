@@ -88,6 +88,9 @@ public class CommonUserUtil {
 		return null;
 	}
 
+	public static Integer randomCode() {
+		return (int) ((Math.random() *2000 +50) * 100000);
+	}
 	public static String[] getHashSetItem(HashSet<String> set) {
 		if (set != null && !set.isEmpty()) {
 			StringBuffer sb = new StringBuffer();
@@ -100,8 +103,7 @@ public class CommonUserUtil {
 		return null;
 	}
 
-	public static void main(String[] args) {
-	}
+
 
 	/**
 	 * 
@@ -457,5 +459,8 @@ public class CommonUserUtil {
 		return isMatch(rexp, validatestr);
 	}
 
+	public static void main(String[] args) {
+		System.out.println(CommonUserUtil.randomCode());
+	}
 
 }

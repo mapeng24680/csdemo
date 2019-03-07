@@ -48,4 +48,11 @@ public interface OrderDao {
      * @param id
      */
     void delete(@Param("id") Integer id);
+
+    /**
+     * 查询订单信息
+     * @param id
+     * @return
+     */
+    Order selectOrder(@Param("id")Integer id);
 }

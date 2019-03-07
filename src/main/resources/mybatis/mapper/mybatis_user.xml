@@ -12,6 +12,7 @@
 		<result property="birthDate" column="birth_date"/>
 		<result property="city" column="city"/>
 		<result property="district" column="district"/>
+		<result property="account" column="account"/>
 		<result property="province" column="province"/>
 		<result property="streetAddress" column="street_address"/>
 		<result property="state" column="state"/>
@@ -40,6 +41,7 @@
 		<result property="birthDate" column="birth_date"/>
 		<result property="city" column="city"/>
 		<result property="district" column="district"/>
+		<result property="account" column="account"/>
 		<result property="province" column="province"/>
 		<result property="streetAddress" column="street_address"/>
 		<result property="state" column="state"/>
@@ -75,8 +77,8 @@
 
 	<!--保存-->
 	<insert id="save" parameterType="com.csdn.demo.sys.entity.User" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO user(login,password,user_name,address,job,group_id,birth_date,city,district,province,street_address,state,type,last_login_date)
-		VALUES(#{login},#{password},#{userName},#{address},#{job},#{orgGroup.groupId},#{birthDate},#{city},#{district},#{province},#{streetAddress},#{state},#{type},#{lastLoginDate})
+		INSERT INTO user(login,password,user_name,address,job,group_id,birth_date,city,district,province,street_address,state,type,last_login_date,account)
+		VALUES(#{login},#{password},#{userName},#{address},#{job},#{orgGroup.groupId},#{birthDate},#{city},#{district},#{province},#{streetAddress},#{state},#{type},#{lastLoginDate},#{account})
 	</insert>
 
 	<!--修改-->
@@ -84,7 +86,10 @@
 		UPDATE user SET user_name=#{userName},address=#{address},job=#{job},group_id=#{orgGroup.groupId},birth_date=#{birthDate},city=#{city},district=#{district},province=#{province},street_address=#{streetAddress}
 		WHERE id=#{id}
 	</update>
-
+	<update id="updateAccount" parameterType="com.csdn.demo.sys.entity.User">
+		UPDATE user SET account=#{account}
+		WHERE id=#{id}
+	</update>
 	<!--删除-->
 	<delete id="delete" parameterType="com.csdn.demo.sys.entity.User">
 		 DELETE FROM user WHERE id=#{id}
@@ -233,7 +238,7 @@
 
 	<!--查询-->
 	<select id="query" parameterType="com.csdn.demo.sys.entity.QueryUser" resultMap="UserMap">
-		SELECT id,login,password,account_money as accountMoneyuser_name,address,job,group_id,birth_date,city,district,province,street_address,state,type,last_login_date FROM user
+		SELECT id,login,password,account,user_name,address,job,group_id,birth_date,city,district,province,street_address,state,type,last_login_date FROM user
 		WHERE 1=1
 		<if test="login!=null and login!='' ">
 			AND login=#{login}

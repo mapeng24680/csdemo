@@ -49,5 +49,9 @@ public interface UserDao extends GenericDao<User, QueryUser> {
     int updateLogin(User user);
 
     void registered(User user);
-	
+
+    /**
+     * 修改用户账户资金
+     */
+    void updateAccount(User user);
 }
