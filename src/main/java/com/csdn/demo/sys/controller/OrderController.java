@@ -53,6 +53,10 @@ public class OrderController {
         result.put(SystemStaticConst.MSG, "保存成功");
         return result;
     }
+    @RequestMapping(value="/addPage")
+    public String addPage() throws Exception{
+        return "sys/order/add";
+    }
 
     /**
      * 修改订单
