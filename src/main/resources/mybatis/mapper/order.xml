@@ -112,7 +112,7 @@
 			a.status= 0
 	</select>
     <delete id="delete">
-       delete from order where id=#{id}
+       delete from `order` where id=#{id}
     </delete>
 
     <select id="selectOrder" resultType="com.csdn.demo.sys.entity.Order">
