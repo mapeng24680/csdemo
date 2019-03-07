@@ -176,7 +176,7 @@ public class UserController extends GenericController<User, QueryUser> {
         Map<String, Object> result = new HashMap<String, Object>();
         User user1= userService.get(user);
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put("data", user);
+        result.put("data", user1);
         return result;
     }
 }
