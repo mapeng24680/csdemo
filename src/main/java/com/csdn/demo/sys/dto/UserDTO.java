@@ -9,7 +9,7 @@ package com.csdn.demo.sys.dto;/**
  **/
 public class UserDTO {
     private String name;
-    private Integer status;
+    private String status;
     private String senderName;
 
     public String getSenderName() {
@@ -28,11 +28,11 @@ public class UserDTO {
         this.name = name;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
