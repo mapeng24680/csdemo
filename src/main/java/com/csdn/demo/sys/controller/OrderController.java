@@ -11,6 +11,7 @@ import com.csdn.demo.sys.service.OrderService;
 import com.csdn.demo.sys.service.UserAssociateRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,8 @@ import java.util.Map;
  * @author: mapeng
  * @create: 2019-03-06 16:18
  **/
+@Controller
+@RequestMapping("/order")
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -40,6 +43,7 @@ public class OrderController {
     @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> insert(@RequestBody Order order) {
+        order.setSenderId(UserInfo.getUser().getId());
         orderService.insert(order);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
@@ -80,10 +84,10 @@ public class OrderController {
         Map<String, Object> result = new HashMap<String, Object>();
         if (rolelist != null && rolelist.size() > 0) {
             long roleId = rolelist.get(0).getRoleId();
-           if(3==roleId){
+            if (3 == roleId) {
                 result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
                 result.put("data", orderService.selectUserOrder(id));
-            }else if(5==roleId){
+            } else if (5 == roleId) {
                 result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
                 result.put("data", orderService.selectList(id));
             }

@@ -11,6 +11,7 @@ import com.csdn.demo.sys.entity.UserAssociateRole;
 import com.csdn.demo.sys.service.UserAssociateRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,8 @@ import java.util.Map;
  * @author: mapeng
  * @create: 2019-03-07 10:35
  **/
+@Controller
+@RequestMapping("/evaluation")
 public class EvaluationController {
     @Autowired
     private EvaluationDao evaluationDao;
