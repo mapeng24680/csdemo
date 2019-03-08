@@ -6,4 +6,5 @@
         values (#{userId},#{account},#{enterpriseName},#{money},#{orderNum},#{orderMsg},now())
     </insert>
 
+<select id="select"
 </mapper>

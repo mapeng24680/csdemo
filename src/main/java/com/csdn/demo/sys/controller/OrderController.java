@@ -5,6 +5,7 @@ package com.csdn.demo.sys.controller;/**
 import com.csdn.demo.common.base.constant.SystemStaticConst;
 import com.csdn.demo.common.util.user.CommonUserUtil;
 import com.csdn.demo.common.util.user.UserInfo;
+import com.csdn.demo.sys.dao.ContractDao;
 import com.csdn.demo.sys.dto.UserDTO;
 import com.csdn.demo.sys.entity.Order;
 import com.csdn.demo.sys.entity.QueryUserAssociateRole;
@@ -33,6 +34,8 @@ import java.util.Map;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ContractDao contractDao;
     @Autowired
     private UserAssociateRoleService userAssociateRoleService;
 
@@ -177,7 +180,20 @@ public class OrderController {
         Map<String, Object> result = new HashMap<String, Object>();
         orderService.delete(id);
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.RESULT, SystemStaticConst.FAIL);
+        return result;
+    }
+
+    /**
+     *查看合同内容
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/selectContract", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> selectContract(@RequestBody Integer orderId) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+        result.put("data",contractDao.select(orderId));
         return result;
     }
 }
