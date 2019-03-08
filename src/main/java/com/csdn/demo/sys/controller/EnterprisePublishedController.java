@@ -43,7 +43,7 @@ public class EnterprisePublishedController {
         enterprisePublishedService.update(enterprisePublished);
         Map<String,Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT,SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG,"保存成功");
+        result.put(SystemStaticConst.MSG,"更新成功");
         return result;
     }
 
@@ -53,7 +53,7 @@ public class EnterprisePublishedController {
        List<EnterprisePublished> list =enterprisePublishedService.selectList(userId);
         Map<String,Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT,SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG,"保持成功");
+        result.put(SystemStaticConst.MSG,"查询成功");
         result.put("data",list);
         return result;
     }

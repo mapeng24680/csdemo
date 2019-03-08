@@ -19,6 +19,17 @@
         where id=#{id}
     </update>
     <select id="selectList" resultType="com.csdn.demo.sys.entity.EnterprisePublished">
-      select a.user_name as userName,a.address,b.need_msg as needMsg,b.money,b.status,b.create_time as createTime from  user a,enterprise_published b where a.id=b.user_id and b.user_id=#{userId} and a.state=1
+      SELECT
+	a.user_name AS userName,
+	a.address,
+	b.need_msg AS needMsg,
+	b. STATUS,
+	b.create_time AS createTime
+FROM
+	`user` a,
+	enterprise_published b
+WHERE
+	a.id = b.user_id
+AND b.user_id = #{userId} and b.status=0
     </select>
 </mapper>
