@@ -1,6 +1,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="include/includebase"></head>
+
+<head>
+    <head th:include="include/includebase"></head>
+    <style>
+        .detail-pop-box {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            background-color: rgba(0,0,0,.3);
+        }
+        .detail-pop-box .pop-content {
+            margin: 160px auto 0;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center; 
+        }
+    </style>
+</head>
+
+
 
 <body>
     <div class="panel-body" style="padding-bottom:0px;">
@@ -35,6 +58,9 @@
         </div>
         <table id="user-table" style="margin-top: -50px;">
         </table>
+    </div>
+    <div class="detail-pop-box">
+        <div class="pop-content"></div>
     </div>
     <script th:inline="javascript">
         $(function () {
@@ -249,10 +275,26 @@
                         }
                     }
                 ],
-                onClickCell(field, value, row, $element) {
+                onClickCell(field, value, row) {
+                    // field 点击的列明
+                    // value 点击列的值
+                    // 点击的行对象
                     if (field == 'senderName') {
                         // 如果点击的是发单用户列
-                        
+                        $.ajax({
+                            type: "GET",
+                            url: "/publish/selectList",
+                            data: row,
+                            dataType: "json",
+                            success: function (resp) {
+                                if (resp.result) {
+                                    var data = resp.data;
+                                    var elem = $('.detail-pop-box .pop-content');
+                                    var html = '<p>' + data.userName + data.needMsg + '</p>';
+                                    elem.html(html);
+                                }
+                            }
+                        })
                     }
                 },
             });
