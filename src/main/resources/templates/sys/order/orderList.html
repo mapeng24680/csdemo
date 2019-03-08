@@ -279,7 +279,7 @@
                     if (field == 'senderName') {
                         // 如果点击的是发单用户列
                         $.ajax({
-                            type: "GET",
+                            type: "POST",
                             url: "/publish/selectList",
                             data: row,
                             dataType: "json",
