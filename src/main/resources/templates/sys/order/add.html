@@ -24,9 +24,12 @@
                 data: {"orderMsg":$("#orderMsg").val(),"commission":$("#commission").val()},
                 dataType: "json",
                 success: function(data){
-                    if (data.result){
-                        alert("添加成功！");
-                        window.location.href("/foodTypeList");
+                    if(data.result){
+                        $('.modal-dialog', window.top.document).parent('div').remove()
+                        $('body', window.top.document).find('.modal-backdrop').remove();
+                        // jquery 调用刷新当前操作的table页面的refresh方法
+                        $(window.parent.document).contents().find(".tab-pane.fade.active.in iframe")[0].contentWindow.doQuery();
+                        window.Ewin.alert({message:'增加数据成功!'});
                     }
                 }
             });
