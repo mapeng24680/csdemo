@@ -1,11 +1,35 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="include/includebase"></head>
 <body>
-<div>
-    <h1 align="center">123456</h1>
-</div>
-<div>
-    <a align="center" href="/foodTypeList">返回</a>
-</div>
+
+<p>
+
+</p>
+<p style="text-align: center;marign-top:30px;"><input type="button" id="login" value="签约" class="btn btn-primary" /></p>
 </body>
+<script>
+    $(function() {
+        $.ajax({
+            type: "post",
+            url: "order/selectContract",
+            data: gridId,
+            dataType: "json",
+            success: function(data){
+                if(data.result){
+                    var dataC = result.data;
+                    console.log(dataC);
+                    $("#senderName").innerHTML = "甲方："+dataC.senderName;
+                    $("#cUserName").innerHTML = "乙方："+dataC.cUserName;
+//                    $("#contentText").innerHTML();
+                    $("#contractNum").innerHTML = "合同编号："+dataC.contractNum;
+                    $("#creatTime").innerHTML = "创建时间："+dataC.creatTime;
+                    $("#overdueTime").innerHTML = "过期时间："+dataC.overdueTime;
+                }else{
+                    window.Ewin.alert({message:'操作失败!'});
+                }
+            }
+        });
+    });
+</script>
 </html>

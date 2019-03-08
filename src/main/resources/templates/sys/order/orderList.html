@@ -34,6 +34,36 @@
     <table id="user-table" style="margin-top: -50px;">
     </table>
 </div>
+
+<div id="contractBox">
+    <h1 align="center"></h1>
+
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">律师事务外包系统</h4>
+            </div>
+            <div class="modal-body">
+                <div style="overflow: hidden">
+                    <p id="senderName1" style="float: left">甲方：</p>
+                    <p id="cUserName" style="float: right">乙方：</p>
+                </div>
+                <p id="contractNum"></p>
+                <p id="contentText"></p>
+                <P id="creatTime"></P>
+                <p id="overdueTime"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script th:inline="javascript">
 
     $(function() {
@@ -217,14 +247,36 @@
                         if(value==1){
                             return '<a href="#" onclick="userControl('+row.id+')" >接单</a>';
                         }else{
-                            return '<a href="/dinerList">查看合同</a>';
+                            return '<button  type="button" onclick="dinerList('+row.id+')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" >查看合同</button>';
+//
                         }
                     }
                 }]
         });
     }
-
-
+        function dinerList(id) {
+        alert(id);
+//            window.Ewin.dialog({title:"查看合同",url:"/dinerList",gridId:id,width:600,height:745});
+            $.ajax({
+                type: "post",
+                url: "order/selectContract",
+                data: {'id': id},
+                dataType: "json",
+                success: function(data){
+                    if(data.result){
+                        var dataC = result.data;
+                        $("#senderName").innerHTML = "甲方："+dataC.senderName;
+                        $("#cUserName").innerHTML = "乙方："+dataC.cUserName;
+//                    $("#contentText").innerHTML();
+                        $("#contractNum").innerHTML = "合同编号："+dataC.contractNum;
+                        $("#creatTime").innerHTML = "创建时间："+dataC.creatTime;
+                        $("#overdueTime").innerHTML = "过期时间："+dataC.overdueTime;
+                    }else{
+                        window.Ewin.alert({message:'操作失败!'});
+                    }
+                }
+            });
+        }
 </script>
 </body>
 </html>

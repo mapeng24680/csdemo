@@ -66,7 +66,7 @@ public class OrderController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, Object> update(@RequestBody Order order) {
+    public Map<String, Object> update(Order order) {
         if(order.getStatus()==2){
             Integer userId = UserInfo.getUser().getId();
             order.setUserId(userId);
