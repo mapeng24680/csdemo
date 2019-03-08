@@ -190,10 +190,10 @@ public class OrderController {
      */
     @RequestMapping(value = "/selectContract", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> selectContract(@RequestBody Integer orderId) {
+    public Map<String, Object> selectContract(Integer orderId) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put("data",contractDao.select(orderId));
+        result.put("dataValue",contractDao.select(orderId));
         return result;
     }
 }
