@@ -1,9 +1,10 @@
 package com.csdn.demo.common.util.user;
 
 import com.csdn.demo.common.util.node.NodeUtil;
-import com.csdn.demo.sys.entity.Tree;
-import com.csdn.demo.sys.entity.User;
+import com.csdn.demo.sys.entity.*;
 import com.csdn.demo.sys.service.TreeService;
+import com.csdn.demo.sys.service.UserAssociateRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +20,8 @@ import java.util.*;
 * @auther linzf
 */
 public class UserInfo {
-
+    @Autowired
+    private static UserAssociateRoleService userAssociateRoleService;
     /**
      * 功能描述：加载菜单节点的数据
      *
@@ -31,7 +33,7 @@ public class UserInfo {
         for (Tree tree : treeService.loadUserTree(user)) {
             treeMap.put(tree.getId(), tree);
         }
-        List<Tree> treeList = NodeUtil.getChildNodes(new ArrayList<Tree>(treeMap.values()), 0l);
+        List<Tree> treeList = NodeUtil.getChildNodes(new ArrayList<Tree>(treeMap.values()), 0L);
         return treeList;
     }
 

@@ -11,12 +11,48 @@ public class Contract {
     private Integer id;
     private String contractNum;
     private Integer orderId;
+    private String contractMsg;
     private String orderNum;
     private Integer userId;
     private Integer enterpriseId;
+    private String overdueTime;
+    private String creatTime;
+    private Integer status;
     /**扩展字段**/
     private String cUserName;
     private String senderName;
+
+    public String getContractMsg() {
+        return contractMsg;
+    }
+
+    public void setContractMsg(String contractMsg) {
+        this.contractMsg = contractMsg;
+    }
+
+    public String getOverdueTime() {
+        return overdueTime;
+    }
+
+    public void setOverdueTime(String overdueTime) {
+        this.overdueTime = overdueTime;
+    }
+
+    public String getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(String creatTime) {
+        this.creatTime = creatTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public String getcUserName() {
         return cUserName;

@@ -29,33 +29,38 @@ public class EnterprisePublishedController {
     @Autowired
     private EnterprisePublishedService enterprisePublishedService;
 
-    @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/insertOrUpdate", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String,Object> insert(@RequestBody EnterprisePublished enterprisePublished) {
-        enterprisePublishedService.save(enterprisePublished);
-        Map<String,Object> result = new HashMap<String, Object>();
-        result.put(SystemStaticConst.RESULT,SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG,"保持成功");
-        return result;
-    }
-    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Map<String,Object> update(@RequestBody EnterprisePublished enterprisePublished) {
-        enterprisePublishedService.update(enterprisePublished);
-        Map<String,Object> result = new HashMap<String, Object>();
-        result.put(SystemStaticConst.RESULT,SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG,"更新成功");
+    public Map<String, Object> insert(@RequestBody EnterprisePublished enterprisePublished) {
+        if (enterprisePublished.getId() != null || enterprisePublished.getId() != 0) {
+            enterprisePublishedService.update(enterprisePublished);
+        } else {
+            enterprisePublishedService.save(enterprisePublished);
+        }
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+        result.put(SystemStaticConst.MSG, "保持成功");
         return result;
     }
 
-    @RequestMapping(value = "/selectList",method = RequestMethod.POST)
+//    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public Map<String, Object> update(@RequestBody EnterprisePublished enterprisePublished) {
+//        enterprisePublishedService.update(enterprisePublished);
+//        Map<String, Object> result = new HashMap<String, Object>();
+//        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+//        result.put(SystemStaticConst.MSG, "更新成功");
+//        return result;
+//    }
+
+    @RequestMapping(value = "/selectList", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> update(Order order) {
-       List<EnterprisePublished> list =enterprisePublishedService.selectList(order.getSenderId());
-        Map<String,Object> result = new HashMap<String, Object>();
-        result.put(SystemStaticConst.RESULT,SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG,"查询成功");
-        result.put("data",list);
+    public Map<String, Object> update(Order order) {
+        List<EnterprisePublished> list = enterprisePublishedService.selectList(order.getSenderId());
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+        result.put(SystemStaticConst.MSG, "查询成功");
+        result.put("data", list.get(0));
         return result;
     }
 }
