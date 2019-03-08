@@ -1,27 +1,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
-<head>
-    <head th:include="include/includebase"></head>
-    <style>
-        .detail-pop-box {
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            background-color: rgba(0,0,0,.3);
-        }
-        .detail-pop-box .pop-content {
-            margin: 160px auto 0;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 8px;
-            text-align: center; 
-        }
-    </style>
-</head>
+<head th:include="include/includebase"></head>
+<style>
+    .detail-pop-box {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        background-color: rgba(0,0,0,.3);
+    }
+    .detail-pop-box .pop-content {
+        margin: 160px auto 0;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 8px;
+        text-align: center; 
+    }
+</style>
 
 
 
@@ -59,7 +56,7 @@
         <table id="user-table" style="margin-top: -50px;">
         </table>
     </div>
-    <div class="detail-pop-box">
+    <div class="detail-pop-box" style="display:none;">
         <div class="pop-content"></div>
     </div>
     <script th:inline="javascript">
@@ -292,6 +289,7 @@
                                     var elem = $('.detail-pop-box .pop-content');
                                     var html = '<p>' + data.userName + data.needMsg + '</p>';
                                     elem.html(html);
+                                    $('.detail-pop-box').show();
                                 }
                             }
                         })
