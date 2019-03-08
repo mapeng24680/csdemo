@@ -44,7 +44,7 @@ public class OrderController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, Object> insert(@RequestBody Order order) {
+    public Map<String, Object> insert(Order order) {
         order.setSenderId(UserInfo.getUser().getId());
         order.setOrderNum(CommonUserUtil.randomCode().toString());
         orderService.insert(order);
