@@ -1,7 +1,72 @@
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head th:include="include/includebase"></head>
+<style>
+    .detail-pop-box {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        background-color: rgba(0,0,0,.3);
+    }
+    .detail-pop-box .pop-content {
+        margin: 160px auto 0;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 16px 8px;
+        text-align: center;
+        width: 600px;
+        line-height: 1.4;
+    }
+</style>
+
+
+
 <body>
+    <div class="panel-body" style="padding-bottom:0px;">
+        <div class="panel panel-default" style="margin-top: 10px;">
+            <div class="panel-heading">查询条件</div>
+            <div class="panel-body">
+                <form class="form-inline" role="form" style="float: left; width: 100%;margin-left: 20px;" method="post"
+                    id="queryOrder">
+                    <div class="form-group">
+                        <label for="senderName">发单用户:</label>
+                        <input type="text" class="form-control" name="senderName" id="senderName" placeholder="发单用户" />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">接单用户:</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="接单用户" />
+                    </div>
+                    <div class="form-group">
+                        <label for="status">状态:</label>
+                        <input type="hidden" class="form-control" name="status" id="status" />
+                        <select class="form-control" name="status1" id="status1">
+                            <option value="">--请选择--</option>
+                            <option value="1">待接单</option>
+                            <option value="2">已接单</option>
+                            <option value="3">已完成</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table id="user-table" style="margin-top: -50px;">
+        </table>
+    </div>
+    <div class="detail-pop-box" style="display:none;" onclick="javascript: $(this).hide()">
+        <div class="pop-content"></div>
+    </div>
+    <script th:inline="javascript">
+        $(function () {
+            $('#status').val($('#status1 option:selected').val());
+            initTable();
+            $('#user-table').bootstrapTable('hideColumn', 'id');
+        });
 <div class="panel-body" style="padding-bottom:0px;">
     <div class="panel panel-default" style="margin-top: 10px;">
         <div class="panel-heading">查询条件</div>
@@ -72,176 +137,202 @@
         $('#user-table').bootstrapTable('hideColumn', 'id');
     });
 
-    function doQuery(){
-        $('#status').val($('#status1 option:selected').val());
-        $('#user-table').bootstrapTable('refresh');    //刷新表格
-    }
+        function doQuery() {
+            $('#status').val($('#status1 option:selected').val());
+            $('#user-table').bootstrapTable('refresh'); //刷新表格
+        }
 
-    // 账号禁用和启用
-    function userControl(id){
-        window.Ewin.confirm({title: '提示', message: "确定接此单吗？", width: 500}).on(function (e) {
-            if (e) {
-                $.ajax({
-                    type: "post",
-                    url: "/order/update",
-                    data: {"status":2,"id":id},
-                    dataType: "json",
-                    success: function(data){
-                        if(data.result){
-                            window.Ewin.alert({message:'操作成功!'});
-                            doQuery();
-                        }else{
-                            window.Ewin.alert({message:'操作失败!'});
+        // 账号禁用和启用
+        function userControl(id) {
+            window.Ewin.confirm({
+                title: '提示',
+                message: "确定接此单吗？",
+                width: 500
+            }).on(function (e) {
+                if (e) {
+                    $.ajax({
+                        type: "post",
+                        url: "/order/update",
+                        data: {
+                            "status": 2,
+                            "id": id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result) {
+                                window.Ewin.alert({
+                                    message: '操作成功!'
+                                });
+                                doQuery();
+                            } else {
+                                window.Ewin.alert({
+                                    message: '操作失败!'
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function initTable() {
+            $('#user-table').bootstrapTable({
+                url: "/order/select",
+                height: $(window.parent.document).find("#wrapper").height() - 252,
+                width: $(window).width(),
+                showColumns: true,
+                formId: "queryOrder",
+                pagination: true,
+                sortName: 'id',
+                sortOrder: 'desc',
+                clickToSelect: true, // 单击某一行的时候选中某一条记录
+                pageSize: 13,
+                toolbars: [{
+                        text: '添加',
+                        iconCls: 'glyphicon glyphicon-plus',
+                        handler: function () {
+                            window.Ewin.dialog({
+                                title: "添加",
+                                url: "order/addPage",
+                                gridId: "gridId",
+                                width: 600,
+                                height: 745
+                            })
+                        }
+                    },
+                    {
+                        text: '删除',
+                        iconCls: 'glyphicon glyphicon-remove',
+                        handler: function () {
+                            $.ajax({
+                                type: "POST",
+                                url: "order/roleId",
+                                dataType: "json",
+                                success: function (result) {
+                                    if (result.data == 5) {
+                                        var rows = $('#user-table').bootstrapTable(
+                                            'getSelections');
+                                        if (rows.length == 0 || rows.length > 1) {
+                                            window.Ewin.alert({
+                                                message: '请选择一条需要修改的数据!'
+                                            });
+                                            return false;
+                                        }
+                                        window.Ewin.confirm({
+                                            title: '提示',
+                                            message: '是否要删除您当前所勾选的用户？',
+                                            width: 500
+                                        }).on(function (e) {
+                                            if (e) {
+                                                $.post("order/delete", {
+                                                    "id": rows[0].id + ""
+                                                }, function (e) {
+                                                    if (result) {
+                                                        window.Ewin.alert(
+                                                            "用户删除成功");
+                                                        doQuery();
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        alert("订单只能由发布者删除！")
+                                    }
+                                }
+                            });
+
                         }
                     }
-                });
-            }
-        });
-    }
-
-    function initTable(){
-        $('#user-table').bootstrapTable({
-            url:"/order/select",
-            height: $(window.parent.document).find("#wrapper").height() - 252,
-            width:$(window).width(),
-            showColumns:true,
-            formId :"queryOrder",
-            pagination : true,
-            sortName : 'id',
-            sortOrder : 'desc',
-            clickToSelect: true,// 单击某一行的时候选中某一条记录
-            pageSize : 13,
-            toolbars:[
-                {
-                    text: '添加',
-                    iconCls: 'glyphicon glyphicon-plus',
-                    handler: function () {
-                        window.Ewin.dialog({title:"添加",url:"order/addPage",gridId:"gridId",width:600,height:745})
-                    }
-                },
-                {
-                    text: '删除',
-                    iconCls: 'glyphicon glyphicon-remove',
-                    handler: function () {
-                        $.ajax({
-                            type: "POST",
-                            url: "order/roleId",
-                            dataType: "json",
-                            success: function(result){
-                                if (result.data == 5){
-                                    var rows = $('#user-table').bootstrapTable('getSelections');
-                                    if(rows.length==0||rows.length>1){
-                                        window.Ewin.alert({message:'请选择一条需要修改的数据!'});
-                                        return false;
-                                    }
-                                    window.Ewin.confirm({title:'提示',message:'是否要删除您当前所勾选的用户？',width:500}).on(function (e) {
-                                        if (e) {
-                                            $.post("order/delete",{"id":rows[0].id+""},function(e){
-                                                if(result){
-                                                    window.Ewin.alert("用户删除成功");
-                                                    doQuery();
-                                                }
-                                            });
-                                        }
-                                    });
-                                }else{
-                                    alert("订单只能由发布者删除！")
-                                }
-                            }
-                        });
-
-                    }
-                }
-            ],
-            columns: [
-                {
-                    checkbox: true
-                },
-                {
-                    field: '',
-                    title: '序号',
-                    formatter: function (value, row, index) {
-                        return index+1;
-                    }
-                },
-                {
-                    field : 'orderNum',
-                    title : '订单编号',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'senderName',
-                    title : '发单用户',
-                    align : 'center',
-                    valign : 'middle',
-                    hide : false,
-                    sortable : true
-                },
-                {
-                    field : 'cuserName',
-                    title : '接单用户',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'commission',
-                    title : '佣金',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'orderMsg',
-                    title : '订单信息',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-
-                {
-                    field : 'status',
-                    title : '订单状态',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true,
-                    formatter: function (value, row, index) {
-                        return changeStatusByName(value);
-                    }
-
-                },
-                {
-                    field: 'createTime',
-                    title: '发单时间',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true,
-                },
-                {
-                    field: 'updateTime',
-                    title: '接单时间',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true,
-                },
+                ],
+                columns: [{
+                        checkbox: true
+                    },
                     {
-                    field : 'status',
-                    title : '操作',
-                    align : 'center',
-                    valign : 'middle',
-                    formatter: function (value, row, index) {
-                        var tag ;
-                        $.ajax({
-                            type: "POST",
-                            url: "order/roleId",
-                            dataType: "json",
-                            success: function(data){
-                                if(data.data==5){
-                                    return '<a href="#" style="opacity: 0.2" disabled="disabled" >-</a>';
-                                }else{
-                                    tag = value;
+                        field: '',
+                        title: '序号',
+                        formatter: function (value, row, index) {
+                            return index + 1;
+                        }
+                    },
+                    {
+                        field: 'orderNum',
+                        title: '订单编号',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field: 'senderName',
+                        title: '发单用户',
+                        align: 'center',
+                        valign: 'middle',
+                        hide: false,
+                        sortable: true
+                    },
+                    {
+                        field: 'cuserName',
+                        title: '接单用户',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field: 'commission',
+                        title: '佣金',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field: 'orderMsg',
+                        title: '订单信息',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+
+                    {
+                        field: 'status',
+                        title: '订单状态',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return changeStatusByName(value);
+                        }
+
+                    },
+                    {
+                        field: 'createTime',
+                        title: '发单时间',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                    },
+                    {
+                        field: 'updateTime',
+                        title: '接单时间',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                    },
+                    {
+                        field: 'status',
+                        title: '操作',
+                        align: 'center',
+                        valign: 'middle',
+                        formatter: function (value, row, index) {
+                            var tag;
+                            $.ajax({
+                                type: "POST",
+                                url: "order/roleId",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.data == 5) {
+                                        return '<a href="#" style="opacity: 0.2" disabled="disabled" >-</a>';
+                                    } else {
+                                        tag = value;
+                                    }
                                 }
                             }})
                         if(value==1){
@@ -251,6 +342,33 @@
 //
                         }
                     }
+                ],
+                onClickCell(field, value, row) {
+                    // field 点击的列明
+                    // value 点击列的值
+                    // 点击的行对象
+                    if (field == 'senderName') {
+                        // 如果点击的是发单用户列
+                        $.ajax({
+                            type: "POST",
+                            url: "/publish/selectList",
+                            data: row,
+                            dataType: "json",
+                            success: function (resp) {
+                                if (resp.result) {
+                                    var data = resp.data;
+                                    var elem = $('.detail-pop-box .pop-content');
+                                    var html = '<p>' + data.userName + data.needMsg + '</p>';
+                                    elem.html(html);
+                                    $('.detail-pop-box').show();
+                                }
+                            }
+                        })
+                    }
+                },
+            });
+        }
+    </script>
                 }]
         });
     }
@@ -279,4 +397,5 @@
         }
 </script>
 </body>
+
 </html>

@@ -4,6 +4,7 @@ package com.csdn.demo.sys.controller;/**
 
 import com.csdn.demo.common.base.constant.SystemStaticConst;
 import com.csdn.demo.sys.entity.EnterprisePublished;
+import com.csdn.demo.sys.entity.Order;
 import com.csdn.demo.sys.service.EnterprisePublishedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -43,17 +44,17 @@ public class EnterprisePublishedController {
         enterprisePublishedService.update(enterprisePublished);
         Map<String,Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT,SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG,"保存成功");
+        result.put(SystemStaticConst.MSG,"更新成功");
         return result;
     }
 
-    @RequestMapping(value = "/selectList",method = RequestMethod.GET)
+    @RequestMapping(value = "/selectList",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> update(Integer userId) {
-       List<EnterprisePublished> list =enterprisePublishedService.selectList(userId);
+    public Map<String,Object> update(Order order) {
+       List<EnterprisePublished> list =enterprisePublishedService.selectList(order.getSenderId());
         Map<String,Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT,SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG,"保持成功");
+        result.put(SystemStaticConst.MSG,"查询成功");
         result.put("data",list);
         return result;
     }

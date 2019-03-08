@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csdn.demo.sys.dao.ContractDao">
+    <insert id="insert" parameterType="com.csdn.demo.sys.entity.Contract">
+        insert into contract (contract_num,account,enterprise_name,money,order_num,order_msg,create_time)
+        values (#{userId},#{account},#{enterpriseName},#{money},#{orderNum},#{orderMsg},now())
+    </insert>
+
+    <select id="select" resultType="com.csdn.demo.sys.entity.Contract">
+        select
+            t1.contract_num AS contractNum,
+            t1.order_id AS orderId,
+            t1.order_num as orderNum,
+            t2.user_name as cUserName,
+            t3.user_name as senderName
+        FROM
+            contract t1
+        INNER JOIN user t2 ON t1.user_id =t2.id
+        INNER JOIN user t3 ON t1.enterprise_id =t2.id
+        WHERE
+            t1.order_id = #{orderId}
+    </select>
+</mapper>
