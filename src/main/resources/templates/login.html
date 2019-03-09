@@ -3,7 +3,7 @@
 <head>
 <meta content="text/html;charset=UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>登录页面</title>
+    <title>登录</title>
 	<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script th:src="@{/js/main.js}"></script>
@@ -12,12 +12,30 @@
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 <style type="text/css">
 	body {
-  padding-top: 50px;
-}
-.starter-template {
-  padding: 40px 15px;
-  text-align: center;
-}
+	  padding-top: 100px;
+	}
+	.container{
+		width: 450px;
+	}
+	.starter-template {
+	    padding: 40px 15px;
+	    text-align: center;
+	    background-color: rgba(0,0,0,.3);
+		border-radius: 6px;
+	}
+	.starter-template h2 {
+		font-weight: bold;
+		padding-bottom: 20px;
+        color: #fff;
+	}
+    .form-group label{
+        color: #fff;
+        margin-right: 6px;
+    }
+    .form-group input {
+		display: inline-block;
+		width: 300px;
+	}
 </style>
 </head>
 <body>
@@ -53,7 +71,7 @@
 					<label for="password">密码</label>
 					<input type="password" class="form-control" name="password" id="password" placeholder="密码" />
 				</div>
-				<input type="submit" id="login" value="登录" class="btn btn-primary" />
+				<input type="submit" id="login" value="登录" class="btn btn-primary" style="margin-right: 15px;" />
 				<a class="btn btn-primary" data-toggle="modal" data-target="#myModal">注册</a>
 			</form>
       </div>
