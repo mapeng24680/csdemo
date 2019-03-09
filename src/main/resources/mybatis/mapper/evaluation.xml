@@ -7,10 +7,10 @@
     </insert>
     <update id="update">
         update evaluation set update_time=now()
-            <if test="roleId=!null and roleId!=''and roleId=3">
+            <if test="roleId!=null and roleId!=''and roleId=3">
                 ,evaluation_user=""
             </if>
-        <if test="roleId=!null and roleId!=''and roleId=5">
+        <if test="roleId!=null and roleId!=''and roleId=5">
             ,evaluation_sender=""
         </if>
         where order_id=#{orderId}
@@ -18,10 +18,10 @@
 
     <update id="updateMsg">
         update evaluation set update_time=now()
-        <if test="roleId=!null and roleId!=''and roleId=3 and">
+        <if test="roleId!=null and roleId!=''and roleId=3">
             ,evaluation_user=#{msg}
         </if>
-        <if test="roleId=!null and roleId!=''and roleId=5">
+        <if test="roleId!=null and roleId!=''and roleId=5">
             ,evaluation_sender=#{msg}
         </if>
         where order_id=#{orderId}
@@ -35,8 +35,8 @@
           t4.order_num as orderNum,t4.order_msg as orderMsg
       FROM
          evaluation t1
-        INNER JOIN user t2 ON t1.sender_id = t2.id
-        INNER JOIN user t3 ON t1.user_id = t3.id
+        INNER JOIN `user` t2 ON t1.sender_id = t2.id
+        INNER JOIN `user` t3 ON t1.user_id = t3.id
         INNER JOIN `order` t4 ON t1.order_id=t4.id
         WHERE  t1.order_id= #{orderId}
           </select>
