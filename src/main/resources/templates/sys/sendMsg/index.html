@@ -18,7 +18,7 @@
 </form>
 <script th:inline="javascript">
     $(function () {
-      $.post('/publish/selectList', function(resp) {
+      $.get('/publish/selectMsg', function(resp) {
         if (resp.result) {
           $('#orderMsg').val(data.needMsg);
         }
