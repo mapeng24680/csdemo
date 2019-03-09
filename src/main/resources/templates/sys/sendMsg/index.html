@@ -35,11 +35,9 @@
           dataType: "json",
           success: function(data) {
             if(data.result){
-              $('.modal-dialog', window.top.document).parent('div').remove()
-              $('body', window.top.document).find('.modal-backdrop').remove();
-              // jquery 调用刷新当前操作的table页面的refresh方法
-              $(window.parent.document).contents().find(".tab-pane.fade.active.in iframe")[0].contentWindow.doQuery();
-              window.Ewin.alert({message:'增加数据成功!'});
+              window.Ewin.alert({
+                message:'增加数据成功!'
+              });
             }
           }
         });
