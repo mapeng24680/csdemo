@@ -58,40 +58,31 @@
 
     <select id="selectUserOrder" resultType="com.csdn.demo.sys.entity.Order">
         SELECT
-        c.id,
-        c.sender_id AS senderId,
-        c.user_id AS userId,
-        d.user_name AS senderName,
-        c.user_name AS cuserName,
-        c.order_num AS orderNum,
-        c.order_msg AS orderMsg,
-        c.commission,
-        c.STATUS,
-        c.create_time AS createTime,
-        c.update_time AS updateTime
+        t1.id,
+        t1.sender_id AS senderId,
+        t1.user_id AS userId,
+        t2.user_name AS senderName,
+        t1.order_num AS orderNum,
+        t1.order_msg AS orderMsg,
+        t1.commission,
+        t1.`status`,
+        t1.create_time AS createTime,
+        t1.update_time AS updateTime,
+        t3.user_name as cuserName
         FROM
-        (
-        SELECT
-        a.*, b.user_name
-        FROM
-        `order` a
-        LEFT JOIN `user` b ON a.sender_id = b.id
-        WHERE
-        a.user_id = #{userId}
-        ) c,
-        `user` d
-        WHERE
-        c.user_id = d.id
+        `order` t1 INNER JOIN user t2 on t1.sender_id = t2.id
+        LEFT JOIN user t3 on t1.user_id = t3.id WHERE (t1.user_id=9 or t1.status=1)
+
         <if test="senderName!='' and senderName!=null">
-            and d.user_name=#{senderName}
+            and t2.user_name=#{senderName}
         </if>
         <if test="name!='' and name!=null">
-            and c.user_name=#{name}
+            and t3.user_name=#{name}
         </if>
         <if test="status!='' and status!=null">
-            and c.STATUS=#{status}
+            and t1.status=#{status}
         </if>
-        order by c.create_time desc
+        order by t1.create_time desc
     </select>
 
     <select id="selectPublishOrder" resultType="com.csdn.demo.sys.entity.Order">
@@ -109,7 +100,7 @@
 			`order` a
 		LEFT JOIN `user` b ON a.sender_id = b.id
 		WHERE
-			a.status= 0
+			a.status= 1
 	</select>
     <delete id="delete">
        delete from `order` where id=#{id}
