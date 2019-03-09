@@ -32,7 +32,7 @@ public class EnterprisePublishedController {
 
     @RequestMapping(value = "/insertOrUpdate", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, Object> insert(@RequestBody EnterprisePublished enterprisePublished) {
+    public Map<String, Object> insert(EnterprisePublished enterprisePublished) {
         if (enterprisePublished.getId() != null || enterprisePublished.getId() != 0) {
             enterprisePublishedService.update(enterprisePublished);
         } else {

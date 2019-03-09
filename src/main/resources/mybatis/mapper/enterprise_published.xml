@@ -19,7 +19,7 @@
         where id=#{id}
     </update>
     <select id="selectList" resultType="com.csdn.demo.sys.entity.EnterprisePublished">
-      SELECT
+      SELECT b.id,
 	a.user_name AS userName,
 	a.address,
 	b.need_msg AS needMsg,
