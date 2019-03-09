@@ -3,6 +3,7 @@ package com.csdn.demo.sys.controller;/**
  */
 
 import com.csdn.demo.common.base.constant.SystemStaticConst;
+import com.csdn.demo.common.util.user.UserInfo;
 import com.csdn.demo.sys.entity.EnterprisePublished;
 import com.csdn.demo.sys.entity.Order;
 import com.csdn.demo.sys.service.EnterprisePublishedService;
@@ -29,17 +30,21 @@ public class EnterprisePublishedController {
     @Autowired
     private EnterprisePublishedService enterprisePublishedService;
 
-    @RequestMapping(value = "/insertOrUpdate", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/insertOrUpdate", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> insert(@RequestBody EnterprisePublished enterprisePublished) {
-        if (enterprisePublished.getId() != null || enterprisePublished.getId() != 0) {
+    public Map<String, Object> insert(String needMsg,Integer id) {
+        EnterprisePublished enterprisePublished = new EnterprisePublished();
+        enterprisePublished.setNeedMsg(needMsg);
+        if (id!=null) {
+            enterprisePublished.setId(id);
             enterprisePublishedService.update(enterprisePublished);
         } else {
+            enterprisePublished.setUserId(UserInfo.getUser().getId());
             enterprisePublishedService.save(enterprisePublished);
         }
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG, "保持成功");
+        result.put(SystemStaticConst.MSG, "成功");
         return result;
     }
 
@@ -55,12 +60,32 @@ public class EnterprisePublishedController {
 
     @RequestMapping(value = "/selectList", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> update(Order order) {
+    public Map<String, Object> selectList(Order order) {
         List<EnterprisePublished> list = enterprisePublishedService.selectList(order.getSenderId());
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put(SystemStaticConst.MSG, "查询成功");
         result.put("data", list.get(0));
+        return result;
+    }
+
+    /**
+     * 查看企业发布信息
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/selectMsg", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> selectMsg() {
+        List<EnterprisePublished> list = enterprisePublishedService.selectList( UserInfo.getUser().getId());
+        EnterprisePublished ep=null;
+        if(list!=null && list.size()>0){
+            ep = list.get(0);
+        }
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+        result.put(SystemStaticConst.MSG, "查询成功");
+        result.put("data",ep);
         return result;
     }
 }

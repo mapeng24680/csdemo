@@ -1,38 +1,63 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:include="include/includebase"></head>
+<style>
+    .text-area-input {
+    }
+</style>
 <body>
 
 <form id="userForm"  role="form" method="post" action="user/save">
     <div class="row">
         <div class="col-md-12">
             <div class="form-group" >
-                <label for="orderMsg">订单信息:</label>
-                <textarea  class="form-control" style="height: 400px" name="orderMsg" id="orderMsg" placeholder="请输入订单信息"></textarea>
+                <label for="orderMsg">企业发布信息:</label>
+                <textarea  class="form-control text-area-input" style="height: 200px;" name="orderMsg" id="orderMsg" placeholder="请输入需要发布的信息"></textarea>
             </div>
             <input type="hidden" name="id"/>
         </div>
-        <div style="text-align: center;margin-top: 20px;"><button id="btnSave" class="btn btn-primary">保存</button></div>
+        <div style="text-align: center;margin-top: 20px;">
+        <button type="button" id="btnSave" class="btn btn-primary">保存</button></div>
     </div>
 </form>
 <script th:inline="javascript">
-    // 绑定dialog的确定按钮的监听事件
-    $("#btnSave").click(function() {
-        $.ajax({
-            type: "post",
-            url: "order/insert",
-            data: {"orderMsg":$("#orderMsg").val(),"commission":$("#commission").val()},
-            dataType: "json",
-            success: function(data){
-                if(data.result){
-                    $('.modal-dialog', window.top.document).parent('div').remove()
-                    $('body', window.top.document).find('.modal-backdrop').remove();
-                    // jquery 调用刷新当前操作的table页面的refresh方法
-                    $(window.parent.document).contents().find(".tab-pane.fade.active.in iframe")[0].contentWindow.doQuery();
-                    window.Ewin.alert({message:'增加数据成功!'});
-                }
-            }
+    $(function () {
+      var pageId;
+      function getInitData() {
+        $.get('/publish/selectMsg', function(resp) {
+          if (resp.result) {
+            $('#orderMsg').val(resp.data.needMsg);
+            pageId = resp.data.id;
+          }
         });
+      }
+      getInitData();
+
+      // 绑定dialog的确定按钮的监听事件
+      $("#btnSave").click(function() {
+        var params = {
+          needMsg: $("#orderMsg").val(),
+          id: pageId,
+          // commission:$("#commission").val() || 0,
+        }
+        $.ajax({
+          type: "GET",
+          url: "/publish/insertOrUpdate",
+          data: params, //JSON.stringify(params),
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+          dataType: "json",
+          success: function(data) {
+            if(data.result){
+              getInitData();
+              window.Ewin.alert({
+                message:'增加数据成功!'
+              });
+            }
+          }
+        });
+      });
     })
 </script>
 </body>

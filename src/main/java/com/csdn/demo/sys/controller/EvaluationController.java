@@ -43,7 +43,7 @@ public class EvaluationController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, Object> insert(@RequestBody Evaluation evaluation) {
+    public Map<String, Object> insert(Evaluation evaluation) {
         evaluationDao.insert(evaluation);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
