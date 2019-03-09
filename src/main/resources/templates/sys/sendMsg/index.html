@@ -29,8 +29,8 @@
           type: "post",
           url: "order/insert",
           data: {
-            "orderMsg":$("#orderMsg").val(),
-            // "commission":$("#commission").val()
+            orderMsg:$("#orderMsg").val(),
+            commission:$("#commission").val() || 0,
           },
           dataType: "json",
           success: function(data) {
