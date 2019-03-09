@@ -2,19 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.csdn.demo.sys.dao.EnterprisePublishedDao">
     <insert id="insert" parameterType="com.csdn.demo.sys.entity.EnterprisePublished">
-        insert into enterprise_published (user_id,need_msg,create_time,update_time,money)
-        values (#{userId},#{needMsg},now(),now(),#{money})
+        insert into enterprise_published (user_id,need_msg,create_time,update_time)
+        values (#{userId},#{needMsg},now(),now())
     </insert>
     <update id="update" parameterType="com.csdn.demo.sys.entity.EnterprisePublished">
         update enterprise_published set update_time=now()
         <if test="needMsg!=null and needMsg!=''">
              ,need_msg=#{needMsg}
-        </if>
-        <if test="money!=null and money!=''">
-            ,money=#{money}
-        </if>
-        <if test="status!=null and status!=''">
-            ,status=#{status}
         </if>
         where id=#{id}
     </update>

@@ -30,17 +30,20 @@ public class EnterprisePublishedController {
     @Autowired
     private EnterprisePublishedService enterprisePublishedService;
 
-    @RequestMapping(value = "/insertOrUpdate", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/insertOrUpdate", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> insert(EnterprisePublished enterprisePublished) {
-        if (enterprisePublished.getId() != null || enterprisePublished.getId() != 0) {
+    public Map<String, Object> insert(String needMsg,Integer id) {
+        EnterprisePublished enterprisePublished = new EnterprisePublished();
+        enterprisePublished.setNeedMsg(needMsg);
+        if (id!=null) {
+            enterprisePublished.setId(id);
             enterprisePublishedService.update(enterprisePublished);
         } else {
             enterprisePublishedService.save(enterprisePublished);
         }
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.MSG, "保持成功");
+        result.put(SystemStaticConst.MSG, "成功");
         return result;
     }
 
