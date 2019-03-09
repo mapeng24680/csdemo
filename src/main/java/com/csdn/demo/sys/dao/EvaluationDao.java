@@ -21,10 +21,15 @@ public interface EvaluationDao {
     void insert(Evaluation evaluation);
 
     /**
-     * 修改评价状态
-     * @param id
+     * 删除评价
+     * @param
      */
-    void update(@Param("id")Integer id);
+    void update(@Param("orderId")Integer orderId,@Param("roleId")Integer roleId);
+
+    /**添加评价内容
+     * @param
+     */
+    void updateMsg(@Param("orderId")Integer orderId,@Param("roleId")Integer roleId,@Param("msg")String msg);
 
     /**
      * 获取评价信息

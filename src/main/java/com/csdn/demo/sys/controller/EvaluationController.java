@@ -52,19 +52,50 @@ public class EvaluationController {
 
     /**
      * 删除评价
-     *
-     * @param id
+     * @param
      * @return
      */
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> update(Integer id) {
-        evaluationDao.update(id);
+    public Map<String, Object> update(Integer  orderId) {
+        Integer uid = UserInfo.getUser().getId();
+        QueryUserAssociateRole queryUserAssociateRole = new QueryUserAssociateRole();
+        queryUserAssociateRole.setUserId(uid);
+        List<UserAssociateRole> rolelist = userAssociateRoleService.query(queryUserAssociateRole);
         Map<String, Object> result = new HashMap<String, Object>();
+        Integer roleId=null;
+        if (rolelist != null && rolelist.size() > 0) {
+             roleId = (int)rolelist.get(0).getRoleId();
+        }
+        evaluationDao.update(orderId,roleId);
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put(SystemStaticConst.MSG, "更新成功");
         return result;
     }
+
+    /**
+     * 删除评价
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> updateMsg(Integer  orderId,String msg) {
+        Integer uid = UserInfo.getUser().getId();
+        QueryUserAssociateRole queryUserAssociateRole = new QueryUserAssociateRole();
+        queryUserAssociateRole.setUserId(uid);
+        List<UserAssociateRole> rolelist = userAssociateRoleService.query(queryUserAssociateRole);
+        Map<String, Object> result = new HashMap<String, Object>();
+        Integer roleId=null;
+        if (rolelist != null && rolelist.size() > 0) {
+            roleId = (int)rolelist.get(0).getRoleId();
+        }
+        evaluationDao.updateMsg(orderId,roleId,msg);
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+        result.put(SystemStaticConst.MSG, "更新成功");
+        return result;
+    }
+
 
     /**
      * 查询评价

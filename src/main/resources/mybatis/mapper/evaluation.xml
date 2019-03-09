@@ -7,10 +7,26 @@
     </insert>
     <update id="update">
         update evaluation set update_time=now()
-            , status=1
-        where id=#{id}
+            <if test="roleId=!null and roleId!=''and roleId=3">
+                ,evaluation_user=""
+            </if>
+        <if test="roleId=!null and roleId!=''and roleId=5">
+            ,evaluation_sender=""
+        </if>
+        where order_id=#{orderId}
     </update>
-    <select id="selectSender" resultType="com.csdn.demo.sys.entity.Evaluation">
+
+    <update id="updateMsg">
+        update evaluation set update_time=now()
+        <if test="roleId=!null and roleId!=''and roleId=3 and">
+            ,evaluation_user=#{msg}
+        </if>
+        <if test="roleId=!null and roleId!=''and roleId=5">
+            ,evaluation_sender=#{msg}
+        </if>
+        where order_id=#{orderId}
+    </update>
+    <select id="select" resultType="com.csdn.demo.sys.entity.Evaluation">
         select
            t1.evaluation_user as evaluationUser,t1.evaluation_sender as evaluationSender
            ,t1.order_id as orderId,t1.sender_id as senderId,t1.user_id as userId,t1.status,t1.create_time as createTime,
@@ -22,20 +38,7 @@
         INNER JOIN user t2 ON t1.sender_id = t2.id
         INNER JOIN user t3 ON t1.user_id = t3.id
         INNER JOIN `order` t4 ON t1.order_id=t4.id
-        WHERE  t1.sender_id=#{senderId} and t1.status=0
+        WHERE  t1.order_id= #{orderId}
           </select>
-    <select id="selectUser" resultType="com.csdn.demo.sys.entity.Evaluation">
-        select
-        t1.evaluation_user as evaluationUser,t1.evaluation_sender as evaluationSender
-        ,t1.order_id as orderId,t1.sender_id as senderId,t1.user_id as userId,t1.status,t1.create_time as createTime,
-        t2.user_name as senderUserName,
-        t3.user_name as cUserName,
-        t4.order_num as orderNum,t4.order_msg as orderMsg
-        FROM
-        evaluation t1
-        INNER JOIN user t2 ON t1.sender_id = t2.id
-        INNER JOIN user t3 ON t1.user_id = t3.id
-        INNER JOIN `order` t4 ON t1.order_id=t4.id
-        WHERE  t1.user_id=#{userId} and t1.status=0
-    </select>
+
 </mapper>
