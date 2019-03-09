@@ -74,11 +74,11 @@ public class EvaluationController {
     }
 
     /**
-     * 删除评价
+     * 更新评价
      * @param
      * @return
      */
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateMsg", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> updateMsg(Integer  orderId,String msg) {
         Integer uid = UserInfo.getUser().getId();
