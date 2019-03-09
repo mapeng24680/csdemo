@@ -7,10 +7,10 @@
     </insert>
     <update id="update">
         update evaluation set update_time=now()
-            <if test="roleId!=null and roleId!=''and roleId=3">
+            <if test="roleId!=null and roleId!=''and roleId==3">
                 ,evaluation_user=""
             </if>
-        <if test="roleId!=null and roleId!=''and roleId=5">
+        <if test="roleId!=null and roleId!=''and roleId==5">
             ,evaluation_sender=""
         </if>
         where order_id=#{orderId}
@@ -18,10 +18,10 @@
 
     <update id="updateMsg">
         update evaluation set update_time=now()
-        <if test="roleId!=null and roleId!=''and roleId=3">
+        <if test="roleId!=null and roleId!=''and roleId==3">
             ,evaluation_user=#{msg}
         </if>
-        <if test="roleId!=null and roleId!=''and roleId=5">
+        <if test="roleId!=null and roleId!=''and roleId==5">
             ,evaluation_sender=#{msg}
         </if>
         where order_id=#{orderId}
