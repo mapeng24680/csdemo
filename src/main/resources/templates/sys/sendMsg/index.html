@@ -1,14 +1,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:include="include/includebase"></head>
+<style>
+    .text-area-input {
+    }
+</style>
 <body>
 
 <form id="userForm"  role="form" method="post" action="user/save">
     <div class="row">
         <div class="col-md-12">
             <div class="form-group" >
-                <label for="orderMsg">订单信息:</label>
-                <textarea  class="form-control" style="height: 400px" name="orderMsg" id="orderMsg" placeholder="请输入订单信息"></textarea>
+                <label for="orderMsg">企业发布信息:</label>
+                <textarea  class="form-control text-area-input" style="height: 200px;" name="orderMsg" id="orderMsg" placeholder="请输入需要发布的信息"></textarea>
             </div>
             <input type="hidden" name="id"/>
         </div>
@@ -18,20 +22,26 @@
 </form>
 <script th:inline="javascript">
     $(function () {
-      $.get('/publish/selectMsg', function(resp) {
-        if (resp.result) {
-          $('#orderMsg').val(data.needMsg);
-        }
-      });
+      var pageId;
+      function getInitData() {
+        $.get('/publish/selectMsg', function(resp) {
+          if (resp.result) {
+            $('#orderMsg').val(resp.data.needMsg);
+            pageId = resp.data.id;
+          }
+        });
+      }
+      getInitData();
 
       // 绑定dialog的确定按钮的监听事件
       $("#btnSave").click(function() {
         var params = {
           needMsg: $("#orderMsg").val(),
+          id: pageId,
           // commission:$("#commission").val() || 0,
         }
         $.ajax({
-          type: "POST",
+          type: "GET",
           url: "/publish/insertOrUpdate",
           data: params, //JSON.stringify(params),
           // headers: {
@@ -40,6 +50,7 @@
           dataType: "json",
           success: function(data) {
             if(data.result){
+              getInitData();
               window.Ewin.alert({
                 message:'增加数据成功!'
               });
