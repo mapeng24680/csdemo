@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,25 +73,27 @@ public class EvaluationController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/selectList", method = RequestMethod.GET)
+    @RequestMapping(value = "/selectList", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> selectList() {
+    public Map<String, Object> selectList(Evaluation evaluation) {
         Integer uId = UserInfo.getUser().getId();
         QueryUserAssociateRole queryUserAssociateRole = new QueryUserAssociateRole();
         queryUserAssociateRole.setUserId(uId);
         Map<String, Object> result = new HashMap<String, Object>();
         List<UserAssociateRole> rolelist = userAssociateRoleService.query(queryUserAssociateRole);
+        List list = new ArrayList<>();
         if (rolelist != null && rolelist.size() > 0) {
             long roleId = rolelist.get(0).getRoleId();
             if(5==roleId){
-                result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", evaluationDao.selectSender(uId));
+                list.add(evaluationDao.selectSender(uId));
+                result.put("totalCount",list.size());
+                result.put("result", list);
             }else if(3==roleId){
-                result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", evaluationDao.selectUser(uId));
+                list.add(evaluationDao.selectSender(uId));
+                result.put("totalCount",list.size());
+                result.put("result", list);
             }
         }
-        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         return result;
     }
 }
