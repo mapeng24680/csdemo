@@ -12,27 +12,38 @@
             </div>
             <input type="hidden" name="id"/>
         </div>
-        <div style="text-align: center;margin-top: 20px;"><button id="btnSave" class="btn btn-primary">保存</button></div>
+        <div style="text-align: center;margin-top: 20px;">
+        <button type="button" id="btnSave" class="btn btn-primary">保存</button></div>
     </div>
 </form>
 <script th:inline="javascript">
-    // 绑定dialog的确定按钮的监听事件
-    $("#btnSave").click(function() {
+    $(function () {
+      $.post('/publish/selectList', function(resp) {
+        if (resp.result) {
+          $('#orderMsg').val(data.needMsg);
+        }
+      });
+      // 绑定dialog的确定按钮的监听事件
+      $("#btnSave").click(function() {
         $.ajax({
-            type: "post",
-            url: "order/insert",
-            data: {"orderMsg":$("#orderMsg").val(),"commission":$("#commission").val()},
-            dataType: "json",
-            success: function(data){
-                if(data.result){
-                    $('.modal-dialog', window.top.document).parent('div').remove()
-                    $('body', window.top.document).find('.modal-backdrop').remove();
-                    // jquery 调用刷新当前操作的table页面的refresh方法
-                    $(window.parent.document).contents().find(".tab-pane.fade.active.in iframe")[0].contentWindow.doQuery();
-                    window.Ewin.alert({message:'增加数据成功!'});
-                }
+          type: "post",
+          url: "order/insert",
+          data: {
+            "orderMsg":$("#orderMsg").val(),
+            // "commission":$("#commission").val()
+          },
+          dataType: "json",
+          success: function(data) {
+            if(data.result){
+              $('.modal-dialog', window.top.document).parent('div').remove()
+              $('body', window.top.document).find('.modal-backdrop').remove();
+              // jquery 调用刷新当前操作的table页面的refresh方法
+              $(window.parent.document).contents().find(".tab-pane.fade.active.in iframe")[0].contentWindow.doQuery();
+              window.Ewin.alert({message:'增加数据成功!'});
             }
+          }
         });
+      });
     })
 </script>
 </body>
