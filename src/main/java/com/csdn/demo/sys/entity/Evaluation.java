@@ -21,6 +21,15 @@ public class Evaluation {
     private String cUserName;
     private String orderNum;
     private String orderMsg;
+    private Integer roleId;
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
 
     public String getSenderUserName() {
         return senderUserName;
