@@ -74,10 +74,14 @@ public class EnterprisePublishedController {
     @ResponseBody
     public Map<String, Object> selectMsg() {
         List<EnterprisePublished> list = enterprisePublishedService.selectList( UserInfo.getUser().getId());
+        EnterprisePublished ep=null;
+        if(list!=null && list.size()>0){
+            ep = list.get(0);
+        }
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put(SystemStaticConst.MSG, "查询成功");
-        result.put("data", list.get(0));
+        result.put("data",ep);
         return result;
     }
 }
