@@ -3,6 +3,7 @@ package com.csdn.demo.sys.controller;/**
  */
 
 import com.csdn.demo.common.base.constant.SystemStaticConst;
+import com.csdn.demo.common.util.user.UserInfo;
 import com.csdn.demo.sys.entity.EnterprisePublished;
 import com.csdn.demo.sys.entity.Order;
 import com.csdn.demo.sys.service.EnterprisePublishedService;
@@ -55,8 +56,24 @@ public class EnterprisePublishedController {
 
     @RequestMapping(value = "/selectList", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> update(Order order) {
+    public Map<String, Object> selectList(Order order) {
         List<EnterprisePublished> list = enterprisePublishedService.selectList(order.getSenderId());
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+        result.put(SystemStaticConst.MSG, "查询成功");
+        result.put("data", list.get(0));
+        return result;
+    }
+
+    /**
+     * 查看企业发布信息
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/selectMsg", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> selectMsg() {
+        List<EnterprisePublished> list = enterprisePublishedService.selectList( UserInfo.getUser().getId());
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put(SystemStaticConst.MSG, "查询成功");
