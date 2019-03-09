@@ -39,6 +39,7 @@ public class EnterprisePublishedController {
             enterprisePublished.setId(id);
             enterprisePublishedService.update(enterprisePublished);
         } else {
+            enterprisePublished.setUserId(UserInfo.getUser().getId());
             enterprisePublishedService.save(enterprisePublished);
         }
         Map<String, Object> result = new HashMap<String, Object>();
