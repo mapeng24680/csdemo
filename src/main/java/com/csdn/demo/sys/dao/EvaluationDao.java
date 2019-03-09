@@ -27,14 +27,9 @@ public interface EvaluationDao {
     void update(@Param("id")Integer id);
 
     /**
-     * 企业获取评价信息
+     * 获取评价信息
      * @return
      */
-    List<Evaluation> selectSender(@Param("senderId")Integer senderId);
+    Evaluation select(@Param("orderId")Integer orderId);
 
-    /**
-     * 用户获取企业评价信息
-     * @return
-     */
-    List<Evaluation> selectUser(@Param("userId")Integer userId);
 }

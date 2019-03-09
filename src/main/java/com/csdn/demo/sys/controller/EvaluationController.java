@@ -74,23 +74,10 @@ public class EvaluationController {
      */
     @RequestMapping(value = "/selectList", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> selectList() {
-        Integer uId = UserInfo.getUser().getId();
-        QueryUserAssociateRole queryUserAssociateRole = new QueryUserAssociateRole();
-        queryUserAssociateRole.setUserId(uId);
+    public Map<String, Object> selectList(Integer orderId) {
         Map<String, Object> result = new HashMap<String, Object>();
-        List<UserAssociateRole> rolelist = userAssociateRoleService.query(queryUserAssociateRole);
-        if (rolelist != null && rolelist.size() > 0) {
-            long roleId = rolelist.get(0).getRoleId();
-            if(5==roleId){
-                result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", evaluationDao.selectSender(uId));
-            }else if(3==roleId){
-                result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-                result.put("data", evaluationDao.selectUser(uId));
-            }
-        }
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
+        result.put("data", evaluationDao.select(orderId));
         return result;
     }
 }
