@@ -23,15 +23,20 @@
           $('#orderMsg').val(data.needMsg);
         }
       });
+
       // 绑定dialog的确定按钮的监听事件
       $("#btnSave").click(function() {
+        var params = {
+          needMsg: $("#orderMsg").val(),
+          // commission:$("#commission").val() || 0,
+        }
         $.ajax({
-          type: "post",
-          url: "order/insert",
-          data: {
-            orderMsg:$("#orderMsg").val(),
-            commission:$("#commission").val() || 0,
-          },
+          type: "POST",
+          url: "/publish/insertOrUpdate",
+          data: params, //JSON.stringify(params),
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
           dataType: "json",
           success: function(data) {
             if(data.result){
