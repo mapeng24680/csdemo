@@ -21,20 +21,20 @@ public interface EvaluationDao {
     void insert(Evaluation evaluation);
 
     /**
-     * 修改评价状态
-     * @param id
+     * 删除评价
+     * @param
      */
-    void update(@Param("id")Integer id);
+    void update(@Param("orderId")Integer orderId,@Param("roleId")Integer roleId);
+
+    /**添加评价内容
+     * @param
+     */
+    void updateMsg(@Param("orderId")Integer orderId,@Param("roleId")Integer roleId,@Param("msg")String msg);
 
     /**
-     * 企业获取评价信息
+     * 获取评价信息
      * @return
      */
-    List<Evaluation> selectSender(@Param("senderId")Integer senderId);
+    Evaluation select(@Param("orderId")Integer orderId);
 
-    /**
-     * 用户获取企业评价信息
-     * @return
-     */
-    List<Evaluation> selectUser(@Param("userId")Integer userId);
 }
