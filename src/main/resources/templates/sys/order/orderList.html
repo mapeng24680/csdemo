@@ -296,6 +296,7 @@
         }
 
         function dinerList(id) {
+            $("#user-table_say").bootstrapTable('destroy');
     //            window.Ewin.dialog({title:"查看合同",url:"/dinerList",gridId:id,width:600,height:745});
             $.ajax({
                 type: "post",
@@ -318,6 +319,9 @@
                                 $("#Signing12").attr("style","display:none;");
                             }else if(dataC.status==1){
                                 $("#Signing12").attr("style","display:block;");
+                                $("#Signing11").attr("style","display:none;");
+                            }else{
+                                $("#Signing12").attr("style","display:none;");
                                 $("#Signing11").attr("style","display:none;");
                             }
                             $("#issueType").val(dataC.id);
