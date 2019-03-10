@@ -82,13 +82,14 @@
                     <p id="senderName1" style="float: left"></p>
                     <p id="cUserName" style="float: right"></p>
                 </div>
+                <input type="hidden" id="issueType"/>
                 <p id="contractNum"></p>
                 <p id="contentText"></p>
                 <P id="creatTime"></P>
                 <p id="overdueTime"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Signing()">签约</button>
+                <button id="Signing11" class="btn btn-default" data-dismiss="modal" onclick="Signing()">签约</button>
             </div>
         </div>
     </div>
@@ -120,6 +121,21 @@
         function doQuery() {
             $('#status').val($('#status1 option:selected').val());
             $('#user-table').bootstrapTable('refresh'); //刷新表格
+        }
+
+        function Signing() {
+            alert(document.getElementById("issueType").value)
+            $.ajax({
+                type: "POST",
+                url: "order/roleId",
+                dataType: "json",
+                data:{"id":id},
+                success: function (data) {
+                    if (data.data != 5) {
+                        $("#Signing11").attr("disabled", true);
+                    }
+                }
+            })
         }
 
         // 账号禁用和启用
@@ -272,9 +288,6 @@
             });
         }
 
-        function deleteSay(id) {
-            alert(id)
-        }
         function dinerList(id) {
     //            window.Ewin.dialog({title:"查看合同",url:"/dinerList",gridId:id,width:600,height:745});
             $.ajax({
@@ -289,6 +302,7 @@
                             $("#senderName1").html("甲方："+dataC.senderName);
                             $("#cUserName").html("乙方："+dataC.cUserName);
     //                    $("#contentText").html();
+                            $("#issueType").val(dataC.id);
                             $("#contractNum").html("合同编号："+dataC.contractNum);
                             $("#creatTime").html("创建时间："+dataC.creatTime);
                             $("#overdueTime").html("过期时间："+dataC.overdueTime);
@@ -296,40 +310,30 @@
                             $("#senderName1").html("");
                             $("#cUserName").html("");
     //                    $("#contentText").html("");
+                            $("#issueType").val("");
                             $("#contractNum").html("");
                             $("#creatTime").html("");
                             $("#overdueTime").html("");
                         }
+                        $.ajax({
+                            type: "POST",
+                            url: "order/roleId",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.data != 5) {
+                                    $("#Signing11").attr("disabled", true);
+                                }
+                            }
+                        })
                     }else{
                         window.Ewin.alert({message:'操作失败!'});
                     }
                 }
             });
         }
-        function sayModel(id) {
-    //            window.Ewin.dialog({title:"查看合同",url:"/dinerList",gridId:id,width:600,height:745});
-            $.ajax({
-                type: "post",
-                url: "order/selectContract",
-                data: {'orderId': id},
-                dataType: "json",
-                success: function(e){
-                    if(e.result){
-                        var dataC = e.dataValue;
-                        if(dataC != null){
-                            $("#senderName1").html("甲方："+dataC.senderName);
-                            $("#cUserName").html("乙方："+dataC.cUserName);
-                        }else {
-                            $("#senderName1").html("");
-                            $("#cUserName").html("");
-                        }
-                    }else{
-                        window.Ewin.alert({message:'操作失败!'});
-                    }
-                }
-            });
-        }
+
         function initTable() {
+
             $('#user-table').bootstrapTable({
                 url: "/order/select",
                 height: $(window.parent.document).find("#wrapper").height() - 252,

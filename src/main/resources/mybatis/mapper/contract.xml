@@ -8,6 +8,7 @@
 
     <select id="select" resultType="com.csdn.demo.sys.entity.Contract">
         select
+            t1.id as id,
             t1.contract_num AS contractNum,
             t1.contract_msg as contractMsg,
             t1.order_id AS orderId,
