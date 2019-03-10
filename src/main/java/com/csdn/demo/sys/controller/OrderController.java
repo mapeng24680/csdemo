@@ -203,7 +203,7 @@ public class OrderController {
     @ResponseBody
     public Map<String, Object> selectContract(Integer orderId) {
         Contract contract =  contractDao.select(orderId);
-        if(contract.getStatus()==1);{
+        if(contract.getStatus()==1){
             Boolean bl =  CommonUserUtil.compareTime(contract.getOverdueTime());
             contract.setStatus(bl==true?2:1);
         }
