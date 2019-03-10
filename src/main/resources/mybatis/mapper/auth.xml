@@ -6,7 +6,7 @@
         values (#{userId},#{login},#{address},#{userame},now(),now())
     </insert>
     <update id="update">
-        update auth set update_time=now(),status=1
+        update auth set update_time=now(),status=2
         <if test="authName!=null and authName!=''">
             ,auth_name=#{authName}
         </if>
@@ -14,14 +14,14 @@
     </update>
     <select id="select" parameterType="com.csdn.demo.sys.entity.Auth" resultType="com.csdn.demo.sys.entity.Auth">
         select id,user_id as userId,login,address,user_name as userName,create_time as createTime
-        ,update_time as updateTime from auth where 1=1
+        ,update_time as updateTime,auth_name as authName, status from auth where 1=1
         <if test="status!=null">
             and status =#{status}
         </if>
-        <if test="login!=null">
+        <if test="login!=null and login !=''">
             and login =#{login}
         </if>
-        <if test="userName!=null">
+        <if test="userName!=null and userName !=''">
             and user_name =#{userName}
         </if>
          order by create_time

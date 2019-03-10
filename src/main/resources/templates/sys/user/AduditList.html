@@ -92,22 +92,8 @@
                     sortable : true
                 },
                 {
-                    field : 'job',
-                    title : '职位名称',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
                     field : 'address',
                     title : '用户地址',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'orgGroup.name',
-                    title : '组织架构',
                     align : 'center',
                     valign : 'middle',
                     sortable : true
@@ -120,7 +106,7 @@
                     sortable : true
                 },
                 {
-                    field : 'state',
+                    field : 'status',
                     title : '审核状态',
                     align : 'center',
                     valign : 'middle',
@@ -130,14 +116,14 @@
                     }
                 },
                 {
-                    field : 'authName',
+                    field : 'createTime',
                     title : '创建时间',
                     align : 'center',
                     valign : 'middle',
                     sortable : true
                 },
                 {
-                    field : 'authName',
+                    field : 'updateTime',
                     title : '更新时间',
                     align : 'center',
                     valign : 'middle',
@@ -148,7 +134,11 @@
                     align: 'center',
                     valign: 'middle',
                     formatter: function (value, row, index) {
+                        if(value==1){
                             return '<button  type="button" class="btn btn-primary btn-sm" onclick="auditVIP(' + row.id + ')" >审核</button>'
+                        }else{
+                            return '<button  type="button" class="btn btn-primary btn-sm" disabled="disabled" >审核</button>'
+                        }
                     }
                 }]
         });
@@ -158,9 +148,14 @@
             type: "POST",
             url: "auth/update",
             dataType: "json",
-            data:id,
+            data:{"id":id},
             success: function (data) {
-                alert("审核成功！");
+                if (data.result){
+                    alert("审核成功！");
+                }else {
+                    alert("审核失败！");
+                }
+                doQuery();
             }
         })
     }
