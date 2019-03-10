@@ -221,6 +221,7 @@ public class OrderController {
     @RequestMapping(value = "/updateContract", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> updateContract(Contract contract) {
+        contract.setStatus(1);
         contractDao.update(contract);
         Order order = new Order();
         order.setId(contract.getOrderId());
