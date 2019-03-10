@@ -511,6 +511,7 @@
                                 type: "POST",
                                 url: "order/roleId",
                                 dataType: "json",
+                                async:false,
                                 success: function (data) {
                                     if (data.data == 5) {
                                         return '<a href="#" style="opacity: 0.2" disabled="disabled" >-</a>';
