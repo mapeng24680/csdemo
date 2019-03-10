@@ -1,6 +1,7 @@
 package com.csdn.demo.sys.service;
 
 import com.csdn.demo.sys.entity.Order;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -52,4 +53,11 @@ public interface OrderService {
      * 修改订单状态和流水处理
      */
     void dealStatusAndAccount(Order order);
+
+    /**
+     * 根据订单id查询订单信息
+     * @param id
+     * @return
+     */
+    Order selectMsgById(Integer id);
 }

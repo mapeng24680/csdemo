@@ -79,4 +79,9 @@ public class OrderServiceImpl implements OrderService {
         accountChange.setOrderNum(od.getOrderNum());
         accountChangeDao.insert(accountChange);
     }
+
+    @Override
+    public Order selectMsgById(Integer id) {
+        return orderDao.selectMsgById(id);
+    }
 }
