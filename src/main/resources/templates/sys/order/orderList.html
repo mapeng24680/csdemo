@@ -87,6 +87,9 @@
                 <p id="contentText"></p>
                 <P id="creatTime"></P>
                 <p id="overdueTime"></p>
+                <p id="SigningStatus"></p>
+                <p id="contractText"></p>
+                <textarea id="contractMsg"></textarea>
             </div>
             <div class="modal-footer">
                 <button id="Signing11" class="btn btn-default" data-dismiss="modal" onclick="Signing()">签约</button>
@@ -131,9 +134,8 @@
                 dataType: "json",
                 data:{"id":id},
                 success: function (data) {
-                    if (data.data != 5) {
-                        $("#Signing11").attr("disabled", true);
-                    }
+                    alert("签约成功！")
+                    doQuery();
                 }
             })
         }
@@ -298,22 +300,29 @@
                 success: function(e){
                     if(e.result){
                         var dataC = e.dataValue;
+                        if($("#contractMsg").val()!=""){
+                            document.getElementById("contractText").style.display="none";
+                        }
                         if(dataC != null){
                             $("#senderName1").html("甲方："+dataC.senderName);
                             $("#cUserName").html("乙方："+dataC.cUserName);
     //                    $("#contentText").html();
+                            $("#SigningStatus").html("订单状态："+changeStatusByName(dataC.status))
                             $("#issueType").val(dataC.id);
                             $("#contractNum").html("合同编号："+dataC.contractNum);
                             $("#creatTime").html("创建时间："+dataC.creatTime);
                             $("#overdueTime").html("过期时间："+dataC.overdueTime);
+                            $("#contractText").html("合同内容："+dataC.contractMsg)
                         }else {
                             $("#senderName1").html("");
                             $("#cUserName").html("");
+                            $("#SigningStatus").html("订单状态："+changeStatusByName(1))
     //                    $("#contentText").html("");
                             $("#issueType").val("");
                             $("#contractNum").html("");
                             $("#creatTime").html("");
                             $("#overdueTime").html("");
+                            $("#contractText").html("");
                         }
                         $.ajax({
                             type: "POST",
