@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> selectUserOrder(Integer userId, String name, Integer status,String senderName) {
-        return orderDao.selectList(userId, name, status,senderName);
+        return orderDao.selectUserOrder(userId, name, status,senderName);
     }
 
     @Override
