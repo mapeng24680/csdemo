@@ -2,12 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.csdn.demo.sys.dao.ContractDao">
     <insert id="insert" parameterType="com.csdn.demo.sys.entity.Contract">
-        insert into contract (contract_num,account,enterprise_name,money,order_num,order_msg,create_time)
-        values (#{userId},#{account},#{enterpriseName},#{money},#{orderNum},#{orderMsg},now())
+        insert into contract (contract_num,contract_msg,order_id,order_num,user_id,enterprise_id,create_time,overdue_time,update_time)
+        values (#{contractNum}#{contractMsg},#{orderId},#{orderNum},#{userId},#{enterpriseId},now(),#{overdueTime},now())
     </insert>
+    <update id="update" parameterType="com.csdn.demo.sys.entity.Contract">
+        update contract set update_time=now()
+        <if test="contractMsg!=null and contractMsg!=''">
+            contract_msg=#{contractMsg}
+        </if>
+        <if test="status!=null">
+            status=#{status}
+        </if>
+    where id=#{id}
 
+    </update>
     <select id="select" resultType="com.csdn.demo.sys.entity.Contract">
-        select
+        select t1.id,
             t1.contract_num AS contractNum,
             t1.contract_msg as contractMsg,
             t1.order_id AS orderId,

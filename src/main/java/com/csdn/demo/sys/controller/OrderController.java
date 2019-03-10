@@ -7,6 +7,7 @@ import com.csdn.demo.common.util.user.CommonUserUtil;
 import com.csdn.demo.common.util.user.UserInfo;
 import com.csdn.demo.sys.dao.ContractDao;
 import com.csdn.demo.sys.dto.UserDTO;
+import com.csdn.demo.sys.entity.Contract;
 import com.csdn.demo.sys.entity.Order;
 import com.csdn.demo.sys.entity.QueryUserAssociateRole;
 import com.csdn.demo.sys.entity.UserAssociateRole;
@@ -194,6 +195,20 @@ public class OrderController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put("dataValue",contractDao.select(orderId));
+        return result;
+    }
+
+    /**
+     *签约合同
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/updateContract", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> updateContract(Contract contract) {
+        contractDao.update(contract);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         return result;
     }
 }

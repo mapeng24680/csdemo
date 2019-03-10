@@ -19,4 +19,10 @@ public interface ContractDao {
      * @return
      */
     Contract select(@Param("orderId")Integer orderId);
+
+    /**
+     * 签约合同/过期合同
+     * @param contract
+     */
+    void update(Contract contract);
 }
