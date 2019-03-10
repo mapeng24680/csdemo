@@ -82,7 +82,8 @@ public class OrderController {
             contract.setSenderName(od.getSenderName());
             contract.setcUserName(od.getCuserName());
             contract.setOrderId(od.getId());
-    
+            contract.setContractNum(CommonUserUtil.recountNew(20));
+            contractDao.insert(contract);
         }
         if(order.getStatus()==3){
             orderService.dealStatusAndAccount(order);
@@ -215,6 +216,10 @@ public class OrderController {
     @ResponseBody
     public Map<String, Object> updateContract(Contract contract) {
         contractDao.update(contract);
+        Order order = new Order();
+        order.setId(contract.getOrderId());
+        order.setStatus(3);
+        orderService.update(order);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         return result;
