@@ -1,12 +1,11 @@
 package com.csdn.demo.sys.entity;
 
-import java.util.Date;
 
 public class Message {
-
+    private Integer id;
     private String userName;
     private String message;
-    private Date createTime;
+    private String createTime;
 
     public String getUserName() {
         return userName;
@@ -24,11 +23,19 @@ public class Message {
         this.message = message;
     }
 
-    public Date getCreateTime() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 }
