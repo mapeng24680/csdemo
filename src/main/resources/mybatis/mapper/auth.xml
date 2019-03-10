@@ -12,7 +12,7 @@
         </if>
     where id=#{id}
     </update>
-    <select id="select" parameterType="om.csdn.demo.sys.entity.Auth" resultType="com.csdn.demo.sys.entity.Auth">
+    <select id="select" parameterType="com.csdn.demo.sys.entity.Auth" resultType="com.csdn.demo.sys.entity.Auth">
         select id,user_id as userId,login,address,user_name as userName,create_time as createTime
         ,update_time as updateTime from auth where 1=1
         <if test="status!=null">
