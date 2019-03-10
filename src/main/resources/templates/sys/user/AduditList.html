@@ -4,7 +4,34 @@
 <body>
 
 <div class="panel-body" style="padding-bottom:0px;">
-
+    <div class="panel panel-default" style="margin-top: 10px;">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form class="form-inline" role="form" style="float: left; width: 100%;margin-left: 20px;" method="post" id="queryUser">
+                <div class="form-group">
+                    <label for="userName">名字:</label>
+                    <input type="text" class="form-control" name="userName" id="userName"  placeholder="请输入名字" />
+                </div>
+                <div class="form-group">
+                    <label for="login">账号:</label>
+                    <input type="text" class="form-control" name="login" id="login"  placeholder="请输入账号" />
+                </div>
+                <div class="form-group">
+                    <label for="status">状态:</label>
+                    <label for="status">状态:</label>
+                    <input type="hidden" class="form-control" name="status" id="status" />
+                    <select class="form-control" name="status1" id="status1">
+                        <option value="">--请选择--</option>
+                        <option value="1">待审核</option>
+                        <option value="2">已审核</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <table id="user-table" style="margin-top: -50px;">
     </table>
 </div>
@@ -15,12 +42,13 @@
     });
 
     function doQuery(){
+        $('#status').val($('#status1 option:selected').val());
         $('#user-table').bootstrapTable('refresh');    //刷新表格
     }
 
     function initTable(){
         $('#user-table').bootstrapTable({
-            url:"/user/getUser",
+            url:"/auth/select",
             height: $(window.parent.document).find("#wrapper").height() - 252,
             width:$(window).width(),
             showColumns:true,
@@ -30,41 +58,6 @@
             sortOrder : 'desc',
             clickToSelect: true,// 单击某一行的时候选中某一条记录
             pageSize : 13,
-            toolbars:[
-                {
-                    text: '修改',
-                    iconCls: 'glyphicon glyphicon-pencil',
-                    handler: function () {
-                        var rows = $('#user-table').bootstrapTable('getSelections');
-                        if(rows.length==0||rows.length>1){
-                            window.Ewin.alert({message:'请选择一条需要修改的数据!'});
-                            return false;
-                        }
-                        window.Ewin.dialog({title:"修改",url:"user/updatePage1?id="+rows[0].id,width:600,height:595});
-                    }
-                },
-                {
-                    text: '注销',
-                    iconCls: 'glyphicon glyphicon-remove',
-                    handler: function () {
-                        var rows = $('#user-table').bootstrapTable('getSelections');
-                        if(rows.length==0){
-                            window.Ewin.alert({message:'请选择一条需要删除的数据!'});
-                            return false;
-                        }
-                        window.Ewin.confirm({title:'提示',message:'是否要删除您当前所勾选的用户？',width:500}).on(function (e) {
-                            if (e) {
-                                $.post("user/removeBath",{json:JSON.stringify(rows)},function(e){
-                                    if(e.result){
-                                        window.Ewin.alert({message:e.msg});
-                                        doQuery();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                }
-            ],
             columns: [
                 {
                     checkbox: true
@@ -120,46 +113,54 @@
                     sortable : true
                 },
                 {
+                    field : 'authName',
+                    title : '审核人',
+                    align : 'center',
+                    valign : 'middle',
+                    sortable : true
+                },
+                {
                     field : 'state',
-                    title : '账号状态',
+                    title : '审核状态',
                     align : 'center',
                     valign : 'middle',
                     sortable : true,
                     formatter: function (value, row, index) {
-                        return getCodeDictText("USER_STATE",value);
+                        return changeStatusByAudit(value);
                     }
+                },
+                {
+                    field : 'authName',
+                    title : '创建时间',
+                    align : 'center',
+                    valign : 'middle',
+                    sortable : true
+                },
+                {
+                    field : 'authName',
+                    title : '更新时间',
+                    align : 'center',
+                    valign : 'middle',
+                    sortable : true
                 },{
                     field: 'status',
                     title: '操作',
                     align: 'center',
                     valign: 'middle',
                     formatter: function (value, row, index) {
-                        var tag =0;
-                        $.ajax({
-                            type: "POST",
-                            url: "order/roleId",
-                            dataType: "json",
-                            async:false,
-                            success: function (data) {
-                                tag = data.data;
-                            }
-                        })
-                        if(tag == 2){
-                            return '<button  type="button" class="btn btn-primary btn-sm" onclick="becomeVIP(' + row.id + ')" >成为会员</button>'
-                        }else{
-                            return '<button  type="button" class="btn btn-primary btn-sm" disabled="disabled">成为会员</button>'
-                        }
+                            return '<button  type="button" class="btn btn-primary btn-sm" onclick="auditVIP(' + row.id + ')" >审核</button>'
                     }
                 }]
         });
     }
-    function becomeVIP(id) {
+    function auditVIP(id) {
         $.ajax({
             type: "POST",
-            url: "auth/insert",
+            url: "auth/update",
             dataType: "json",
+            data:id,
             success: function (data) {
-                alert("申请成功！");
+                alert("审核成功！");
             }
         })
     }
