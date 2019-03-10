@@ -13,6 +13,7 @@ import com.csdn.demo.sys.entity.QueryUserAssociateRole;
 import com.csdn.demo.sys.entity.UserAssociateRole;
 import com.csdn.demo.sys.service.OrderService;
 import com.csdn.demo.sys.service.UserAssociateRoleService;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -201,9 +202,12 @@ public class OrderController {
     @RequestMapping(value = "/selectContract", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> selectContract(Integer orderId) {
+        Contract contract =  contractDao.select(orderId);
+        Boolean bl =  CommonUserUtil.compareTime(contract.getOverdueTime());
+        contract.setStatus(bl==true?2:1);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put("dataValue",contractDao.select(orderId));
+        result.put("dataValue",contract);
         return result;
     }
 

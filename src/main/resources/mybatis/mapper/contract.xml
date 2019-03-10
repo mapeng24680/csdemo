@@ -8,10 +8,13 @@
     <update id="update" parameterType="com.csdn.demo.sys.entity.Contract">
         update contract set update_time=now()
         <if test="contractMsg!=null and contractMsg!=''">
-            contract_msg=#{contractMsg}
+            ,contract_msg=#{contractMsg}
         </if>
         <if test="status!=null">
-            status=#{status}
+            ,status=#{status}
+        </if>
+        <if test="tag!=null and tag==2">
+            ,overdue_time=DATE_ADD(now(), INTERVAL 1 YEAR)
         </if>
     where id=#{id}
 
