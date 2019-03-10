@@ -3,7 +3,7 @@
 <mapper namespace="com.csdn.demo.sys.dao.ContractDao">
     <insert id="insert" parameterType="com.csdn.demo.sys.entity.Contract">
         insert into contract (contract_num,contract_msg,order_id,order_num,user_id,enterprise_id,create_time,overdue_time,update_time)
-        values (#{contractNum}#{contractMsg},#{orderId},#{orderNum},#{userId},#{enterpriseId},now(),#{overdueTime},now())
+        values (#{contractNum}#{contractMsg},#{orderId},#{orderNum},#{userId},#{enterpriseId},now(),DATE_ADD(now(), INTERVAL 1 YEAR),now())
     </insert>
     <update id="update" parameterType="com.csdn.demo.sys.entity.Contract">
         update contract set update_time=now()

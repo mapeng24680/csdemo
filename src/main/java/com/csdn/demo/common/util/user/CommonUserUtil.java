@@ -1,9 +1,10 @@
 package com.csdn.demo.common.util.user;
 
-import org.apache.commons.lang.StringUtils;
+import com.alibaba.druid.util.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -454,13 +455,34 @@ public class CommonUserUtil {
 	 * @see [类、类#方法、类#成员]
 	 */
 	public static boolean validateTime(String validatestr){
-		if(StringUtils.isBlank(validatestr))return false;
+		if(StringUtils.isEmpty(validatestr))return false;
 		String rexp = "^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))";
 		return isMatch(rexp, validatestr);
 	}
+	/**
+	 * 生产合同编号
+	 * @param maxCount
+	 * @return
+	 */
+	public static String recountNew(int maxCount) {
+		if(maxCount<0) {
+			return null;
+		}
+		// 20170731FXJT99999999
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+		String str = format.format(new Date());
+		maxCount=maxCount+1;
+		NumberFormat nf = NumberFormat.getInstance();
+		//设置是否使用分组
+		nf.setGroupingUsed(false);
+		//设置最大整数位数
+		nf.setMaximumIntegerDigits(9);
+		//设置最小整数位数
+		nf.setMinimumIntegerDigits(9);
 
-	public static void main(String[] args) {
-		System.out.println(CommonUserUtil.randomCode());
+		String countStr=str+"FXJT"+nf.format(maxCount);
+		System.out.println("合同编号: " +countStr);
+		return countStr;
 	}
 
 }
