@@ -49,17 +49,7 @@
                 <ul class="dropdown-menu message-dropdown">
                     <li class="message-preview">
                         <a href="#">
-                            <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="" />
-                                    </span>
-                                <div class="media-body">
-                                    <h5 class="media-heading"><strong>John Smith</strong>
-                                    </h5>
-                                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                </div>
-                            </div>
+                            <div class="media" id="messageText"></div>
                         </a>
                     </li>
                     <li class="message-footer">
@@ -70,6 +60,9 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <font th:text="${#authentication.name}"></font> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
+                    <li id="adminText">
+                        <a data-toggle="modal" data-target="#myModal" ><i class="fa fa-fw fa-book"></i>管理员公告</a>
+                    </li>
                     <li>
                         <a href="/logout" ><i class="fa fa-fw fa-power-off"></i>退 出</a>
                     </li>
@@ -88,7 +81,66 @@
         <div id="tabContainer"></div>
     </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">律师事务外包系统</h4>
+            </div>
+            <div class="modal-body">
+                <p>公告内容：</p>
+                <textarea id="message" style="width: 80%" placeholder="请输入公告信息"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" onclick="saveAdminText()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function saveAdminText() {
+        $.ajax({
+            type: "POST",
+            url: "message/insert",
+            dataType: "json",
+            data:{"message":document.getElementById("message").value},
+            success: function (data) {
+                alert("公告新增成功！")
+            }
+        })
 
+    }
+    $(function(){
+        $.ajax({
+            type: "POST",
+            url: "order/roleId",
+            dataType: "json",
+            success: function (data) {
+                if(data.data != 1){
+                    document.getElementById("adminText").style.display = "none";
+                }
+            }
+        })
+        $.ajax({
+            type: "POST",
+            url: "message/select",
+            dataType: "json",
+            success: function (data) {
+                for (var i=0;i<data.result.length;i++){
+                    $("#messageText").append(
+                        "<span class=\"pull-left\">" +
+                        "<img class=\"media-object\" style=\"width: 50px;height: 50px\" src=\"./img/timg.jpg\" alt=\"\" />" +
+                        "</span>" +
+                        "<div class=\"media-body\">" +
+                        "<h5 class=\"media-heading\"><strong>"+data.result[i].userName+"</strong></h5>" +
+                        "<p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i>"+data.result[i].createTime+"</p>" +
+                        "<p>"+data.result[i].message+"</p></div>")
+                }
+            }
+        })
+    })
+</script>
 <!--
 <div th:text="${#authentication.name}">
     The value of the "name" property of the authentication object should appear here.
