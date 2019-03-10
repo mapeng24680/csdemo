@@ -203,8 +203,10 @@ public class OrderController {
     @ResponseBody
     public Map<String, Object> selectContract(Integer orderId) {
         Contract contract =  contractDao.select(orderId);
-        Boolean bl =  CommonUserUtil.compareTime(contract.getOverdueTime());
-        contract.setStatus(bl==true?2:1);
+        if(contract.getStatus()==1);{
+            Boolean bl =  CommonUserUtil.compareTime(contract.getOverdueTime());
+            contract.setStatus(bl==true?2:1);
+        }
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put("dataValue",contract);
