@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csdn.demo.sys.dao.AuthDao">
+    <insert id="insert" parameterType="com.csdn.demo.sys.entity.Auth">
+        insert into auth (user_id,login,address,user_name,create_time,update_time)
+        values (#{userId},#{login},#{address},#{userame},now(),now())
+    </insert>
+    <update id="update">
+        update auth set update_time=now(),status=1
+        <if test="authName!=null and authName!=''">
+            ,auth_name=#{authName}
+        </if>
+    where id=#{id}
+    </update>
+    <select id="select" parameterType="om.csdn.demo.sys.entity.Auth" resultType="com.csdn.demo.sys.entity.Auth">
+        select id,user_id as userId,login,address,user_name as userName,create_time as createTime
+        ,update_time as updateTime from auth where 1=1
+        <if test="status!=null">
+            and status =#{status}
+        </if>
+        <if test="login!=null">
+            and login =#{login}
+        </if>
+        <if test="userName!=null">
+            and user_name =#{userName}
+        </if>
+         order by create_time
+    </select>
+</mapper>
