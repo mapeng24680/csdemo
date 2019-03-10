@@ -18,9 +18,14 @@ public class Contract {
     private String overdueTime;
     private String creatTime;
     private Integer status;
+    private Integer tag;
     /**扩展字段**/
     private String cUserName;
     private String senderName;
+
+    public void setTag(Integer tag) {
+        this.tag = tag;
+    }
 
     public String getContractMsg() {
         return contractMsg;
