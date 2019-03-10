@@ -45,6 +45,16 @@ function changeStatusByName(type){
     }
 }
 
+function changeStatusBycontract(type){
+    if(type == 0){
+        return "待签约";
+    }else if(type == 1){
+        return "已签约";
+    }else if(type == 3){
+        return "已过期";
+    }
+}
+
 //根据type和code来获取数据字典的value值
 function getDictValue(type,code){
     var value = dictValueMap.get(type+"_"+code);

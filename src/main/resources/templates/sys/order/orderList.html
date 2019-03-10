@@ -83,16 +83,19 @@
                     <p id="cUserName" style="float: right"></p>
                 </div>
                 <input type="hidden" id="issueType"/>
+                <input type="hidden" id="contractOrder"/>
+                <input type="hidden" id="contractStatus"/>
                 <p id="contractNum"></p>
                 <p id="contentText"></p>
                 <P id="creatTime"></P>
                 <p id="overdueTime"></p>
                 <p id="SigningStatus"></p>
                 <p id="contractText"></p>
-                <textarea id="contractMsg"></textarea>
+                <textarea id="contractMsg" style="width: 80%" placeholder="请输入合同信息"></textarea>
             </div>
             <div class="modal-footer">
-                <button id="Signing11" class="btn btn-default" data-dismiss="modal" onclick="Signing()">签约</button>
+                <button id="Signing11" class="btn btn-default" data-dismiss="modal" onclick="Signing(1)">签约</button>
+                <button id="Signing12" class="btn btn-default" data-dismiss="modal" onclick="Signing(2)">续签</button>
             </div>
         </div>
     </div>
@@ -126,13 +129,14 @@
             $('#user-table').bootstrapTable('refresh'); //刷新表格
         }
 
-        function Signing() {
-            alert(document.getElementById("issueType").value)
+        function Signing(tag) {
             $.ajax({
                 type: "POST",
-                url: "order/roleId",
+                url: "order/updateContract",
                 dataType: "json",
-                data:{"id":id},
+                data:{"id":document.getElementById("issueType").value,
+                    "orderId":document.getElementById("contractOrder").value,
+                    "status":document.getElementById("contractStatus").value},
                 success: function (data) {
                     alert("签约成功！")
                     doQuery();
@@ -300,15 +304,22 @@
                 success: function(e){
                     if(e.result){
                         var dataC = e.dataValue;
-                        if($("#contractMsg").val()!=""){
-                            document.getElementById("contractText").style.display="none";
+                        if(dataC.contractMsg!=""){
+                            document.getElementById("contractMsg").style.display="none";
                         }
                         if(dataC != null){
                             $("#senderName1").html("甲方："+dataC.senderName);
                             $("#cUserName").html("乙方："+dataC.cUserName);
     //                    $("#contentText").html();
-                            $("#SigningStatus").html("订单状态："+changeStatusByName(dataC.status))
+                            $("#SigningStatus").html("订单状态："+changeStatusBycontract(dataC.status))
+                            if(dataC.status==1){
+                                document.getElementById("Signing12").style.display="none";
+                            }else if(dataC.status==1){
+                                document.getElementById("Signing11").style.display="none";
+                            }
                             $("#issueType").val(dataC.id);
+                            $("#contractOrder").val(dataC.orderId);
+                            $("#contractStatus").val(dataC.status);
                             $("#contractNum").html("合同编号："+dataC.contractNum);
                             $("#creatTime").html("创建时间："+dataC.creatTime);
                             $("#overdueTime").html("过期时间："+dataC.overdueTime);
