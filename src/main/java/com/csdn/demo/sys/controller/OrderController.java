@@ -75,6 +75,14 @@ public class OrderController {
             Integer userId = UserInfo.getUser().getId();
             order.setUserId(userId);
             orderService.update(order);
+           Order od =  orderService.selectMsgById(order.getId());
+            Contract contract = new Contract();
+            contract.setUserId(od.getUserId());
+            contract.setEnterpriseId(od.getSenderId());
+            contract.setSenderName(od.getSenderName());
+            contract.setcUserName(od.getCuserName());
+            contract.setOrderId(od.getId());
+    
         }
         if(order.getStatus()==3){
             orderService.dealStatusAndAccount(order);

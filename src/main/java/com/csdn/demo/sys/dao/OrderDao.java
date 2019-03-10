@@ -55,4 +55,11 @@ public interface OrderDao {
      * @return
      */
     Order selectOrder(@Param("id")Integer id);
+
+    /**
+     * 根据订单id查询订单信息
+     * @param id
+     * @return
+     */
+    Order selectMsgById(@Param("id")Integer id);
 }
