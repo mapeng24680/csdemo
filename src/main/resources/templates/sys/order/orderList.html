@@ -136,7 +136,8 @@
                 dataType: "json",
                 data:{"id":document.getElementById("issueType").value,
                     "orderId":document.getElementById("contractOrder").value,
-                    "status":document.getElementById("contractStatus").value},
+                    "status":document.getElementById("contractStatus").value,
+                    "tag":tag,"contractMsg":$("#contractMsg").val()},
                 success: function (data) {
                     alert("签约成功！")
                     doQuery();
@@ -312,10 +313,13 @@
                             $("#cUserName").html("乙方："+dataC.cUserName);
     //                    $("#contentText").html();
                             $("#SigningStatus").html("订单状态："+changeStatusBycontract(dataC.status))
-                            if(dataC.status==1){
-                                document.getElementById("Signing12").style.display="none";
+                            if(dataC.status==0){
+                                alert(dataC.status)
+                                $("#Signing11").attr("style","display:block;");
+                                $("#Signing12").attr("style","display:none;");
                             }else if(dataC.status==1){
-                                document.getElementById("Signing11").style.display="none";
+                                $("#Signing12").attr("style","display:block;");
+                                $("#Signing11").attr("style","display:none;");
                             }
                             $("#issueType").val(dataC.id);
                             $("#contractOrder").val(dataC.orderId);
