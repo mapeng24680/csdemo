@@ -26,4 +26,16 @@
         </if>
          order by create_time
     </select>
+    <select id="selectOne" resultType="com.csdn.demo.sys.entity.Auth">
+       select id,user_id as userId,login,address,user_name as userName,create_time as createTime
+        ,update_time as updateTime,auth_name as authName, status from auth where id=#{id}
+    </select>
+
+    <select id="selectByUserId" resultType="com.csdn.demo.sys.entity.Auth">
+        select id,user_id as userId,login,address,user_name as userName,create_time as createTime
+        ,update_time as updateTime,auth_name as authName, status from auth where user_id=#{userId}
+    </select>
+    <update id="updateRole">
+        update user_associate_role set role_id =3 where user_id=#{userId}
+    </update>
 </mapper>

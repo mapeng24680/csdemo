@@ -29,54 +29,69 @@ public class AuthController {
     private AuthDao authDao;
 
     /**
-     *查看审核列表
+     * 查看审核列表
+     *
      * @param
      * @return
      */
     @RequestMapping(value = "/select", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> selectContract(Auth auth) {
-        List<Auth> list =  authDao.select(auth);
+        List<Auth> list = authDao.select(auth);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
-        result.put(SystemStaticConst.RESULT,list);
-        result.put("totalCount",list.size());
+        result.put(SystemStaticConst.RESULT, list);
+        result.put("totalCount", list.size());
         return result;
     }
 
     /**
-     *查看审核列表
+     * 查看审核列表
+     *
      * @param
      * @return
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> insert() {
-       User user= UserInfo.getUser();
-       Auth auth = new Auth();
-       auth.setUserId(user.getId());
-       auth.setUserName(user.getUserName());
-       auth.setAddress(user.getAddress());
-       auth.setLogin(user.getLogin());
-       authDao.insert(auth);
+        User user = UserInfo.getUser();
+        Auth auth = new Auth();
+        auth.setUserId(user.getId());
+        auth.setUserName(user.getUserName());
+        auth.setAddress(user.getAddress());
+        auth.setLogin(user.getLogin());
+        authDao.insert(auth);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         return result;
     }
 
     /**
-     *更新 审核
+     * 更新 审核
+     *
      * @param
      * @return
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> update(Integer id) {
-        User user= UserInfo.getUser();
-        authDao.update(user.getUserName(),id);
+        User user = UserInfo.getUser();
+        authDao.update(user.getUserName(), id);
+        Auth auth = authDao.selectOne(id);
+        authDao.updateRole(auth.getUserId());
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         return result;
     }
-
+    @RequestMapping(value = "/selectByUserId", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> selectByUserId() {
+        Boolean state = true;
+        if(authDao.selectByUserId(UserInfo.getUser().getId())==null){
+            state=false;
+        }
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(SystemStaticConst.RESULT,state);
+        return result;
+    }
 }
