@@ -3,7 +3,7 @@
 <mapper namespace="com.csdn.demo.sys.dao.AuthDao">
     <insert id="insert" parameterType="com.csdn.demo.sys.entity.Auth">
         insert into auth (user_id,login,address,user_name,create_time,update_time)
-        values (#{userId},#{login},#{address},#{userame},now(),now())
+        values (#{userId},#{login},#{address},#{userName},now(),now())
     </insert>
     <update id="update">
         update auth set update_time=now(),status=2
