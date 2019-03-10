@@ -319,6 +319,9 @@
                             }else if(dataC.status==1){
                                 $("#Signing12").attr("style","display:block;");
                                 $("#Signing11").attr("style","display:none;");
+                            }else{
+                                $("#Signing12").attr("style","display:none;");
+                                $("#Signing11").attr("style","display:none;");
                             }
                             $("#issueType").val(dataC.id);
                             $("#contractOrder").val(dataC.orderId);

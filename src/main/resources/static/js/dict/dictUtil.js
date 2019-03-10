@@ -45,6 +45,14 @@ function changeStatusByName(type){
     }
 }
 
+function changeStatusByAudit(type){
+    if(type == 1){
+        return "待审核";
+    }else if(type == 2){
+        return "已审核";
+    }
+}
+
 function changeStatusBycontract(type){
     if(type == 0){
         return "待签约";
