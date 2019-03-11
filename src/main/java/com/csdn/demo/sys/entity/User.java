@@ -28,6 +28,7 @@ public class User implements UserDetails {
 	private String address;
 	private String job;
 	private long groupId;
+	private Long group;
 	private Date birthDate;
 	private String account;
 	private String city;
@@ -254,4 +255,16 @@ public class User implements UserDetails {
 		this.setRoles(roles);
 	}
 
+	public Long getGroup() {
+		return group;
+	}
+
+	public void setGroup(Long group) {
+		if (group!=null){
+			OrgGroup orgGroup = new OrgGroup();
+			orgGroup.setGroupId(group);
+			this.setOrgGroup(orgGroup);
+		}
+		this.group = group;
+	}
 }
