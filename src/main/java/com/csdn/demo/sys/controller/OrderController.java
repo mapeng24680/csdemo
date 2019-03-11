@@ -79,6 +79,7 @@ public class OrderController {
            Order od =  orderService.selectMsgById(order.getId());
             Contract contract = new Contract();
             contract.setUserId(od.getUserId());
+            contract.setOrderNum(od.getOrderNum());
             contract.setEnterpriseId(od.getSenderId());
             contract.setSenderName(od.getSenderName());
             contract.setcUserName(od.getCuserName());
@@ -203,7 +204,9 @@ public class OrderController {
     @ResponseBody
     public Map<String, Object> selectContract(Integer orderId) {
         Contract contract =  contractDao.select(orderId);
-        if(contract.getStatus()==1);{
+        contract.setContractMsg(contract.getContractMsg()==null?"":contract.getContractMsg());
+        Integer a=1;
+        if(contract.getStatus().equals(a)){
             Boolean bl =  CommonUserUtil.compareTime(contract.getOverdueTime());
             contract.setStatus(bl==true?2:1);
         }
