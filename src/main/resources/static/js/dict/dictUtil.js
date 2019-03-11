@@ -58,7 +58,7 @@ function changeStatusBycontract(type){
         return "待签约";
     }else if(type == 1){
         return "已签约";
-    }else if(type == 3){
+    }else if(type == 2){
         return "已过期";
     }
 }

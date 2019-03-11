@@ -166,12 +166,12 @@
                                 window.Ewin.alert({
                                     message: '操作成功!'
                                 });
-                                doQuery();
                             } else {
                                 window.Ewin.alert({
                                     message: '操作失败!'
                                 });
                             }
+                            doQuery();
                         }
                     });
                 }
@@ -316,11 +316,8 @@
                             if(dataC.status==0){
                                 $("#Signing11").attr("style","display:block;");
                                 $("#Signing12").attr("style","display:none;");
-                            }else if(dataC.status==1){
+                            }else {
                                 $("#Signing12").attr("style","display:block;");
-                                $("#Signing11").attr("style","display:none;");
-                            }else{
-                                $("#Signing12").attr("style","display:none;");
                                 $("#Signing11").attr("style","display:none;");
                             }
                             $("#issueType").val(dataC.id);
