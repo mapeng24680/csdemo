@@ -86,9 +86,9 @@ public class AuthController {
     @RequestMapping(value = "/selectByUserId", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> selectByUserId() {
-        Boolean state = true;
+        int state = 1;
         if(authDao.selectByUserId(UserInfo.getUser().getId())==null){
-            state=false;
+            state=0;
         }
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT,state);
