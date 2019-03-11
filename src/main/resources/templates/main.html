@@ -45,7 +45,7 @@
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" onclick="aaa()"  data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
                 <ul class="dropdown-menu message-dropdown">
                     <li class="message-preview">
                         <a href="#">
@@ -58,7 +58,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <font th:text="${#authentication.name}"></font> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle"data-toggle="dropdown"><i class="fa fa-user"></i> <font th:text="${#authentication.name}"></font> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li id="adminText">
                         <a data-toggle="modal" data-target="#myModal" ><i class="fa fa-fw fa-book"></i>管理员公告</a>
@@ -111,17 +111,9 @@
         })
 
     }
-    $(function(){
-        $.ajax({
-            type: "POST",
-            url: "order/roleId",
-            dataType: "json",
-            success: function (data) {
-                if(data.data != 1){
-                    document.getElementById("adminText").style.display = "none";
-                }
-            }
-        })
+
+    function aaa() {
+        $("#messageText").empty();
         $.ajax({
             type: "POST",
             url: "message/select",
@@ -136,6 +128,18 @@
                         "<h5 class=\"media-heading\"><strong>"+data.result[i].userName+"</strong></h5>" +
                         "<p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i>"+data.result[i].createTime+"</p>" +
                         "<p>"+data.result[i].message+"</p></div>")
+                }
+            }
+        })
+    }
+    $(function(){
+        $.ajax({
+            type: "POST",
+            url: "order/roleId",
+            dataType: "json",
+            success: function (data) {
+                if(data.data != 1){
+                    document.getElementById("adminText").style.display = "none";
                 }
             }
         })
