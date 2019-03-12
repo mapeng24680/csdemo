@@ -7,11 +7,9 @@ import com.csdn.demo.common.util.location.DateUtil;
 import com.csdn.demo.common.util.user.CommonUserUtil;
 import com.csdn.demo.common.util.user.UserInfo;
 import com.csdn.demo.sys.dao.ContractDao;
+import com.csdn.demo.sys.dao.EvaluationDao;
 import com.csdn.demo.sys.dto.UserDTO;
-import com.csdn.demo.sys.entity.Contract;
-import com.csdn.demo.sys.entity.Order;
-import com.csdn.demo.sys.entity.QueryUserAssociateRole;
-import com.csdn.demo.sys.entity.UserAssociateRole;
+import com.csdn.demo.sys.entity.*;
 import com.csdn.demo.sys.service.OrderService;
 import com.csdn.demo.sys.service.UserAssociateRoleService;
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -38,6 +36,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private ContractDao contractDao;
+    @Autowired
+    private EvaluationDao evaluationDao;
     @Autowired
     private UserAssociateRoleService userAssociateRoleService;
 
@@ -76,15 +76,22 @@ public class OrderController {
             Integer userId = UserInfo.getUser().getId();
             order.setUserId(userId);
             orderService.update(order);
-           Order od =  orderService.selectMsgById(order.getId());
+            Order od =  orderService.selectMsgById(order.getId());
             Contract contract = new Contract();
             contract.setUserId(od.getUserId());
+            contract.setOrderNum(od.getOrderNum());
             contract.setEnterpriseId(od.getSenderId());
             contract.setSenderName(od.getSenderName());
             contract.setcUserName(od.getCuserName());
             contract.setOrderId(od.getId());
             contract.setContractNum(CommonUserUtil.recountNew(20));
             contractDao.insert(contract);
+            Evaluation evaluation = new Evaluation();
+            evaluation.setOrderId(od.getId());
+            evaluation.setSenderId(od.getSenderId());
+            evaluation.setUserId(od.getUserId());
+            evaluationDao.insert(evaluation);
+
         }
         if(order.getStatus()==3){
             orderService.dealStatusAndAccount(order);
@@ -222,7 +229,9 @@ public class OrderController {
     @ResponseBody
     public Map<String, Object> selectContract(Integer orderId) {
         Contract contract =  contractDao.select(orderId);
-        if(contract.getStatus()==1);{
+        contract.setContractMsg(contract.getContractMsg()==null?"":contract.getContractMsg());
+        Integer a=1;
+        if(contract.getStatus().equals(a)){
             Boolean bl =  CommonUserUtil.compareTime(contract.getOverdueTime());
             contract.setStatus(bl==true?2:1);
         }

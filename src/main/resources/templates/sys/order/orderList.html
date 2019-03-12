@@ -541,7 +541,7 @@
                                 if (resp.result) {
                                     var data = resp.data;
                                     var elem = $('.detail-pop-box .pop-content');
-                                    var html = '<p>' + data.userName + data.needMsg + '</p>';
+                                    var html = '<p>' + data.userName +":"+ data.needMsg + '</p>';
                                     elem.html(html);
                                     $('.detail-pop-box').show();
                                 }

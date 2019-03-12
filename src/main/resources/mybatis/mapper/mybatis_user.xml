@@ -77,8 +77,8 @@
 
 	<!--保存-->
 	<insert id="save" parameterType="com.csdn.demo.sys.entity.User" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO user(login,password,user_name,address,job,group_id,birth_date,city,district,province,street_address,state,type,last_login_date,account)
-		VALUES(#{login},#{password},#{userName},#{address},#{job},#{orgGroup.groupId},#{birthDate},#{city},#{district},#{province},#{streetAddress},#{state},#{type},#{lastLoginDate},#{account})
+		INSERT INTO user(login,password,user_name,address,job,group_id,birth_date,city,district,province,street_address,state,type,last_login_date)
+		VALUES(#{login},#{password},#{userName},#{address},#{job},#{orgGroup.groupId},#{birthDate},#{city},#{district},#{province},#{streetAddress},#{state},#{type},#{lastLoginDate})
 	</insert>
 
 	<!--修改-->

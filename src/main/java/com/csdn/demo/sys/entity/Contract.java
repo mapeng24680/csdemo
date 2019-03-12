@@ -2,6 +2,8 @@ package com.csdn.demo.sys.entity;/**
  * Created by dell on 2019/3/8.
  */
 
+import com.csdn.demo.common.util.user.CommonUserUtil;
+
 /**
  * @description: 合同
  * @author: mapeng
@@ -44,7 +46,7 @@ public class Contract {
     }
 
     public String getCreatTime() {
-        return creatTime;
+        return CommonUserUtil.timeChange(creatTime);
     }
 
     public void setCreatTime(String creatTime) {
@@ -68,7 +70,7 @@ public class Contract {
     }
 
     public String getSenderName() {
-        return senderName;
+        return CommonUserUtil.timeChange(senderName);
     }
 
     public void setSenderName(String senderName) {

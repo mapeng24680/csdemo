@@ -1,6 +1,8 @@
 package com.csdn.demo.sys.entity;
 
 
+import com.csdn.demo.common.util.user.CommonUserUtil;
+
 public class Message {
     private Integer id;
     private String userName;
@@ -32,7 +34,7 @@ public class Message {
     }
 
     public String getCreateTime() {
-        return createTime;
+        return  CommonUserUtil.timeChange(createTime);
     }
 
     public void setCreateTime(String createTime) {
