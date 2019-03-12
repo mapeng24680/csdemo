@@ -3,6 +3,7 @@ package com.csdn.demo.sys.controller;/**
  */
 
 import com.csdn.demo.common.base.constant.SystemStaticConst;
+import com.csdn.demo.common.util.location.DateUtil;
 import com.csdn.demo.common.util.user.CommonUserUtil;
 import com.csdn.demo.common.util.user.UserInfo;
 import com.csdn.demo.sys.dao.ContractDao;
@@ -22,9 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @description: 订单控制类
@@ -121,6 +121,25 @@ public class OrderController {
                 result.put("totalCount",orderService.selectList(id,userDTO.getName(),userDTO.getStatus()==""?null:Integer.parseInt(userDTO.getStatus()),userDTO.getSenderName()).size());
             }
         }
+        return result;
+    }
+
+
+    @RequestMapping(value = "/selectOrderCount", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> selectOrderCount() {
+        Map<String, Object> result = new HashMap<String, Object>();
+        List list = new ArrayList<>();
+        String data = "2018-01-01";
+        for (int i=0;i<50;i++){
+            data = DateUtil.getSpecifiedDayAfter(data);
+            aaa a = new aaa();
+            a.setCreateTime(data);
+            a.setOrderCount((int)(1+Math.random()*100));
+            a.setPassOrderCount((int)(1+Math.random()*100));
+            list.add(a);
+        }
+        result.put(SystemStaticConst.RESULT,list);
         return result;
     }
 
@@ -230,5 +249,35 @@ public class OrderController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         return result;
+    }
+
+    class aaa{
+        private String createTime;
+        private Integer orderCount;
+        private Integer passOrderCount;
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
+
+        public Integer getOrderCount() {
+            return orderCount;
+        }
+
+        public void setOrderCount(Integer orderCount) {
+            this.orderCount = orderCount;
+        }
+
+        public Integer getPassOrderCount() {
+            return passOrderCount;
+        }
+
+        public void setPassOrderCount(Integer passOrderCount) {
+            this.passOrderCount = passOrderCount;
+        }
     }
 }

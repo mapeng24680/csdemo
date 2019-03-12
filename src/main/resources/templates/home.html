@@ -1,10 +1,102 @@
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head>
-    <meta charset="UTF-8">
-    <title>这是一个首页</title>
-</head>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/includebase"></head>
+<script type="text/javascript" th:src="@{/js/echarts.min.js}"></script>
 <body>
-  这是一个首页
+
+<div id="main" style="width: 1100px;height:500px;"></div>
+
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title : {
+            text : '单量统计折线图',
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter : function (params) {
+                var date = new Date(params.value[0]);
+                data = date.getFullYear() + '-'
+                    + (date.getMonth() + 1) + '-'
+                    + date.getDate() + ' '
+                    + date.getHours() + ':'
+                    + date.getMinutes();
+                return data + '<br/>'
+                    + params.value[1] + ', '
+                    + params.value[2];
+            }
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        dataZoom: {
+            show: true,
+            start : 70
+        },
+        legend : {
+            data : ['单量']
+        },
+        grid: {
+            y2: 80
+        },
+        xAxis : [
+            {
+                type : 'time',
+                splitNumber:10
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name: 'series1',
+                type: 'line',
+                showAllSymbol: true,
+                symbolSize: function (value){
+                    return Math.round(value[2]/10) + 2;
+                },
+                data: (function () {
+                    var d = [];
+                    var len = 0;
+                    var now = new Date();
+                    var value;
+                    $.ajax({
+                        type: "POST",
+                        url: "order/selectOrderCount",
+                        dataType: "json",
+                        async:false,
+                        success: function (data) {
+                            for (var i=0;i<data.result.length;i++){
+                                d.push([
+                                    data.result[i].createTime,
+                                    data.result[i].orderCount,
+                                    data.result[i].passOrderCount
+                                ]);
+                            }
+                        }
+                    })
+                    return d;
+                })()
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
 </body>
 </html>
