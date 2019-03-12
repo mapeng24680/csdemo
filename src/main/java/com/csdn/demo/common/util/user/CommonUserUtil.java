@@ -511,4 +511,20 @@ public class CommonUserUtil {
         }
         return null;
     }
+
+    /**
+     * 时间格式转换
+     * @param time
+     * @return
+     */
+    public static String timeChange(String time){
+        Date date1 = null;
+        try {
+            date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+       return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date1);
+
+    }
 }

@@ -6,11 +6,9 @@ import com.csdn.demo.common.base.constant.SystemStaticConst;
 import com.csdn.demo.common.util.user.CommonUserUtil;
 import com.csdn.demo.common.util.user.UserInfo;
 import com.csdn.demo.sys.dao.ContractDao;
+import com.csdn.demo.sys.dao.EvaluationDao;
 import com.csdn.demo.sys.dto.UserDTO;
-import com.csdn.demo.sys.entity.Contract;
-import com.csdn.demo.sys.entity.Order;
-import com.csdn.demo.sys.entity.QueryUserAssociateRole;
-import com.csdn.demo.sys.entity.UserAssociateRole;
+import com.csdn.demo.sys.entity.*;
 import com.csdn.demo.sys.service.OrderService;
 import com.csdn.demo.sys.service.UserAssociateRoleService;
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -38,6 +36,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private ContractDao contractDao;
+    @Autowired
+    private EvaluationDao evaluationDao;
     @Autowired
     private UserAssociateRoleService userAssociateRoleService;
 
@@ -76,7 +76,7 @@ public class OrderController {
             Integer userId = UserInfo.getUser().getId();
             order.setUserId(userId);
             orderService.update(order);
-           Order od =  orderService.selectMsgById(order.getId());
+            Order od =  orderService.selectMsgById(order.getId());
             Contract contract = new Contract();
             contract.setUserId(od.getUserId());
             contract.setOrderNum(od.getOrderNum());
@@ -86,6 +86,12 @@ public class OrderController {
             contract.setOrderId(od.getId());
             contract.setContractNum(CommonUserUtil.recountNew(20));
             contractDao.insert(contract);
+            Evaluation evaluation = new Evaluation();
+            evaluation.setOrderId(od.getId());
+            evaluation.setSenderId(od.getSenderId());
+            evaluation.setUserId(od.getUserId());
+            evaluationDao.insert(evaluation);
+
         }
         if(order.getStatus()==3){
             orderService.dealStatusAndAccount(order);

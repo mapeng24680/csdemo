@@ -2,6 +2,8 @@ package com.csdn.demo.sys.entity;/**
  * Created by dell on 2019/3/6.
  */
 
+import com.csdn.demo.common.util.user.CommonUserUtil;
+
 /**
  * @description:订单实体
  * @author: mapeng
@@ -94,7 +96,7 @@ public class Order {
     }
 
     public String getCreateTime() {
-        return createTime;
+        return CommonUserUtil.timeChange(createTime);
     }
 
     public void setCreateTime(String createTime) {
@@ -102,7 +104,7 @@ public class Order {
     }
 
     public String getUpdateTime() {
-        return updateTime;
+        return CommonUserUtil.timeChange(updateTime);
     }
 
     public void setUpdateTime(String updateTime) {

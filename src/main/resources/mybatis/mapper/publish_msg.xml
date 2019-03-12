@@ -6,6 +6,6 @@
         values (#{message},#{userName},now())
     </insert>
     <select id="select" resultType="com.csdn.demo.sys.entity.Message">
-        select id,message,user_name as userName,create_time as createTime from publish_msg order by create_time
+        select id,message,user_name as userName,create_time as createTime from publish_msg order by create_time desc
     </select>
 </mapper>
