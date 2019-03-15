@@ -9,8 +9,9 @@
         bottom: 0;
         right: 0;
         width: 100%;
-        background-color: rgba(0,0,0,.3);
+        background-color: rgba(0, 0, 0, .3);
     }
+
     .detail-pop-box .pop-content {
         margin: 160px auto 0;
         background-color: #fff;
@@ -20,50 +21,76 @@
         width: 600px;
         line-height: 1.4;
     }
+
     #user-table_say p {
         line-height: 22px;
+    }
+
+    #user_msg_say {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    #user_msg_say .user-msg {
+        padding: 6px 0;
+        font-size: 14px;
+        overflow: hidden;
+    }
+
+    #user_msg_say .user-msg > span {
+        padding: 4px 10px;
+        border-radius: 8px 0 8px 0;
+        background-color: #44b549;
+        color: #fff;
+    }
+
+    #user_msg_say .my-msg span {
+        background-color: #2194ff;
+    }
+
+    #user_msg_say .other-msg span {
+        float: right;
     }
 </style>
 
 
-
 <body>
-    <div class="panel-body" style="padding-bottom:0px;">
-        <div class="panel panel-default" style="margin-top: 10px;">
-            <div class="panel-heading">查询条件</div>
-            <div class="panel-body">
-                <form class="form-inline" role="form" style="float: left; width: 100%;margin-left: 20px;" method="post"
-                    id="queryOrder">
-                    <div class="form-group">
-                        <label for="senderName">发单用户:</label>
-                        <input type="text" class="form-control" name="senderName" id="senderName" placeholder="发单用户" />
-                    </div>
-                    <div class="form-group">
-                        <label for="name">接单用户:</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="接单用户" />
-                    </div>
-                    <div class="form-group">
-                        <label for="status">状态:</label>
-                        <input type="hidden" class="form-control" name="status" id="status" />
-                        <select class="form-control" name="status1" id="status1">
-                            <option value="">--请选择--</option>
-                            <option value="1">待接单</option>
-                            <option value="2">已接单</option>
-                            <option value="3">已完成</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
-                    </div>
-                </form>
-            </div>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default" style="margin-top: 10px;">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form class="form-inline" role="form" style="float: left; width: 100%;margin-left: 20px;" method="post"
+                  id="queryOrder">
+                <div class="form-group">
+                    <label for="senderName">发单用户:</label>
+                    <input type="text" class="form-control" name="senderName" id="senderName" placeholder="发单用户"/>
+                </div>
+                <div class="form-group">
+                    <label for="name">接单用户:</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="接单用户"/>
+                </div>
+                <div class="form-group">
+                    <label for="status">状态:</label>
+                    <input type="hidden" class="form-control" name="status" id="status"/>
+                    <select class="form-control" name="status1" id="status1">
+                        <option value="">--请选择--</option>
+                        <option value="1">待接单</option>
+                        <option value="2">已接单</option>
+                        <option value="3">已完成</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
+                </div>
+            </form>
         </div>
-        <table id="user-table" style="margin-top: -50px;">
-        </table>
     </div>
-    <div class="detail-pop-box" style="display:none;" onclick="javascript: $(this).hide()">
-        <div class="pop-content"></div>
-    </div>
+    <table id="user-table" style="margin-top: -50px;">
+    </table>
+</div>
+<div class="detail-pop-box" style="display:none;" onclick="javascript: $(this).hide()">
+    <div class="pop-content"></div>
+</div>
 
 <div id="contractBox">
     <h1 align="center"></h1>
@@ -74,7 +101,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="myModalLabel">律师事务外包系统</h4>
             </div>
             <div class="modal-body">
@@ -100,457 +128,530 @@
         </div>
     </div>
 </div>
-    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="ModalLabel">评价信息</h4>
-                </div>
-                <div class="modal-body" id="user-table_say">
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="ModalLabel">评价信息</h4>
+            </div>
+            <div class="modal-body" id="user-table_say">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="evaluationData()" data-dismiss="modal">评价</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="evaluationData()" data-dismiss="modal">评价
+                </button>
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="UserMsg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="UserMsgLabel">聊天信息</h4>
+            </div>
+            <div class="modal-body" id="user_msg_say">
+                <div class="user-msg other-msg">
+                    <span>你好</span>
+                </div>
+                <div class="user-msg my-msg">
+                    <span>我很好</span>
+                </div>
+                <div class="user-msg other-msg">
+                    <span>最近在干嘛？</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="text" class="form-control" id="user_input_say_msg" placeholder="请输入消息">
+                <button type="button" class="btn btn-default"
+                        onclick="insertMsg()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script th:inline="javascript">
 
-    $(function() {
-        $('#status').val($('#status1 option:selected').val());
-        initTable();
-        $('#user-table').bootstrapTable('hideColumn', 'id');
-    });
+  $(function () {
+    $('#status').val($('#status1 option:selected').val());
+    initTable();
+    $('#user-table').bootstrapTable('hideColumn', 'id');
+  });
 
-        function doQuery() {
-            $('#status').val($('#status1 option:selected').val());
-            $('#user-table').bootstrapTable('refresh'); //刷新表格
-        }
+  function doQuery() {
+    $('#status').val($('#status1 option:selected').val());
+    $('#user-table').bootstrapTable('refresh'); //刷新表格
+  }
 
-        function Signing(tag) {
-            $.ajax({
-                type: "POST",
-                url: "order/updateContract",
-                dataType: "json",
-                data:{"id":document.getElementById("issueType").value,
-                    "orderId":document.getElementById("contractOrder").value,
-                    "status":document.getElementById("contractStatus").value,
-                    "tag":tag,"contractMsg":$("#contractMsg").val()},
-                success: function (data) {
-                    alert("签约成功！")
-                    doQuery();
-                }
-            })
-        }
+  function Signing(tag) {
+    $.ajax({
+      type: "POST",
+      url: "order/updateContract",
+      dataType: "json",
+      data: {
+        "id": document.getElementById("issueType").value,
+        "orderId": document.getElementById("contractOrder").value,
+        "status": document.getElementById("contractStatus").value,
+        "tag": tag, "contractMsg": $("#contractMsg").val()
+      },
+      success: function (data) {
+        alert("签约成功！")
+        doQuery();
+      }
+    })
+  }
 
-        // 账号禁用和启用
-        function userControl(id) {
-            window.Ewin.confirm({
-                title: '提示',
-                message: "确定接此单吗？",
-                width: 500
-            }).on(function (e) {
-                if (e) {
-                    $.ajax({
-                        type: "post",
-                        url: "/order/update",
-                        data: {
-                            "status": 2,
-                            "id": id
-                        },
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.result) {
-                                window.Ewin.alert({
-                                    message: '操作成功!'
-                                });
-                            } else {
-                                window.Ewin.alert({
-                                    message: '操作失败!'
-                                });
-                            }
-                            doQuery();
-                        }
-                    });
-                }
-            });
-        }
-
-
-        function evaluationData () {
-          var orderId = evalutationtempObjId;
-          var msg = $('#evaltion_input').val();
-          $.get('/evaluation/updateMsg', {
-            orderId: orderId,
-            msg: msg,
-          } , function (resp) {
-            if (resp.result) {
+  // 账号禁用和启用
+  function userControl(id) {
+    window.Ewin.confirm({
+      title: '提示',
+      message: "确定接此单吗？",
+      width: 500
+    }).on(function (e) {
+      if (e) {
+        $.ajax({
+          type: "post",
+          url: "/order/update",
+          data: {
+            "status": 2,
+            "id": id
+          },
+          dataType: "json",
+          success: function (data) {
+            if (data.result) {
               window.Ewin.alert({
                 message: '操作成功!'
               });
-              doQuery();
+            } else {
+              window.Ewin.alert({
+                message: '操作失败!'
+              });
+            }
+            doQuery();
+          }
+        });
+      }
+    });
+  }
+
+
+  function evaluationData() {
+    var orderId = evalutationtempObjId;
+    var msg = $('#evaltion_input').val();
+    $.get('/evaluation/updateMsg', {
+      orderId: orderId,
+      msg: msg,
+    }, function (resp) {
+      if (resp.result) {
+        window.Ewin.alert({
+          message: '操作成功!'
+        });
+        doQuery();
+      }
+    })
+  }
+
+  var evalutationtempObjId;
+
+
+  function findList(id) {
+    // function queryParams(pageRequest) {
+    //     pageRequest.orderId = id;
+    //     return pageReqeust;
+    // }
+    // cUserName: "xxxx"
+    // createTime: "2019-03-07 09:53:11.0"
+    // evaluationSender: "很差的人"
+    // evaluationUser: ""
+    // id: null
+    // orderId: 15
+    // orderMsg: "傻傻的饭"
+    // orderNum: "92899040"
+    // senderId: 2
+    // senderUserName: "福建xxxxx"
+    // status: 0
+    // userId: 9
+    evalutationtempObjId = id;
+    $.get('/evaluation/selectList?orderId=' + id, function (resp) {
+      var html = '<p>用户名：' + resp.data.cUserName + '</p>';
+      html += '<p>企业名称：' + resp.data.senderUserName + '</p>';
+      html += '<p>订单号：' + resp.data.orderNum + '</p>';
+      html += '<p>订单信息：' + resp.data.orderMsg + '</p>';
+      if (resp.data.roleId == 5) {
+        // qiye
+        html += '<p>企业的评价：<input type="text" id="evaltion_input" value="' + resp.data.evaluationSender + '"></p>';
+        html += '<p>会计评价：' + resp.data.evaluationUser + '</p>';
+      } else {
+        html += '<p>企业的评价：' + resp.data.evaluationSender + '</p>';
+        html += '<p>会计评价：<input type="text" id="evaltion_input" value="' + resp.data.evaluationUser + '"></p>';
+      }
+
+
+      $("#user-table_say").html(html);
+    });
+
+    return;
+    $("#user-table_say").bootstrapTable('destroy');
+    $('#user-table_say').bootstrapTable({
+      url: "/evaluation/selectList",
+      height: $(window.parent.document).find("#wrapper").height() - 300,
+      width: $(window).width(),
+      showColumns: true,
+      formId: "querySay",
+      method: 'POST',
+      queryParams: {"orderId": id},
+      pagination: true,
+      sortName: 'id',
+      sortOrder: 'desc',
+      clickToSelect: true, // 单击某一行的时候选中某一条记录
+      pageSize: 13,
+      columns: [{
+        checkbox: true
+      },
+        {
+          field: '',
+          title: '序号',
+          formatter: function (value, row, index) {
+            return index + 1;
+          }
+        },
+        {
+          field: 'orderId',
+          title: '订单编号',
+          align: 'center',
+          valign: 'middle',
+          sortable: true
+        },
+        {
+          field: 'evaluationUser',
+          title: '接单用户',
+          align: 'center',
+          valign: 'middle',
+          sortable: true
+        },
+        {
+          field: 'evaluationSender',
+          title: '发单用户',
+          align: 'center',
+          valign: 'middle',
+          hide: false,
+          sortable: true
+        },
+
+        {
+          field: 'status',
+          title: '操作',
+          align: 'center',
+          valign: 'middle',
+          formatter: function (value, row, index) {
+            return '<button  type="button" class="btn btn-primary btn-sm" onclick="deleteSay(' + row.id + ')" >删除</button>&nbsp;'
+          }
+        }
+      ]
+    });
+  }
+
+  function dinerList(id) {
+    //            window.Ewin.dialog({title:"查看合同",url:"/dinerList",gridId:id,width:600,height:745});
+    $.ajax({
+      type: "post",
+      url: "order/selectContract",
+      data: {'orderId': id},
+      dataType: "json",
+      success: function (e) {
+        if (e.result) {
+          var dataC = e.dataValue;
+          if (dataC.contractMsg != "") {
+            document.getElementById("contractMsg").style.display = "none";
+          }
+          if (dataC != null) {
+            $("#senderName1").html("甲方：" + dataC.senderName);
+            $("#cUserName").html("乙方：" + dataC.cUserName);
+            //                    $("#contentText").html();
+            $("#SigningStatus").html("订单状态：" + changeStatusBycontract(dataC.status))
+            if (dataC.status == 0) {
+              $("#Signing11").attr("style", "display:block;");
+              $("#Signing12").attr("style", "display:none;");
+            } else {
+              $("#Signing12").attr("style", "display:block;");
+              $("#Signing11").attr("style", "display:none;");
+            }
+            $("#issueType").val(dataC.id);
+            $("#contractOrder").val(dataC.orderId);
+            $("#contractStatus").val(dataC.status);
+            $("#contractNum").html("合同编号：" + dataC.contractNum);
+            $("#creatTime").html("创建时间：" + dataC.creatTime);
+            $("#overdueTime").html("过期时间：" + dataC.overdueTime);
+            $("#contractText").html("合同内容：" + dataC.contractMsg)
+          } else {
+            $("#senderName1").html("");
+            $("#cUserName").html("");
+            $("#SigningStatus").html("")
+            //                    $("#contentText").html("");
+            $("#issueType").val("");
+            $("#contractNum").html("");
+            $("#creatTime").html("");
+            $("#overdueTime").html("");
+            $("#contractText").html("");
+          }
+          $.ajax({
+            type: "POST",
+            url: "order/roleId",
+            dataType: "json",
+            success: function (data) {
+              if (data.data != 5) {
+                $("#Signing11").attr("disabled", true);
+              }
+            }
+          })
+        } else {
+          window.Ewin.alert({message: '操作失败!'});
+        }
+      }
+    });
+  }
+
+  function initTable() {
+
+    $('#user-table').bootstrapTable({
+      url: "/order/select",
+      height: $(window.parent.document).find("#wrapper").height() - 252,
+      width: $(window).width(),
+      showColumns: true,
+      formId: "queryOrder",
+      pagination: true,
+      sortName: 'id',
+      sortOrder: 'desc',
+      clickToSelect: true, // 单击某一行的时候选中某一条记录
+      pageSize: 13,
+      toolbars: [{
+        text: '添加',
+        iconCls: 'glyphicon glyphicon-plus',
+        handler: function () {
+          window.Ewin.dialog({
+            title: "添加",
+            url: "order/addPage",
+            gridId: "gridId",
+            width: 600,
+            height: 745
+          })
+        }
+      },
+        {
+          text: '删除',
+          iconCls: 'glyphicon glyphicon-remove',
+          handler: function () {
+            $.ajax({
+              type: "POST",
+              url: "order/roleId",
+              dataType: "json",
+              success: function (result) {
+                if (result.data == 5) {
+                  var rows = $('#user-table').bootstrapTable(
+                    'getSelections');
+                  if (rows.length == 0 || rows.length > 1) {
+                    window.Ewin.alert({
+                      message: '请选择一条需要修改的数据!'
+                    });
+                    return false;
+                  }
+                  window.Ewin.confirm({
+                    title: '提示',
+                    message: '是否要删除您当前所勾选的用户？',
+                    width: 500
+                  }).on(function (e) {
+                    if (e) {
+                      $.post("order/delete", {
+                        "id": rows[0].id + ""
+                      }, function (e) {
+                        if (result) {
+                          window.Ewin.alert(
+                            "用户删除成功");
+                          doQuery();
+                        }
+                      });
+                    }
+                  });
+                } else {
+                  alert("订单只能由发布者删除！")
+                }
+              }
+            });
+
+          }
+        }
+      ],
+      columns: [{
+        checkbox: true
+      },
+        {
+          field: '',
+          title: '序号',
+          formatter: function (value, row, index) {
+            return index + 1;
+          }
+        },
+        {
+          field: 'orderNum',
+          title: '订单编号',
+          align: 'center',
+          valign: 'middle',
+          sortable: true
+        },
+        {
+          field: 'senderName',
+          title: '发单用户',
+          align: 'center',
+          valign: 'middle',
+          hide: false,
+          sortable: true
+        },
+        {
+          field: 'cuserName',
+          title: '接单用户',
+          align: 'center',
+          valign: 'middle',
+          sortable: true
+        },
+        {
+          field: 'commission',
+          title: '佣金',
+          align: 'center',
+          valign: 'middle',
+          sortable: true
+        },
+        {
+          field: 'orderMsg',
+          title: '订单信息',
+          align: 'center',
+          valign: 'middle',
+          sortable: true
+        },
+
+        {
+          field: 'status',
+          title: '订单状态',
+          align: 'center',
+          valign: 'middle',
+          sortable: true,
+          formatter: function (value, row, index) {
+            return changeStatusByName(value);
+          }
+
+        },
+        {
+          field: 'createTime',
+          title: '发单时间',
+          align: 'center',
+          valign: 'middle',
+          sortable: true,
+        },
+        {
+          field: 'updateTime',
+          title: '接单时间',
+          align: 'center',
+          valign: 'middle',
+          sortable: true,
+        },
+        {
+          field: 'status',
+          title: '操作',
+          align: 'center',
+          valign: 'middle',
+          formatter: function (value, row, index) {
+            var tag;
+            $.ajax({
+              type: "POST",
+              url: "order/roleId",
+              dataType: "json",
+              async: false,
+              success: function (data) {
+                if (data.data == 5) {
+                  return '<a href="#" style="opacity: 0.2" disabled="disabled" >-</a>';
+                } else {
+                  tag = value;
+                }
+              }
+            })
+            if (value == 1) {
+              return '<button  type="button" class="btn btn-primary btn-sm" onclick="userControl(' + row.id + ')" >接单</button>&nbsp;'
+            } else {
+              return '<button  type="button" onclick="dinerList(' + row.id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" >合同</button>&nbsp;' +
+                '<button type="button" onclick="findList(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#Modal">评价</button>&nbsp;' +
+                '<button type="button" onclick="linkUser(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#UserMsg">联系</button>';
+            }
+          }
+        }
+      ],
+      onClickCell(field, value, row) {
+        // field 点击的列明
+        // value 点击列的值
+        // 点击的行对象
+        if (field == 'senderName') {
+          // 如果点击的是发单用户列
+          $.ajax({
+            type: "POST",
+            url: "/publish/selectList",
+            data: row,
+            dataType: "json",
+            success: function (resp) {
+              if (resp.result) {
+                var data = resp.data;
+                var elem = $('.detail-pop-box .pop-content');
+                var html = '<p>' + data.userName + ":" + data.needMsg + '</p>';
+                elem.html(html);
+                $('.detail-pop-box').show();
+              }
             }
           })
         }
+      },
+    });
+  }
 
-        var evalutationtempObjId;
+  function linkUser(id) {
+    console.log('linkUser', id);
+    var content = $('#user_msg_say');
+    $.get('/message/selectInformation', {
+      bSendeUserId: id,
+    }, function (resp) {
+      console.log('list data', resp);
+      var box = $('#user_msg_say');
+      var lastid = box.data('id');
+      if (lastid != id) {
+        box.empty();
+        box.data('end', '');
+      }
+      box.data('id', id);
+      var lastMsg = box.data('end');
+      if (!lastMsg) {
 
+      } else {
 
-        function findList(id) {
-            // function queryParams(pageRequest) {
-            //     pageRequest.orderId = id;
-            //     return pageReqeust;
-            // }
-          // cUserName: "xxxx"
-          // createTime: "2019-03-07 09:53:11.0"
-          // evaluationSender: "很差的人"
-          // evaluationUser: ""
-          // id: null
-          // orderId: 15
-          // orderMsg: "傻傻的饭"
-          // orderNum: "92899040"
-          // senderId: 2
-          // senderUserName: "福建xxxxx"
-          // status: 0
-          // userId: 9
-          evalutationtempObjId = id;
-            $.get('/evaluation/selectList?orderId=' + id, function (resp) {
-              var html = '<p>用户名：' + resp.data.cUserName + '</p>';
-              html += '<p>企业名称：' + resp.data.senderUserName + '</p>';
-              html += '<p>订单号：' + resp.data.orderNum + '</p>';
-              html += '<p>订单信息：' + resp.data.orderMsg + '</p>';
-              if (resp.data.roleId == 5) {
-                // qiye
-                html += '<p>企业的评价：<input type="text" id="evaltion_input" value="' + resp.data.evaluationSender+ '"></p>';
-                html += '<p>会计评价：' + resp.data.evaluationUser + '</p>';
-              } else {
-                html += '<p>企业的评价：' + resp.data.evaluationSender + '</p>';
-                html += '<p>会计评价：<input type="text" id="evaltion_input" value="' + resp.data.evaluationUser+ '"></p>';
-              }
+      }
+      var content = buildContent();
+    });
+  }
 
+  function buildContent(msg) {
+    var content = '<div class="user-msg ' + (msg.type == 1 ? 'my-msg' : 'other-msg') + '">' +
+      '<span>你好</span>' +
+      '</div>';
+    return content;
+  }
 
-              $("#user-table_say").html(html);
-            });
-
-            return;
-            $("#user-table_say").bootstrapTable('destroy');
-            $('#user-table_say').bootstrapTable({
-                url: "/evaluation/selectList",
-                height: $(window.parent.document).find("#wrapper").height() - 300,
-                width: $(window).width(),
-                showColumns: true,
-                formId: "querySay",
-                method:'POST',
-                queryParams: {"orderId":id},
-                pagination: true,
-                sortName: 'id',
-                sortOrder: 'desc',
-                clickToSelect: true, // 单击某一行的时候选中某一条记录
-                pageSize: 13,
-                columns: [{
-                    checkbox: true
-                },
-                    {
-                        field: '',
-                        title: '序号',
-                        formatter: function (value, row, index) {
-                            return index + 1;
-                        }
-                    },
-                    {
-                        field: 'orderId',
-                        title: '订单编号',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
-                    {
-                        field: 'evaluationUser',
-                        title: '接单用户',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
-                    {
-                        field: 'evaluationSender',
-                        title: '发单用户',
-                        align: 'center',
-                        valign: 'middle',
-                        hide: false,
-                        sortable: true
-                    },
-
-                    {
-                        field: 'status',
-                        title: '操作',
-                        align: 'center',
-                        valign: 'middle',
-                        formatter: function (value, row, index) {
-                                return '<button  type="button" class="btn btn-primary btn-sm" onclick="deleteSay(' + row.id + ')" >删除</button>&nbsp;'
-                        }
-                    }
-                ]
-            });
-        }
-
-        function dinerList(id) {
-    //            window.Ewin.dialog({title:"查看合同",url:"/dinerList",gridId:id,width:600,height:745});
-            $.ajax({
-                type: "post",
-                url: "order/selectContract",
-                data: {'orderId': id},
-                dataType: "json",
-                success: function(e){
-                    if(e.result){
-                        var dataC = e.dataValue;
-                        if(dataC.contractMsg!=""){
-                            document.getElementById("contractMsg").style.display="none";
-                        }
-                        if(dataC != null){
-                            $("#senderName1").html("甲方："+dataC.senderName);
-                            $("#cUserName").html("乙方："+dataC.cUserName);
-    //                    $("#contentText").html();
-                            $("#SigningStatus").html("订单状态："+changeStatusBycontract(dataC.status))
-                            if(dataC.status==0){
-                                $("#Signing11").attr("style","display:block;");
-                                $("#Signing12").attr("style","display:none;");
-                            }else {
-                                $("#Signing12").attr("style","display:block;");
-                                $("#Signing11").attr("style","display:none;");
-                            }
-                            $("#issueType").val(dataC.id);
-                            $("#contractOrder").val(dataC.orderId);
-                            $("#contractStatus").val(dataC.status);
-                            $("#contractNum").html("合同编号："+dataC.contractNum);
-                            $("#creatTime").html("创建时间："+dataC.creatTime);
-                            $("#overdueTime").html("过期时间："+dataC.overdueTime);
-                            $("#contractText").html("合同内容："+dataC.contractMsg)
-                        }else {
-                            $("#senderName1").html("");
-                            $("#cUserName").html("");
-                            $("#SigningStatus").html("")
-    //                    $("#contentText").html("");
-                            $("#issueType").val("");
-                            $("#contractNum").html("");
-                            $("#creatTime").html("");
-                            $("#overdueTime").html("");
-                            $("#contractText").html("");
-                        }
-                        $.ajax({
-                            type: "POST",
-                            url: "order/roleId",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.data != 5) {
-                                    $("#Signing11").attr("disabled", true);
-                                }
-                            }
-                        })
-                    }else{
-                        window.Ewin.alert({message:'操作失败!'});
-                    }
-                }
-            });
-        }
-
-        function initTable() {
-
-            $('#user-table').bootstrapTable({
-                url: "/order/select",
-                height: $(window.parent.document).find("#wrapper").height() - 252,
-                width: $(window).width(),
-                showColumns: true,
-                formId: "queryOrder",
-                pagination: true,
-                sortName: 'id',
-                sortOrder: 'desc',
-                clickToSelect: true, // 单击某一行的时候选中某一条记录
-                pageSize: 13,
-                toolbars: [{
-                    text: '添加',
-                    iconCls: 'glyphicon glyphicon-plus',
-                    handler: function () {
-                        window.Ewin.dialog({
-                            title: "添加",
-                            url: "order/addPage",
-                            gridId: "gridId",
-                            width: 600,
-                            height: 745
-                        })
-                    }
-                },
-                    {
-                        text: '删除',
-                        iconCls: 'glyphicon glyphicon-remove',
-                        handler: function () {
-                            $.ajax({
-                                type: "POST",
-                                url: "order/roleId",
-                                dataType: "json",
-                                success: function (result) {
-                                    if (result.data == 5) {
-                                        var rows = $('#user-table').bootstrapTable(
-                                            'getSelections');
-                                        if (rows.length == 0 || rows.length > 1) {
-                                            window.Ewin.alert({
-                                                message: '请选择一条需要修改的数据!'
-                                            });
-                                            return false;
-                                        }
-                                        window.Ewin.confirm({
-                                            title: '提示',
-                                            message: '是否要删除您当前所勾选的用户？',
-                                            width: 500
-                                        }).on(function (e) {
-                                            if (e) {
-                                                $.post("order/delete", {
-                                                    "id": rows[0].id + ""
-                                                }, function (e) {
-                                                    if (result) {
-                                                        window.Ewin.alert(
-                                                            "用户删除成功");
-                                                        doQuery();
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    } else {
-                                        alert("订单只能由发布者删除！")
-                                    }
-                                }
-                            });
-
-                        }
-                    }
-                ],
-                columns: [{
-                    checkbox: true
-                },
-                    {
-                        field: '',
-                        title: '序号',
-                        formatter: function (value, row, index) {
-                            return index + 1;
-                        }
-                    },
-                    {
-                        field: 'orderNum',
-                        title: '订单编号',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
-                    {
-                        field: 'senderName',
-                        title: '发单用户',
-                        align: 'center',
-                        valign: 'middle',
-                        hide: false,
-                        sortable: true
-                    },
-                    {
-                        field: 'cuserName',
-                        title: '接单用户',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
-                    {
-                        field: 'commission',
-                        title: '佣金',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
-                    {
-                        field: 'orderMsg',
-                        title: '订单信息',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
-
-                    {
-                        field: 'status',
-                        title: '订单状态',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true,
-                        formatter: function (value, row, index) {
-                            return changeStatusByName(value);
-                        }
-
-                    },
-                    {
-                        field: 'createTime',
-                        title: '发单时间',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true,
-                    },
-                    {
-                        field: 'updateTime',
-                        title: '接单时间',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true,
-                    },
-                    {
-                        field: 'status',
-                        title: '操作',
-                        align: 'center',
-                        valign: 'middle',
-                        formatter: function (value, row, index) {
-                            var tag;
-                            $.ajax({
-                                type: "POST",
-                                url: "order/roleId",
-                                dataType: "json",
-                                async:false,
-                                success: function (data) {
-                                    if (data.data == 5) {
-                                        return '<a href="#" style="opacity: 0.2" disabled="disabled" >-</a>';
-                                    } else {
-                                        tag = value;
-                                    }
-                                }
-                            })
-                            if (value == 1) {
-                                return '<button  type="button" class="btn btn-primary btn-sm" onclick="userControl(' + row.id + ')" >接单</button>&nbsp;'
-                            } else {
-                                return '<button  type="button" onclick="dinerList('+row.id+')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" >合同</button>&nbsp;' +
-                                    '<button type="button" onclick="findList(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#Modal">评价</button>';
-                            }
-                        }
-                    }
-                ],
-                onClickCell(field, value, row) {
-                    // field 点击的列明
-                    // value 点击列的值
-                    // 点击的行对象
-                    if (field == 'senderName') {
-                        // 如果点击的是发单用户列
-                        $.ajax({
-                            type: "POST",
-                            url: "/publish/selectList",
-                            data: row,
-                            dataType: "json",
-                            success: function (resp) {
-                                if (resp.result) {
-                                    var data = resp.data;
-                                    var elem = $('.detail-pop-box .pop-content');
-                                    var html = '<p>' + data.userName +":"+ data.needMsg + '</p>';
-                                    elem.html(html);
-                                    $('.detail-pop-box').show();
-                                }
-                            }
-                        })
-                    }
-                },
-            });
-        }
+  function insertMsg() {
+    $.post('/message/insertInformation', {
+      userId: $('#user_msg_say').data('id'),
+      msg: $('#user_input_say_msg').val(),
+    }, function (resp) {
+      console.log(resp);
+    });
+  }
 
 </script>
 </body>
