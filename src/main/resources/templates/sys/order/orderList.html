@@ -576,14 +576,16 @@
                   tag = value;
                 }
               }
-            })
+            });
+            var html;
             if (value == 1) {
-              return '<button  type="button" class="btn btn-primary btn-sm" onclick="userControl(' + row.id + ')" >接单</button>&nbsp;'
+              html = '<button  type="button" class="btn btn-primary btn-sm" onclick="userControl(' + row.id + ')" >接单</button>&nbsp;'
             } else {
-              return '<button  type="button" onclick="dinerList(' + row.id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" >合同</button>&nbsp;' +
-                '<button type="button" onclick="findList(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#Modal">评价</button>&nbsp;' +
-                '<button type="button" onclick="linkUser(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#UserMsg">联系</button>';
+              html = '<button  type="button" onclick="dinerList(' + row.id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" >合同</button>&nbsp;' +
+                '<button type="button" onclick="findList(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#Modal">评价</button>&nbsp;';
             }
+            html += '<button type="button" onclick="linkUser(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#UserMsg">联系</button>';
+            return html;
           }
         }
       ],
@@ -628,28 +630,61 @@
       }
       box.data('id', id);
       var lastMsg = box.data('end');
+      console.log('lastMsg', lastMsg);
       if (!lastMsg) {
-
+        var html = '', idend;
+        for (var i = 0; i < resp.data.length; i++) {
+          var msg = resp.data[i];
+          var content = buildContent(msg);
+          html += content;
+          if (msg.id > idend) {
+            idend = msg.id;
+          } else if (!idend){
+            idend = msg.id;
+          }
+        }
+        console.log(html);
+        box.html(html);
+        box.data('end', idend);
       } else {
-
+        var html = '', idend;
+        for (var i = 0; i < resp.data.length; i++) {
+          var msg = resp.data[i];
+          if (msg.id <= lastMsg) {
+            continue;
+          }
+          var content = buildContent(msg);
+          html += content;
+          if (msg.id > idend) {
+            idend = msg.id;
+          } else if (!idend){
+            idend = msg.id;
+          }
+        }
+        console.log(html);
+        box.append(html);
+        box.data('end', idend);
       }
-      var content = buildContent();
     });
   }
 
   function buildContent(msg) {
     var content = '<div class="user-msg ' + (msg.type == 1 ? 'my-msg' : 'other-msg') + '">' +
-      '<span>你好</span>' +
+      '<span>' + msg.msg + '</span>' +
       '</div>';
     return content;
   }
 
   function insertMsg() {
     $.post('/message/insertInformation', {
-      userId: $('#user_msg_say').data('id'),
+      bSendeUserId: $('#user_msg_say').data('id'),
       msg: $('#user_input_say_msg').val(),
     }, function (resp) {
       console.log(resp);
+      if (resp.result) {
+        linkUser($('#user_msg_say').data('id'));
+        $('#user_input_say_msg').val('');
+      }
     });
   }
 
