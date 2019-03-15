@@ -178,7 +178,16 @@
 
   $(function () {
     $('#status').val($('#status1 option:selected').val());
-    initTable();
+    $.ajax({
+      type: "POST",
+      url: "order/roleId",
+      dataType: "json",
+      async: false,
+      success: function (data) {
+        window.userRoleType = data.data;
+        initTable();
+      }
+    });
     $('#user-table').bootstrapTable('hideColumn', 'id');
   });
 
@@ -563,20 +572,6 @@
           align: 'center',
           valign: 'middle',
           formatter: function (value, row, index) {
-            var tag;
-            $.ajax({
-              type: "POST",
-              url: "order/roleId",
-              dataType: "json",
-              async: false,
-              success: function (data) {
-                if (data.data == 5) {
-                  return '<a href="#" style="opacity: 0.2" disabled="disabled" >-</a>';
-                } else {
-                  tag = value;
-                }
-              }
-            });
             var html;
             if (value == 1) {
               html = '<button  type="button" class="btn btn-primary btn-sm" onclick="userControl(' + row.id + ')" >接单</button>&nbsp;'
@@ -584,7 +579,7 @@
               html = '<button  type="button" onclick="dinerList(' + row.id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" >合同</button>&nbsp;' +
                 '<button type="button" onclick="findList(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#Modal">评价</button>&nbsp;';
             }
-            html += '<button type="button" onclick="linkUser(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#UserMsg">联系</button>';
+            html += '<button type="button" onclick="linkUser(' + (userRoleType == 5 ? row.userId : row.senderId) + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#UserMsg">联系</button>';
             return html;
           }
         }
