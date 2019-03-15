@@ -53,8 +53,8 @@ public class MessageController {
     @ResponseBody
     public Map<String, Object> insertInformation(Information information) {
         Integer userId = UserInfo.getUser().getId();
-        Integer bsendeUserId = UserInfo.getUser().getId();
-        information.setSessionId(userId>bsendeUserId?(bsendeUserId+"_"+userId):(userId+":"+bsendeUserId));
+        Integer bsendeUserId =information.getbSendeUserId()
+        information.setSessionId(userId>bsendeUserId?(bsendeUserId+"_"+userId):(userId+"_"+bsendeUserId));
         information.setUserId(UserInfo.getUser().getId());
         informationDao.insert(information);
         Map<String, Object> result = new HashMap<String, Object>();
@@ -65,7 +65,7 @@ public class MessageController {
     @ResponseBody
     public Map<String, Object> insertInformation(Integer bSendeUserId) {
         Integer userId = UserInfo.getUser().getId();
-        String seesionId  = userId>bSendeUserId?(bSendeUserId+":"+userId):(userId+"_"+bSendeUserId);
+        String seesionId  = userId>bSendeUserId?(bSendeUserId+"_"+userId):(userId+"_"+bSendeUserId);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put("data", informationDao.select(userId,seesionId));
