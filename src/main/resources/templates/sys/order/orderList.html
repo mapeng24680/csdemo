@@ -615,7 +615,17 @@
     });
   }
 
+  var timerInterGetMsgList;
+
   function linkUser(id) {
+    if (!timerInterGetMsgList) {
+      timerInterGetMsgList = setInterval(function () {
+        if ($('#UserMsg')[0].style.display == 'none') {
+          clearInterval(timerInterGetMsgList);
+        }
+        linkUser(id);
+      }, 1000);
+    }
     console.log('linkUser', id);
     var content = $('#user_msg_say');
     $.get('/message/selectInformation', {
