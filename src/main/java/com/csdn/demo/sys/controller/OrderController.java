@@ -8,6 +8,7 @@ import com.csdn.demo.common.util.user.CommonUserUtil;
 import com.csdn.demo.common.util.user.UserInfo;
 import com.csdn.demo.sys.dao.ContractDao;
 import com.csdn.demo.sys.dao.EvaluationDao;
+import com.csdn.demo.sys.dao.OrderDao;
 import com.csdn.demo.sys.dto.UserDTO;
 import com.csdn.demo.sys.entity.*;
 import com.csdn.demo.sys.service.OrderService;
@@ -36,6 +37,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private ContractDao contractDao;
+    @Autowired
+    private OrderDao orderDao;
     @Autowired
     private EvaluationDao evaluationDao;
     @Autowired
@@ -136,17 +139,7 @@ public class OrderController {
     @ResponseBody
     public Map<String, Object> selectOrderCount() {
         Map<String, Object> result = new HashMap<String, Object>();
-        List list = new ArrayList<>();
-        String data = "2018-01-01";
-        for (int i=0;i<50;i++){
-            data = DateUtil.getSpecifiedDayAfter(data);
-            aaa a = new aaa();
-            a.setCreateTime(data);
-            a.setOrderCount((int)(1+Math.random()*100));
-            a.setPassOrderCount((int)(1+Math.random()*100));
-            list.add(a);
-        }
-        result.put(SystemStaticConst.RESULT,list);
+        result.put(SystemStaticConst.RESULT,orderDao.selectOrderCount());
         return result;
     }
 
@@ -260,33 +253,4 @@ public class OrderController {
         return result;
     }
 
-    class aaa{
-        private String createTime;
-        private Integer orderCount;
-        private Integer passOrderCount;
-
-        public String getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
-        }
-
-        public Integer getOrderCount() {
-            return orderCount;
-        }
-
-        public void setOrderCount(Integer orderCount) {
-            this.orderCount = orderCount;
-        }
-
-        public Integer getPassOrderCount() {
-            return passOrderCount;
-        }
-
-        public void setPassOrderCount(Integer passOrderCount) {
-            this.passOrderCount = passOrderCount;
-        }
-    }
 }

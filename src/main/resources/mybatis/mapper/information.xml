@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csdn.demo.sys.dao.InformationDao">
+    <insert id="insert" parameterType="com.csdn.demo.sys.entity.Information">
+        insert into information (user_id,msg,session_id,reate_time)
+        values (#{userId},#{userId},#{msg},now())
+    </insert>
+    <select id="select">
+      select user_id as userId,msg,session_id as sessionId,create_time as cteateTime,if(user_id=#{userId},1,2) as type
+      from information where session_id =#{sessionId} order by create_time desc
+    </select>
+</mapper>

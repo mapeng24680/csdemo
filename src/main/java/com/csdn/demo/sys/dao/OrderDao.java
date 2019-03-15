@@ -1,6 +1,7 @@
 package com.csdn.demo.sys.dao;
 
 import com.csdn.demo.sys.entity.Order;
+import com.csdn.demo.sys.entity.aaa;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -62,4 +63,10 @@ public interface OrderDao {
      * @return
      */
     Order selectMsgById(@Param("id")Integer id);
+
+    /**
+     * 返回订单信息
+     * @return
+     */
+    List<aaa> selectOrderCount();
 }

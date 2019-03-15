@@ -141,4 +141,29 @@
 				INNER JOIN user t3 on t1.user_id = t3.id where t1.id=#{id}
 
     </select>
+    <select id="selectOrderCount" resultType="com.csdn.demo.sys.entity.aaa">
+        SELECT
+        IFNULL(a.orderCount,0) as orderCount,
+        IFNULL(b.passCount,0) as passOrderCount,
+        a.createTime from (
+	    SELECT
+            COUNT( * ) AS orderCount,
+            DATE_FORMAT( create_time, '%Y-%m-%d' ) AS createTime
+        FROM
+            `order`
+        GROUP BY
+            DATE_FORMAT( create_time, '%Y-%m-%d' )
+        ) a
+        left JOIN (
+        SELECT
+            COUNT( * ) AS passCount,
+            DATE_FORMAT( create_time, '%Y-%m-%d' ) AS createTime
+        FROM
+            `order`
+        WHERE
+            STATUS = 3
+        GROUP BY
+        DATE_FORMAT( create_time, '%Y-%m-%d' )
+        ) b ON a.createTime = b.createTime
+    </select>
 </mapper>
