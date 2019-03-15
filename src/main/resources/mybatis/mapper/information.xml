@@ -5,7 +5,7 @@
         insert into information (user_id,msg,session_id,create_time)
         values (#{userId},#{userId},#{msg},now())
     </insert>
-    <select id="select">
+    <select id="select" resultType="com.csdn.demo.sys.entity.Information">
       select user_id as userId,msg,session_id as sessionId,create_time as cteateTime,if(user_id=#{userId},1,2) as type
       from information where session_id =#{sessionId} order by create_time desc
     </select>
