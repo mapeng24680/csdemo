@@ -7,6 +7,6 @@
     </insert>
     <select id="select" resultType="com.csdn.demo.sys.entity.Information">
       select id,user_id as userId,msg,session_id as sessionId,create_time as createTime,if(user_id=#{userId},1,2) as type
-      from information where session_id =#{sessionId} order by create_time desc
+      from information where session_id =#{sessionId} order by create_time asc
     </select>
 </mapper>
