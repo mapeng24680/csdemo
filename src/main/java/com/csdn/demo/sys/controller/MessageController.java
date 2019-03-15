@@ -53,7 +53,7 @@ public class MessageController {
     @ResponseBody
     public Map<String, Object> insertInformation(Information information) {
         Integer userId = UserInfo.getUser().getId();
-        Integer bsendeUserId =information.getbSendeUserId()
+        Integer bsendeUserId =information.getbSendeUserId();
         information.setSessionId(userId>bsendeUserId?(bsendeUserId+"_"+userId):(userId+"_"+bsendeUserId));
         information.setUserId(UserInfo.getUser().getId());
         informationDao.insert(information);
