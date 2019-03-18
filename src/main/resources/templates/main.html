@@ -167,7 +167,9 @@
         },
         success: function (data) {
           console.log(data);
-          alert('密码重置成功，默认密码是123456！');
+          if (data.result) {
+            alert('密码重置成功，默认密码是123456！');
+          }
         }
       })
     }
@@ -199,8 +201,12 @@
         },
         success: function (data) {
           console.log(data);
-          alert('密码修改成功！');
-          window.location.href = '/logout';
+          if (data.result) {
+            alert('密码修改成功！');
+            window.location.href = '/logout';
+          } else {
+            alert(data.msg);
+          }
         }
       })
     }
