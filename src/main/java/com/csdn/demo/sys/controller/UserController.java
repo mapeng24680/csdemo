@@ -193,9 +193,11 @@ public class UserController extends GenericController<User, QueryUser> {
      */
     @RequestMapping(value = "/updatePassWord", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getUser(String newPassWord,String oldPassword,String login,Integer type) {
+    public Map<String, Object> getUser(String newPassWord,String oldPassword,Integer type) {
         Map<String,Object> result = new HashMap<String, Object>();
+        String login= UserInfo.getUser().getLogin();
         if(1==type){
+
             User user=userService.findByLogin(login);
             String olpsw = UserInfo.encode(oldPassword);
             String newpsw = UserInfo.encode(newPassWord);
