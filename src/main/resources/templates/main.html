@@ -64,6 +64,12 @@
                         <a data-toggle="modal" data-target="#myModal" ><i class="fa fa-fw fa-book"></i>管理员公告</a>
                     </li>
                     <li>
+                        <a data-toggle="modal" data-target="#editPwd" ><i class="fa fa-fw fa-book"></i>修改密码</a>
+                    </li>
+                    <li>
+                        <a data-toggle="modal" data-target="#resetPwd" ><i class="fa fa-fw fa-book"></i>重置密码</a>
+                    </li>
+                    <li>
                         <a href="/logout" ><i class="fa fa-fw fa-power-off"></i>退 出</a>
                     </li>
                 </ul>
@@ -98,6 +104,40 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="editPwd" tabindex="-1" role="dialog" aria-labelledby="editPwd">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <label for="user_old_pwd">账号：</label><input type="text" class="form-control" id="user_login_name" placeholder="请输入账号">
+                <label for="user_old_pwd">原密码：</label><input type="text" class="form-control" id="user_old_pwd" placeholder="请输入原密码">
+                <label for="user_new_pwd">新密码：</label><input type="text" class="form-control" id="user_new_pwd" placeholder="请输入新密码">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" onclick="saveUserPwd()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="resetPwd" tabindex="-1" role="dialog" aria-labelledby="editPwd">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">重置密码</h4>
+            </div>
+            <div class="modal-body">
+                <label for="user_old_pwd">账号：</label><input type="text" class="form-control" id="reset_user_login_name" placeholder="请输入账号">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" onclick="resetUserPwd()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     function saveAdminText() {
         $.ajax({
@@ -110,6 +150,59 @@
             }
         })
 
+    }
+
+    function resetUserPwd () {
+      var login = $('#reset_user_login_name').val();
+      if (!login) {
+        alert('请输入登录账号');
+        return;
+      }
+      $.ajax({
+        type: "GET",
+        url: "user/updatePassWord",
+        data:{
+          login,
+          type: 2,
+        },
+        success: function (data) {
+          console.log(data);
+          alert('密码重置成功，默认密码是123456！');
+        }
+      })
+    }
+
+    function saveUserPwd () {
+      var oldPwd = $('#user_old_pwd').val();
+      var newPwd = $('#user_new_pwd').val();
+      var login = $('#user_login_name').val();
+      if (!login) {
+        alert('请输入登录账号');
+        return;
+      }
+      if (!oldPwd) {
+        alert('请输入原密码');
+        return;
+      }
+      if (!newPwd) {
+        alert('请输入新密码');
+        return;
+      }
+      $.ajax({
+        type: "GET",
+        url: "user/updatePassWord",
+        data:{
+          login,
+          newPassWord: oldPwd,
+          oldPassword: newPwd,
+          type: 1,
+        },
+        success: function (data) {
+          console.log(data);
+          alert('密码修改成功！');
+          window.location.href = '/logout';
+        }
+      })
     }
 
     function aaa() {
