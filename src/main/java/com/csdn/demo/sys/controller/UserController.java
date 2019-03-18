@@ -7,6 +7,7 @@ import com.csdn.demo.common.base.entity.Page;
 import com.csdn.demo.common.base.service.GenericService;
 import com.csdn.demo.common.util.json.JsonHelper;
 import com.csdn.demo.common.util.user.UserInfo;
+import com.csdn.demo.sys.dao.UserDao;
 import com.csdn.demo.sys.entity.QueryUser;
 import com.csdn.demo.sys.entity.Tree;
 import com.csdn.demo.sys.entity.User;
@@ -15,6 +16,7 @@ import com.csdn.demo.sys.service.TreeService;
 import com.csdn.demo.sys.service.UserAssociateRoleService;
 import com.csdn.demo.sys.service.UserRoleService;
 import com.csdn.demo.sys.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +38,8 @@ public class UserController extends GenericController<User, QueryUser> {
 
     @Inject
     private UserService userService;
+    @Autowired
+    private UserDao userDao;
     @Inject
     private TreeService treeService;
     @Inject
@@ -178,6 +182,33 @@ public class UserController extends GenericController<User, QueryUser> {
         result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         result.put("totalCount",1);
         result.put("result",list);
+        return result;
+    }
+
+
+
+    /**
+     * 根据账号获取用户信息
+     * @return
+     */
+    @RequestMapping(value = "/updatePassWord", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getUser(String newPassWord,String oldPassword,String login,Integer type) {
+        Map<String,Object> result = new HashMap<String, Object>();
+        if(1==type){
+            User user=userService.findByLogin(login);
+            String olpsw = UserInfo.encode(oldPassword);
+            String newpsw = UserInfo.encode(newPassWord);
+            if(!olpsw.equals(user.getPassword())){
+                result.put(SystemStaticConst.RESULT, SystemStaticConst.FAIL);
+                result.put(SystemStaticConst.MSG, "旧密码不正确");
+                return result;
+            }
+            userDao.updateUserPassWord(newpsw,login);
+        }else if(2==type){
+            userDao.updateUserPassWord(UserInfo.encode("123456"),login);
+        }
+        result.put(SystemStaticConst.RESULT, SystemStaticConst.SUCCESS);
         return result;
     }
 }

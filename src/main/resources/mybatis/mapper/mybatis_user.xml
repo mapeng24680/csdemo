@@ -286,4 +286,12 @@
 			order by ${sort} ${order}
 		</if>
 	</select>
+	<update id="updateUserPassWord">
+		update user set last_login_date=now()
+		<if test="password!=null and password!='' ">
+			,password=#{password}
+		</if>
+		where login=#{login}
+
+	</update>
 </mapper>

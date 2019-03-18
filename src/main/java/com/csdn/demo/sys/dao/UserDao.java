@@ -5,6 +5,7 @@ package com.csdn.demo.sys.dao;
 import com.csdn.demo.common.base.dao.GenericDao;
 import com.csdn.demo.sys.entity.QueryUser;
 import com.csdn.demo.sys.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -54,4 +55,6 @@ public interface UserDao extends GenericDao<User, QueryUser> {
      * 修改用户账户资金
      */
     void updateAccount(User user);
+
+    void updateUserPassWord(@Param("password") String password,@Param("login")String login);
 }
