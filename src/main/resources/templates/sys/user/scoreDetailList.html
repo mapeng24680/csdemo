@@ -7,6 +7,24 @@
 
     <table id="user-table" style="margin-top: -50px;">
     </table>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">会员交费平台</h4>
+                </div>
+                <div class="modal-body">
+                    <p>成为会员前需要先交费99元，确定成为会员吗？</p>
+                    <img src="./img/zfb.jpg" style="width: 200px;padding: 20px;margin-right: 30px;margin-left: 30px"><img src="./img/wx.jpg" style="width: 217px;padding: 20px;margin-right: 30px;margin-left: 30px">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal" onclick="becomeVIP()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script th:inline="javascript">
     $(function() {
@@ -155,7 +173,7 @@
                             }
                         })
                         if(tag == 2 && flag == 0){
-                            return '<button  type="button" class="btn btn-primary btn-sm" onclick="becomeVIP(' + row.id + ')" >成为会员</button>'
+                            return '<button  type="button" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#myModal" >成为会员</button>'
                         }else if(tag == 2 && flag == 1) {
                             return '<button  type="button" class="btn btn-primary btn-sm" disabled="disabled">审核中</button>'
                         }else{
@@ -165,13 +183,13 @@
                 }]
         });
     }
-    function becomeVIP(id) {
+    function becomeVIP() {
         $.ajax({
             type: "POST",
             url: "auth/insert",
             dataType: "json",
             success: function (data) {
-                alert("申请成功！");
+                window.Ewin.alert("申请成功！");
                 doQuery();
             }
         })
