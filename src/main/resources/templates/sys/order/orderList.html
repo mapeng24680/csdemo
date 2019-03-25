@@ -446,7 +446,7 @@
             url: "order/addPage",
             gridId: "gridId",
             width: 600,
-            height: 745
+            height: 600
           })
         }
       },
@@ -572,9 +572,22 @@
           align: 'center',
           valign: 'middle',
           formatter: function (value, row, index) {
-            var html;
+            var html;var role;
             if (value == 1) {
-              html = '<button  type="button" class="btn btn-primary btn-sm" onclick="userControl(' + row.id + ')" >接单</button>&nbsp;'
+                $.ajax({
+                    type: "POST",
+                    url: "order/roleId",
+                    async: false,
+                    dataType: "json",
+                    success: function (result) {
+                        role = result.data;
+                    }
+                });
+            if (role == 3){
+                html = '<button  type="button" class="btn btn-primary btn-sm" onclick="userControl(' + row.id + ')" >接单</button>&nbsp;'
+            }else{
+                html = '<button  type="button" class="btn btn-primary btn-sm" disabled="disabled">接单</button>&nbsp;'
+            }
             } else {
               html = '<button  type="button" onclick="dinerList(' + row.id + ')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" >合同</button>&nbsp;' +
                 '<button type="button" onclick="findList(' + row.id + ')" class="btn btn-default btn-sm" data-toggle="modal" data-target="#Modal">评价</button>&nbsp;';
