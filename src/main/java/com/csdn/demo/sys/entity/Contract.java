@@ -38,7 +38,7 @@ public class Contract {
     }
 
     public String getOverdueTime() {
-        return overdueTime;
+        return CommonUserUtil.timeChange(overdueTime);
     }
 
     public void setOverdueTime(String overdueTime) {
@@ -70,7 +70,7 @@ public class Contract {
     }
 
     public String getSenderName() {
-        return CommonUserUtil.timeChange(senderName);
+        return senderName;
     }
 
     public void setSenderName(String senderName) {
