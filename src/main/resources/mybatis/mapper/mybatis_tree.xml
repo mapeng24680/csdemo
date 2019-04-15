@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.csdn.demo.sys.dao.TreeDao">
-	<resultMap type="com.csdn.demo.sys.entity.Tree" id="TreeMap">
+<mapper namespace="com.accountingManage.demo.sys.dao.TreeDao">
+	<resultMap type="com.accountingManage.demo.sys.entity.Tree" id="TreeMap">
 		<id property="id" column="id"/>
 		<result property="code" column="code"/>
 		<result property="icon" column="icon"/>
@@ -13,7 +13,7 @@
 	</resultMap>
 
 	<!-- 加载用户的菜单树的数据 -->
-	<select id="loadUserTree" resultMap="TreeMap" parameterType="com.csdn.demo.sys.entity.User">
+	<select id="loadUserTree" resultMap="TreeMap" parameterType="com.accountingManage.demo.sys.entity.User">
 		select DISTINCT t.*  from tree t inner join role_associate_tree rat on t.id = rat.tree_id inner join user_role ur on rat.role_id = ur.id where ur.id in
 		<foreach collection="roles" index="index" item="role" open="(" separator="," close=")">
 			#{role.id}
@@ -21,30 +21,30 @@
 	</select>
 
 	<!--根据主键获取对象-->
-	<select id="get" parameterType="com.csdn.demo.sys.entity.Tree" resultMap="TreeMap">
+	<select id="get" parameterType="com.accountingManage.demo.sys.entity.Tree" resultMap="TreeMap">
 		SELECT id,code,icon,name,p_id,tree_order,url,state FROM tree 
 		WHERE id=#{id}
 	</select>
 
 	<!--保存-->
-	<insert id="save" parameterType="com.csdn.demo.sys.entity.Tree" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.accountingManage.demo.sys.entity.Tree" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO tree(code,icon,name,p_id,tree_order,url,state)
 		VALUES(#{code},#{icon},#{name},#{pId},#{treeOrder},#{url},#{state})
 	</insert>
 
 	<!--修改-->
-	<update id="update" parameterType="com.csdn.demo.sys.entity.Tree">
+	<update id="update" parameterType="com.accountingManage.demo.sys.entity.Tree">
 		UPDATE tree SET code=#{code},icon=#{icon},name=#{name},p_id=#{pId},tree_order=#{treeOrder},url=#{url},state=#{state}
 		WHERE id=#{id}
 	</update>
 
 	<!--删除-->
-	<delete id="delete" parameterType="com.csdn.demo.sys.entity.Tree">
+	<delete id="delete" parameterType="com.accountingManage.demo.sys.entity.Tree">
 		 DELETE FROM tree WHERE id=#{id}
 	</delete>
 
 	<!--分页查询-->
-	<select id="findByPage" parameterType="com.csdn.demo.sys.entity.QueryTree" resultMap="TreeMap">
+	<select id="findByPage" parameterType="com.accountingManage.demo.sys.entity.QueryTree" resultMap="TreeMap">
 		SELECT id,code,icon,name,p_id,tree_order,url,state FROM tree
 		WHERE 1=1
 		<if test="code!=null and code!='' ">
@@ -75,7 +75,7 @@
 	</select>
 
 	<!--统计-->
-	<select id="count" parameterType="com.csdn.demo.sys.entity.QueryTree" resultType="int">
+	<select id="count" parameterType="com.accountingManage.demo.sys.entity.QueryTree" resultType="int">
 		SELECT count(*) FROM tree
 		WHERE 1=1
 		<if test="code!=null and code!='' ">
@@ -105,7 +105,7 @@
 	</select>
 
 	<!--查询-->
-	<select id="query" parameterType="com.csdn.demo.sys.entity.QueryTree" resultMap="TreeMap">
+	<select id="query" parameterType="com.accountingManage.demo.sys.entity.QueryTree" resultMap="TreeMap">
 		SELECT id,code,icon,name,p_id,tree_order,url,state FROM tree
 		WHERE 1=1
 		<if test="code!=null and code!='' ">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.csdn.demo.sys.dao.EvaluationDao">
-    <insert id="insert" parameterType="com.csdn.demo.sys.entity.Evaluation">
+<mapper namespace="com.accountingManage.demo.sys.dao.EvaluationDao">
+    <insert id="insert" parameterType="com.accountingManage.demo.sys.entity.Evaluation">
         insert into evaluation (order_id,sender_id,user_id,create_time,update_time)
         values (#{orderId},#{senderId},#{userId},now(),now())
     </insert>
@@ -26,7 +26,7 @@
         </if>
         where order_id=#{orderId}
     </update>
-    <select id="select" resultType="com.csdn.demo.sys.entity.Evaluation">
+    <select id="select" resultType="com.accountingManage.demo.sys.entity.Evaluation">
         select
            t1.evaluation_user as evaluationUser,t1.evaluation_sender as evaluationSender
            ,t1.order_id as orderId,t1.sender_id as senderId,t1.user_id as userId,t1.status,t1.create_time as createTime,

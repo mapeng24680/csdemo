@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.csdn.demo.sys.dao.AccountChangeDao">
-    <insert id="insert" parameterType="com.csdn.demo.sys.entity.AccountChange">
+<mapper namespace="com.accountingManage.demo.sys.dao.AccountChangeDao">
+    <insert id="insert" parameterType="com.accountingManage.demo.sys.entity.AccountChange">
         insert into account_change (user_id,account,enterprise_name,money,order_num,order_msg,create_time)
         values (#{userId},#{account},#{enterpriseName},#{money},#{orderNum},#{orderMsg},now())
     </insert>

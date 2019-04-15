@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.csdn.demo.sys.dao.AuthDao">
-    <insert id="insert" parameterType="com.csdn.demo.sys.entity.Auth">
+<mapper namespace="com.accountingManage.demo.sys.dao.AuthDao">
+    <insert id="insert" parameterType="com.accountingManage.demo.sys.entity.Auth">
         insert into auth (user_id,login,address,user_name,create_time,update_time)
         values (#{userId},#{login},#{address},#{userName},now(),now())
     </insert>
@@ -12,7 +12,7 @@
         </if>
     where id=#{id}
     </update>
-    <select id="select" parameterType="com.csdn.demo.sys.entity.Auth" resultType="com.csdn.demo.sys.entity.Auth">
+    <select id="select" parameterType="com.accountingManage.demo.sys.entity.Auth" resultType="com.accountingManage.demo.sys.entity.Auth">
         select id,user_id as userId,login,address,user_name as userName,create_time as createTime
         ,update_time as updateTime,auth_name as authName, status from auth where 1=1
         <if test="status!=null">
@@ -26,12 +26,12 @@
         </if>
          order by create_time
     </select>
-    <select id="selectOne" resultType="com.csdn.demo.sys.entity.Auth">
+    <select id="selectOne" resultType="com.accountingManage.demo.sys.entity.Auth">
        select id,user_id as userId,login,address,user_name as userName,create_time as createTime
         ,update_time as updateTime,auth_name as authName, status from auth where id=#{id}
     </select>
 
-    <select id="selectByUserId" resultType="com.csdn.demo.sys.entity.Auth">
+    <select id="selectByUserId" resultType="com.accountingManage.demo.sys.entity.Auth">
         select id,user_id as userId,login,address,user_name as userName,create_time as createTime
         ,update_time as updateTime,auth_name as authName, status from auth where user_id=#{userId}
     </select>

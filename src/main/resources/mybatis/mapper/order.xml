@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.csdn.demo.sys.dao.OrderDao">
-    <insert id="insert" parameterType="com.csdn.demo.sys.entity.Order">
+<mapper namespace="com.accountingManage.demo.sys.dao.OrderDao">
+    <insert id="insert" parameterType="com.accountingManage.demo.sys.entity.Order">
         insert into `order` (sender_id,user_id,order_num,order_msg,commission,update_time,create_time)
         values (#{senderId},#{userId},#{orderNum},#{orderMsg},#{commission},now(),now())
     </insert>
-    <update id="update" parameterType="com.csdn.demo.sys.entity.EnterprisePublished">
+    <update id="update" parameterType="com.accountingManage.demo.sys.entity.EnterprisePublished">
         update `order` set update_time=now()
         <if test="userId!=null and userId!=''">
             ,user_id=#{userId}
@@ -18,7 +18,7 @@
         </if>
         where id=#{id}
     </update>
-    <select id="selectList" resultType="com.csdn.demo.sys.entity.Order">
+    <select id="selectList" resultType="com.accountingManage.demo.sys.entity.Order">
         SELECT
         c.id,
         c.sender_id AS senderId,
@@ -56,7 +56,7 @@
         order by c.create_time desc
     </select>
 
-    <select id="selectUserOrder" resultType="com.csdn.demo.sys.entity.Order">
+    <select id="selectUserOrder" resultType="com.accountingManage.demo.sys.entity.Order">
         SELECT
         t1.id,
         t1.sender_id AS senderId,
@@ -85,7 +85,7 @@
         order by t1.create_time desc
     </select>
 
-    <select id="selectPublishOrder" resultType="com.csdn.demo.sys.entity.Order">
+    <select id="selectPublishOrder" resultType="com.accountingManage.demo.sys.entity.Order">
 		SELECT
 			a.sender_id AS senderId,
 			a.user_id AS userId,
@@ -106,7 +106,7 @@
        delete from `order` where id=#{id}
     </delete>
 
-    <select id="selectOrder" resultType="com.csdn.demo.sys.entity.Order">
+    <select id="selectOrder" resultType="com.accountingManage.demo.sys.entity.Order">
        SELECT
 	t1.id,
 	t1.user_id AS userId,
@@ -123,7 +123,7 @@
 	t1.sender_id = t2.id and id=#{id}
     </select>
 
-    <select id="selectMsgById" resultType="com.csdn.demo.sys.entity.Order">
+    <select id="selectMsgById" resultType="com.accountingManage.demo.sys.entity.Order">
       SELECT
         t1.id,
         t1.sender_id AS senderId,
@@ -141,7 +141,7 @@
 				INNER JOIN user t3 on t1.user_id = t3.id where t1.id=#{id}
 
     </select>
-    <select id="selectOrderCount" resultType="com.csdn.demo.sys.entity.aaa">
+    <select id="selectOrderCount" resultType="com.accountingManage.demo.sys.entity.aaa">
         SELECT
         IFNULL(a.orderCount,0) as orderCount,
         IFNULL(b.passCount,0) as passOrderCount,

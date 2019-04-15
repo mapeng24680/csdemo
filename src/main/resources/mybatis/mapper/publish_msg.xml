@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.csdn.demo.sys.dao.MessageDao">
-    <insert id="insert" parameterType="com.csdn.demo.sys.entity.Message">
+<mapper namespace="com.accountingManage.demo.sys.dao.MessageDao">
+    <insert id="insert" parameterType="com.accountingManage.demo.sys.entity.Message">
         insert into publish_msg (message,user_name,create_time)
         values (#{message},#{userName},now())
     </insert>
-    <select id="select" resultType="com.csdn.demo.sys.entity.Message">
+    <select id="select" resultType="com.accountingManage.demo.sys.entity.Message">
         select id,message,user_name as userName,create_time as createTime from publish_msg order by create_time desc
     </select>
 </mapper>
